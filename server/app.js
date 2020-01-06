@@ -1,3 +1,16 @@
+/*============================================
+; Title: app.js
+; Author: Richard Krasso
+; Modified by: Adam Donner
+; Date: 6 January 2019
+; Description:  Creates server and API for 
+; Angular application.
+;===========================================
+*/
+
+
+// start program
+
 /**
  * Require statements
  */
@@ -7,6 +20,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const User = require('./db-models/user');
 
 /**
  * App configurations
@@ -26,12 +40,14 @@ const port = 3000; // server port
 // TODO: This line will need to be replaced with your actual database connection string
 const conn = 'mongodb+srv://superadmin:s3cret@cluster0-lujih.mongodb.net/bcrs?retryWrites=true&w=majority';
 
+
 /**
  * Database connection
  */
 mongoose.connect(conn, {
   promiseLibrary: require('bluebird'),
   useUnifiedTopology: true,
+  useCreateIndex: true,
   useNewUrlParser: true
 }).then(() => {
   console.debug(`Connection to the database instance was successful`);
@@ -49,3 +65,5 @@ mongoose.connect(conn, {
 http.createServer(app).listen(port, function() {
   console.log(`Application started and listening on port: ${port}`)
 }); // end http create server function
+
+// end program
