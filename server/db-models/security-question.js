@@ -1,5 +1,5 @@
 /*============================================
-; Title: securityquestions.js
+; Title: security-question.js
 ; Author: Adam Donner
 ; Modified: Adam Donner
 ; Date: 6 January 2020
@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
  */
 let securityQuestionSchema = mongoose.Schema({
     text:       {type: String},
-    isDisabled: {type: Boolean, default: false} 
+    isDisabled: {type: Boolean, default: false}
 });
 
 // Export mongoose model

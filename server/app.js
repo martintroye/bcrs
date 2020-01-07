@@ -21,7 +21,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./db-models/user');
-const /*enter variable*/ = require('./db-models/security-question')
+const SecurityQuestion = require('./db-models/security-question')
 const bcrypt = require('bcrypt');
 
 /**
@@ -39,7 +39,7 @@ app.use('/', express.static(path.join(__dirname, '../dist/bcrs')));
  */
 const port = 3000; // server port
 
-const conn = 'mongodb+srv://admin:admin@buwebdev-cluster-1-opi0o.mongodb.net//bcrs?retryWrites=true&w=majority';
+const conn = 'mongodb+srv://admin:admin@buwebdev-cluster-1-opi0o.mongodb.net/bcrs?retryWrites=true&w=majority';
 
 
 /**

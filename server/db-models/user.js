@@ -11,7 +11,7 @@
 // start program
 
 const mongoose = require('mongoose');
-const SecurityQuestions = require('./security-question')
+const Question = require('./user-security-question');
 
 /**
  * Declare user database schema
@@ -19,16 +19,17 @@ const SecurityQuestions = require('./security-question')
 let userSchema = mongoose.Schema({
     username:          {type: String, required: true, unique: true, dropDups: true},
     password:          {type: String, required: true},
-    firstname:         {type: String},
-    lastname:          {type: String},
+    firstName:         {type: String},
+    lastName:          {type: String},
     phoneNumber:       {type: String},
     address:           {type: String},
     email:             {type: String},
     isDisabled:        {type: Boolean, default: false},
     role:              {type: String, default: 'standard'},
-    securityQuestions: [SecurityQuestions],
     date_created:      {type: Date, default: new Date()},
-    date_modified:     {type: Date} 
+    date_modified:     {type: Date},
+    SecurityQuestions: [Question]
+
 });
 
 // Export mongoose model
