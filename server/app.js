@@ -21,6 +21,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./db-models/user');
+const bcrypt = require('bcrypt');
 
 /**
  * App configurations
@@ -58,6 +59,9 @@ mongoose.connect(conn, {
 /**
  * API(s)
  */
+
+
+
 
 /**
  * Create and start server
