@@ -21,6 +21,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./db-models/user');
+const /*enter variable*/ = require('./db-models/security-question')
 const bcrypt = require('bcrypt');
 
 /**

@@ -11,7 +11,7 @@
 // start program
 
 const mongoose = require('mongoose');
-const SecurityQuestions = require('./securityquestions')
+const SecurityQuestions = require('./security-question')
 
 /**
  * Declare user database schema
