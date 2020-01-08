@@ -34,6 +34,6 @@ let userSchema = mongoose.Schema({
 
 // Export mongoose model
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema, 'users');
 
 // end program

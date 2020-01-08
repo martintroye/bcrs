@@ -22,6 +22,5 @@ let securityQuestionSchema = mongoose.Schema({
 
 // Export mongoose model
 
-module.exports = mongoose.model('securityQuestion', securityQuestionSchema);
-
+module.exports = mongoose.model('securityQuestion', securityQuestionSchema, 'securityQuestions');
 // end program
