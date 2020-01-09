@@ -37,6 +37,29 @@ router.get('/', (request, response) => {
 });
 
 /*
+; Params: id: Security question id
+; Response: security question by id
+; Description: FindById - finds a security question by id
+*/
+router.get('/:id', (request, response, next) => {
+
+  // Using the findOne method of the security question model return a security question based on provided id
+  SecurityQuestion.findOne({'_id': request.params.id}, (err, securityQuestion) => {
+    // if there is an error
+    if (err) {
+      // log the error to the console
+      console.log('An error occurred finding that security question', err);
+      // return an http status code 500, server error and the error
+      response.status(500).send(err);
+    } else {
+      // return security question
+      console.log(securityQuestion);
+      response.json(securityQuestion);
+    }
+  });
+});
+
+/*
 ; Params: id: security question id
 ; Response: all security questions
 ; Description: UpdateSecurityQuestions - updates an existing security question
@@ -89,6 +112,48 @@ router.put('/:id', (request, response) => {
   }
 
 });
+
+/*
+; Params: id: Security question id
+; Response: updated security question
+; Description: DeleteSecurityQuestion - sets a status of isDisabled to a security question by id
+*/
+router.delete('/:id', (request, response, next) => {
+
+  // Using the findOne method of the security question model return a security question based on provided id
+  SecurityQuestion.findOne({'_id': request.params.id}, (err, securityQuestion) => {
+    // if there is an error
+    if (err) {
+      // log the error to the console
+      console.log('An error occurred finding that security question', err);
+      // return an http status code 500, server error and the error
+      response.status(500).send(err);
+    } else {
+      // return security question
+      console.log(securityQuestion);
+      
+      if (securityQuestion) {
+        securityQuestion.set({
+          isDisabled: true
+        });
+
+        securityQuestion.save((err, savedSecurityQuestion) => {
+          if (err) {
+            // log the error to the console
+            console.log('An error occurred finding that security question', err);
+            // return an http status code 500, server error and the error
+            response.status(500).send(err);
+          } else {
+            console.log(savedSecurityQuestion);
+            // return saved security question
+            response.json(savedSecurityQuestion);
+          }
+        })
+      }
+    }
+  });
+});
+
 
 // export the router
 module.exports = router;
