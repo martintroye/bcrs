@@ -42,6 +42,47 @@ router.get('/:id', (request, response, next) => {
   });
 
 
+  /*
+; Params: id: user id
+; Response: updated user
+; Description: DeleteUser - sets a status of isDisabled user by id
+*/
+router.delete('/:id', (request, response, next) => {
+
+    // Using the findOne method of the user model return a user based on provided id
+    User.findOne({'_id': request.params.id}, (err, user) => {
+      // if there is an error
+      if (err) {
+        // log the error to the console
+        console.log('An error occurred finding that user', err);
+        // return an http status code 500, server error and the error
+        response.status(500).send(err);
+      } else {
+        // return user
+        console.log(user);
+        
+        if (user) {
+          user.set({
+            isDisabled: true
+          });
+  
+          user.save((err, savedUser) => {
+            if (err) {
+              // log the error to the console
+              console.log('An error occurred finding that user', err);
+              // return an http status code 500, server error and the error
+              response.status(500).send(err);
+            } else {
+              console.log(savedUser);
+              // return saved user
+              response.json(savedUser);
+            }
+          })
+        }
+      }
+    });
+  });
+
 // export the router
 module.exports = router;
 // end program
