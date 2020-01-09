@@ -16,7 +16,7 @@ const mongoose = require('mongoose');
  * Declare security question database schema
  */
 let securityQuestionSchema = mongoose.Schema({
-    text:       {type: String},
+    text:       {type: String, required: true},
     isDisabled: {type: Boolean, default: false}
 });
 
