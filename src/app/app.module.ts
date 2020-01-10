@@ -18,12 +18,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 
-import { SessionGuard } from './shared/guards/session.guard';
-import { SessionService } from './shared/services/session.service';
-import { CookieService } from 'ngx-cookie-service';
 import { SigninComponent } from './pages/signin/signin.component';
 import {MatTableModule} from '@angular/material/table';
-import {MatCardModule, MatPaginatorModule} from '@angular/material';
+import { MatPaginatorModule} from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -36,7 +33,7 @@ import { SecurityQuestionsListComponent } from './pages/admin/security-questions
     BaseLayoutComponent,
     AuthLayoutComponent,
     HomeComponent,
-    SigninComponent
+    SigninComponent,
     SecurityQuestionsListComponent
   ],
   imports: [
@@ -52,7 +49,7 @@ import { SecurityQuestionsListComponent } from './pages/admin/security-questions
     MatIconModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
     MatTableModule,
     MatCardModule,
     MatPaginatorModule
