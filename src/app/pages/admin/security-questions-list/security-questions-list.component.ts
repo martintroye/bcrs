@@ -7,24 +7,24 @@
 ; Description: List of security questions to manage
 ;===========================================
 */
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { SecurityQuestionService } from "src/app/shared/services/security-question.service";
-import { SecurityQuestion } from "src/app/models/security-question.model";
-import { MatTableDataSource, MatPaginator } from "@angular/material";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SecurityQuestionService } from 'src/app/shared/services/security-question.service';
+import { SecurityQuestion } from 'src/app/models/security-question.model';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 // declare the component
 @Component({
   // define the html template file
-  templateUrl: "./security-questions-list.component.html",
+  templateUrl: './security-questions-list.component.html',
   // define the css for the component
-  styleUrls: ["./security-questions-list.component.css"]
+  styleUrls: ['./security-questions-list.component.css']
 })
 // declare and export the component class
 export class SecurityQuestionsListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   questions: MatTableDataSource<SecurityQuestion>;
-  displayedColumns: string[] = ["text", "functions"];
+  displayedColumns: string[] = ['text', 'functions'];
 
   pageSize = 5;
 

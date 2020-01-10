@@ -54,10 +54,10 @@ export class SigninComponent implements OnInit {
           /**
            * Signing to application
            */
-          this.cookieService.set('sessionuser', username, 1)
+          this.cookieService.set('sessionuser', username, 1);
           this.router.navigate(['/']);
         } else { // else display error message
-          this.errorMessage = res['message']
+          this.errorMessage = res['message'];
         }
       });
   }
