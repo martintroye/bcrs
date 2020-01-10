@@ -9,14 +9,48 @@
 */
 // start program
 const express = require('express');
-const bcrypt = require('bcrypt');
+const encryption = require('../encryption');
 const User = require('../db-models/user')
 
 // declare the express router object
 const router = express.Router();
 
- // salt rounds for hasing of password
-const saltRounds = 10;
+/*
+; Params: none
+; Response: {_id: string, username: string, password: string ...}
+; Description: CreateUser - adds a user with an encrypted password
+; Required: username, password
+; Defaulted: date_created: new Date(), role: standard, isDisabled: false
+*/
+router.post('/', (request, response) => {
+  // if the request and request body are not valid return an error
+  if(!request
+    || !request.body){
+      response.status(400).send('Invalid request.');
+    } else {
+      // create a new user setting it to the request body
+      const user = new User(request.body);
+      // encrypt the users password
+      if(user.password) {
+        user.password = encryption.encryptValue(user.password);
+      }
+      // call the save method to store the new user in the db
+      user.save((err, u) => {
+        // if there is an error
+        if(err) {
+          // log the error
+          console.log(err);
+          // return a server error and the message
+          response.status(500).send(err.message);
+        } else {
+          //console.log(u);
+          // return the created status code and the new user
+          response.status(201).send(u);
+        }
+      });
+    }
+});
+
 
 /*
 ; Params: id: User id
@@ -60,12 +94,12 @@ router.delete('/:id', (request, response, next) => {
       } else {
         // return user
         console.log(user);
-        
+
         if (user) {
           user.set({
             isDisabled: true
           });
-  
+
           user.save((err, savedUser) => {
             if (err) {
               // log the error to the console
