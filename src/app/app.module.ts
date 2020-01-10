@@ -22,6 +22,13 @@ import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SigninComponent } from './pages/signin/signin.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatCardModule, MatPaginatorModule} from '@angular/material';
+import { SessionGuard } from './shared/guards/session.guard';
+import { SessionService } from './shared/services/session.service';
+import { CookieService } from 'ngx-cookie-service';
+import { SecurityQuestionService } from './shared/services/security-question.service';
+import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +37,7 @@ import { SigninComponent } from './pages/signin/signin.component';
     AuthLayoutComponent,
     HomeComponent,
     SigninComponent
+    SecurityQuestionsListComponent
   ],
   imports: [
     BrowserModule,
@@ -45,8 +53,11 @@ import { SigninComponent } from './pages/signin/signin.component';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule
+    MatTableModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
-  providers: [SessionGuard, CookieService, SessionService],
+  providers: [SessionGuard, CookieService, SessionService, SecurityQuestionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
