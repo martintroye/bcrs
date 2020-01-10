@@ -23,6 +23,7 @@ const mongoose = require('mongoose');
 const securityQuestionRouter = require('./routes/security-question-api');
 const userRouter = require('./routes/user-api');
 const sessionRouter = require('./routes/session-api');
+const config = require('./config');
 
 /**
  * App configurations
@@ -37,7 +38,7 @@ app.use('/', express.static(path.join(__dirname, '../dist/bcrs')));
 /**
  * Variables
  */
-const port = 3000; // server port
+const port = config.web.port; // server port
 
 const conn = 'mongodb+srv://admin:admin@buwebdev-cluster-1-opi0o.mongodb.net/bcrs?retryWrites=true&w=majority';
 
