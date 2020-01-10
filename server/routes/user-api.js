@@ -3,7 +3,7 @@
 ; Title: user-api
 ; Author: Troy Martin
 ; Date: 01/08/2019
-; Modified By: Adam Donner
+; Modified By: Reva Baumann
 ; Description: User API
 ;===========================================
 */
@@ -76,6 +76,21 @@ router.get('/:id', (request, response, next) => {
   });
 
 
+/**
+ * FindAll
+ */
+router.get('/', function(req, res, next) {
+  User.find({}).where('isDisabled').equals(false).exec(function(err, users) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(users);
+      res.json(users);
+    }
+  });
+});
+
   /*
 ; Params: id: user id
 ; Response: updated user
@@ -116,6 +131,39 @@ router.delete('/:id', (request, response, next) => {
       }
     });
   });
+
+  /**
+   * UpdateUser
+   */
+  router.put('/:id', function (req, res, next) {
+    User.findOne({'_id': req.params.id}, function (err, user) {
+      if (err) {
+        console.log(err);
+        return next(err);
+      } else {
+        console.log(user);
+
+        user.set({
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          phoneNumber: req.body.phoneNumber,
+          address: req.body.address, // Check on that
+          email: req.body.email,
+          role: req.body.role // Did we use role?
+        });
+
+        user.save(function (err, savedUser) {
+          if (err) {
+            console.log(err);
+            return next(err);
+          } else {
+            console.log(savedUser);
+            res.json(savedUser);
+          }
+        })
+      }
+    })
+  })
 
 // export the router
 module.exports = router;
