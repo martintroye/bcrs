@@ -5,6 +5,7 @@
         <mat-card-content>
             <!--If unauthorized user-->
             <small class="error-message" *ngIf="errorMessage">{{ errorMessage }}<br></small>
+            <small class="error-message" *ngIf="errorMessage"><br></small>
 
             <mat-card class="mat-elevation-z0" fxLayout="column" fxLayoutGap="10px">
                 <form [formGroup]="form" (ngSubmit)="signin(); form.reset()" #loginForm="ngForm">
