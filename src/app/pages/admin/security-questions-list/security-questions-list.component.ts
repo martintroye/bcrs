@@ -7,9 +7,10 @@
 ; Description: List of security questions to manage
 ;===========================================
 */
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { SecurityQuestionService } from "src/app/shared/services/security-question.service";
 import { SecurityQuestion } from "src/app/models/security-question.model";
+import { MatTableDataSource, MatPaginator } from "@angular/material";
 
 // declare the component
 @Component({
@@ -20,8 +21,12 @@ import { SecurityQuestion } from "src/app/models/security-question.model";
 })
 // declare and export the component class
 export class SecurityQuestionsListComponent implements OnInit {
-  questions: SecurityQuestion[];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  questions: MatTableDataSource<SecurityQuestion>;
   displayedColumns: string[] = ["text", "functions"];
+
+  pageSize = 5;
 
   /*
   ; Params: none
@@ -37,7 +42,8 @@ export class SecurityQuestionsListComponent implements OnInit {
   */
   ngOnInit() {
     this.questionService.getAll().subscribe(questions => {
-      this.questions = questions;
+      this.questions = new MatTableDataSource<SecurityQuestion>(questions);
+      this.questions.paginator = this.paginator;
     });
   }
 }

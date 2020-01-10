@@ -15,6 +15,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
+import {MatCardModule, MatPaginatorModule} from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -40,7 +41,9 @@ import { SecurityQuestionsListComponent } from './pages/admin/security-questions
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatTableModule 
+    MatTableModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
   providers: [SessionGuard, CookieService, SessionService, SecurityQuestionService],
   bootstrap: [AppComponent]
