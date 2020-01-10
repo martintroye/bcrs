@@ -14,6 +14,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { SessionGuard } from './shared/guards/session.guard';
+import { SessionService } from './shared/services/session.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -32,9 +35,9 @@ import {MatIconModule} from '@angular/material/icon';
     FlexLayoutModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule,
+    MatIconModule
   ],
-  providers: [],
+  providers: [SessionGuard, CookieService, SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
