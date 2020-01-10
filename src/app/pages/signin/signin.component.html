@@ -3,6 +3,8 @@
         <mat-card-title class="signin-title mat-headline">Bob's Computer Repair</mat-card-title>
         <br>
         <mat-card-content>
+            <a href="" class="mat-h4">Create new account</a>
+            
             <!--If unauthorized user-->
             <small class="error-message" *ngIf="errorMessage">{{ errorMessage }}<br></small>
             <small class="error-message" *ngIf="errorMessage"><br></small>
@@ -10,7 +12,7 @@
             <mat-card class="mat-elevation-z0" fxLayout="column" fxLayoutGap="10px">
                 <form [formGroup]="form" (ngSubmit)="signin(); form.reset()" #loginForm="ngForm">
 
-                    <mat-card-content>
+                    <mat-card-content fxLayout="column">
 
                         <mat-form-field>
                             <input matInput [formControl]="form.controls['username']" placeholder="Username" fxFlex/>
@@ -25,8 +27,11 @@
                         <div fxFlex></div>
                         <button type="submit" mat-raised-button>Login</button>
                     </mat-card-actions>
+                    
+                    <a href="" fxLayoutAlign="end">Forgot Password?</a>
                 </form>
             </mat-card>
+            
         </mat-card-content>
     </mat-card>
 </div>
