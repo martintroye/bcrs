@@ -21,24 +21,6 @@ let userSecurityQuestionSchema = mongoose.Schema({
     answer: {type: String}
 });
 
-/**
- * CreateSecurityQuestion - Errors to Log
- */
-router.post('/', function(req, res, next) {
-  let sq = {
-    text: req.body.text
-  };
-
-  SecurityQuestion.create(sq, function (err, securityQuestion) {
-    if (err) {
-      console.log(err);
-      return next(err);
-    } else {
-      console.log(securityQuestion);
-      res.json(securityQuestion);
-    }
-  })
-});
 
 // Export mongoose model
 
