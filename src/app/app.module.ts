@@ -14,18 +14,14 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-
-import { SigninComponent } from './pages/signin/signin.component';
 import {MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule} from '@angular/material';
+import {MatCardModule, MatPaginatorModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SecurityQuestionService } from './shared/services/security-question.service';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
+import { SigninComponent } from './pages/signin/signin.component';
 
 @NgModule({
   declarations: [
