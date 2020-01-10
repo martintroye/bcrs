@@ -31,7 +31,7 @@ export class SessionGuard implements CanActivate {
     // if the user is not logged in send to the login page
     if (!this.sessionService.hasCookie()) {
       // use the route to display the login page
-      this.router.navigate(['session/login']);
+      this.router.navigate(['session/signin']);
     }
 
     // return the logged in status

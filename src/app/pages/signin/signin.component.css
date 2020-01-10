@@ -1,0 +1,24 @@
+.signin-container {
+    width: 25%;
+    margin: 0 auto
+}
+
+.mat-raised-button {
+    background-color: #42a5f5;
+    width: fit-content;
+}
+
+
+main {
+    height: 100%;
+    background: linear-gradient( to bottom, blue 25%, grey 25%, grey 75%);
+}
+
+
+.signin-title {
+    font-weight: lighter;
+}
+
+.error-message {
+    color: #0077c2;
+}
