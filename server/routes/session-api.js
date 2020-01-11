@@ -45,6 +45,18 @@ router.post('/signin', (request, response, next) => {
     message = defaultMessage;
     // return unauthorized status code
     statusCode = 401;
+
+    const result = {
+      isAuthenticated,
+      message,
+      // return a default date
+      timeStamp: new Date(),
+      userId
+    }
+
+    // return the status code and the result
+    response.status(statusCode).send(result);
+
   } else {
     // Using the findOne method of the user find the matching user by username
     User.findOne({ 'username': request.body.username }, (err, user) => {

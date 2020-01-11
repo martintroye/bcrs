@@ -1,3 +1,12 @@
+/*
+============================================
+; Title: app.routing
+; Author: Richard Krasso
+; Date: 01/09/2020
+; Modified By:
+; Description: Routing
+;===========================================
+*/
 import {Routes} from '@angular/router';
 import {BaseLayoutComponent} from './shared/base-layout/base-layout.component';
 import {HomeComponent} from './pages/home/home.component';
@@ -13,14 +22,15 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
-        canActivate: [SessionGuard]
+        component: HomeComponent
       },
       {
         path: 'admin/security-questions',
         component: SecurityQuestionsListComponent
       }
-    ]
+    ],
+    // use the can activate child to secure the routes
+    canActivateChild: [SessionGuard]
   },
   {
     path: 'session',

@@ -8,7 +8,10 @@
   font-size: 24px;
   font-weight: lighter;;
 }
-
+.mat-toolbar {
+  background-color: #1565c0;
+  color: white;
+}
 .navbar-container {
   padding: 5px;
   background-color: #1565c0;

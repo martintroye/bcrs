@@ -7,6 +7,7 @@
 ; Description: Model used to manage a security question
 ;===========================================
 */
+// declare and export the class
 export class SecurityQuestion {
   text: string;
   isDisabled: boolean;

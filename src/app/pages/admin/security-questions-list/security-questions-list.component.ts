@@ -7,10 +7,12 @@
 ; Description: List of security questions to manage
 ;===========================================
 */
+// imports from the angular core module
 import { Component, OnInit, ViewChild } from '@angular/core';
+// imports our custom security question service
 import { SecurityQuestionService } from 'src/app/shared/services/security-question.service';
+// imports our custom security question model
 import { SecurityQuestion } from 'src/app/models/security-question.model';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 // declare the component
 @Component({
@@ -21,12 +23,15 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 })
 // declare and export the component class
 export class SecurityQuestionsListComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  questions: MatTableDataSource<SecurityQuestion>;
+  // declare a local question array to bind to the table
+  questions: SecurityQuestion[] = [];
+  // declare the columns to display in the table
   displayedColumns: string[] = ['text', 'functions'];
-
-  pageSize = 5;
+  // an array to store the original list of questions
+  allQuestions: SecurityQuestion[];
+  // the current filter value
+  filterValue: string;
 
   /*
   ; Params: none
@@ -42,8 +47,46 @@ export class SecurityQuestionsListComponent implements OnInit {
   */
   ngOnInit() {
     this.questionService.getAll().subscribe(questions => {
-      this.questions = new MatTableDataSource<SecurityQuestion>(questions);
-      this.questions.paginator = this.paginator;
+      this.questions = questions;
     });
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Clear the current filter value and reset the collection
+  */
+  onClear(): void {
+    this.filterValue = '';
+    this.onKeyUp(this.filterValue);
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: On key up filter the question list
+  */
+  onKeyUp(value: string): void {
+    // if we have 3 or more characters start filtering the list
+    if (value && value.length >= 3) {
+      // save the full collection so we do not round trip to server
+      if (!this.allQuestions) {
+        // set the question list
+        this.allQuestions = this.questions;
+      }
+
+      // use the array filter function to filter the questions
+      this.questions = this.questions.filter(x => {
+        // return true if the question contains the value
+        return x.text.indexOf(value) >= 0;
+      });
+    } else {
+      // since there is not a valid value show all questions
+      if (this.allQuestions) {
+        this.questions = this.allQuestions;
+        // clear the array
+        this.allQuestions = null;
+      }
+    }
   }
 }

@@ -47,8 +47,6 @@ export class SigninComponent implements OnInit {
     const username  = this.form.controls.username.value;
     const password = this.form.controls.password.value;
 
-    console.log(username);
-    console.log(password);
     // Call API
     this.http.post('/api/sessions/signin', {
       username,
@@ -63,6 +61,9 @@ export class SigninComponent implements OnInit {
         } else { // else display error message
           this.errorMessage = res['message'];
         }
+      }, (err) => {
+        console.log(err);
+        this.errorMessage = err.error.message;
       });
   }
 }
