@@ -14,6 +14,7 @@ import { SecurityQuestionService } from '../../../shared/services/security-quest
 // imports our custom security question model
 import { SecurityQuestion } from '../../../models/security-question.model';
 import { MatDialog } from '@angular/material';
+// tslint:disable-next-line: max-line-length
 import { SecurityQuestionCreateDialogComponent } from '../../../dialogs/security-question-create-dialog/security-question-create-dialog.component';
 import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
@@ -107,6 +108,7 @@ export class SecurityQuestionsListComponent implements OnInit {
 
     // subscribe to the after closed event
     dialogRef.afterClosed().subscribe(result => {
+      // result should be the value to add
       console.log('The dialog was closed');
     });
   }
@@ -144,12 +146,25 @@ export class SecurityQuestionsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // if true delete the question from the db
       if (result) {
-        console.log('delete the question from the db');
-        // filter the question from the existing list to save trip to server
-        this.questions = this.questions.filter((x) => {
-          // match the value with the question id
-          return x._id !== id;
+        // soft delete the question from the database
+        this.questionService.delete(id).subscribe((isDisabled) => {
+          if (isDisabled) {
+            // filter the question from the existing list to save trip to server
+            this.questions = this.questions.filter((x) => {
+              // match the value with the question id
+              return x._id !== id;
+            });
+          }
+        }, (err) => {
+          // log the error to the console
+          console.log(err);
+
+        }, () => {
+          // log complete to the console
+          console.log('delete security question complete');
         });
+
+
       }
     });
   }

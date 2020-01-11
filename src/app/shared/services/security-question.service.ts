@@ -13,9 +13,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import rxjs
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 // import our custom security question model
 import { SecurityQuestion } from '../../models/security-question.model';
 import { environment } from '../../../environments/environment';
+// tslint:disable-next-line: max-line-length
+import { SecurityQuestionCreateDialogComponent } from '../../dialogs/security-question-create-dialog/security-question-create-dialog.component';
 
 // declare injectable
 @Injectable({
@@ -40,5 +43,16 @@ export class SecurityQuestionService {
   */
   getAll(): Observable<SecurityQuestion[]> {
     return this.http.get<SecurityQuestion[]>(`${this.apiBaseUrl}/`);
+  }
+
+  /*
+  ; Params: id: string
+  ; Response: none
+  ; Description:
+  */
+  delete(id: string): Observable<boolean> {
+    // use pipe pluck to return if the question is now disabled
+    return this.http.delete<boolean>(`${this.apiBaseUrl}/${id}`)
+    .pipe(pluck('isDisabled'));
   }
 }
