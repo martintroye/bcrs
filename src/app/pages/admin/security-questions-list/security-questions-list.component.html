@@ -27,7 +27,9 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="end center">
         <mat-form-field>
+          <!-- capture the keyUp event and pass in the current value -->
           <input matInput placeholder="Filter" fxFlex [(ngModel)]="filterValue" (keyup)="onKeyUp(filterValue)" />
+          <!-- display the button if there is a value -->
           <button mat-button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
             <mat-icon>close</mat-icon>
           </button>
@@ -36,6 +38,7 @@
     </mat-card-header>
     <mat-card-content>
       <div class="table-container">
+        <!-- show the table if there are questions -->
         <table mat-table [dataSource]="questions" *ngIf="questions.length > 0">
           <ng-container matColumnDef="text">
             <th mat-header-cell *matHeaderCellDef>Question</th>
@@ -53,6 +56,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        <!-- display a message to the user if the fitler removes all questions -->
         <p *ngIf="questions.length === 0">No matching security questions found, clear your filter</p>
       </div>
     </mat-card-content>

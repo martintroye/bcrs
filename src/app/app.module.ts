@@ -1,3 +1,12 @@
+/*
+============================================
+; Title: app.module
+; Author: Richard Krasso
+; Date: 01/06/2020
+; Modified By:
+; Description: App module
+;===========================================
+*/
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
