@@ -77,8 +77,6 @@ router.post('/signin', (request, response, next) => {
         }
       }
 
-      console.log('build result', userId);
-
       // declare the result object returning authentication status, a status code, message, timestamp and the users id
       const result = {
         isAuthenticated,
