@@ -10,12 +10,12 @@
 // imports from the angular core module
 import { Component, OnInit, ViewChild } from '@angular/core';
 // imports our custom security question service
-import { SecurityQuestionService } from 'src/app/shared/services/security-question.service';
+import { SecurityQuestionService } from '../../../shared/services/security-question.service';
 // imports our custom security question model
-import { SecurityQuestion } from 'src/app/models/security-question.model';
+import { SecurityQuestion } from '../../../models/security-question.model';
 import { MatDialog } from '@angular/material';
-import { SecurityQuestionCreateDialogComponent } from 'src/app/dialogs/security-question-create-dialog/security-question-create-dialog.component';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { SecurityQuestionCreateDialogComponent } from '../../../dialogs/security-question-create-dialog/security-question-create-dialog.component';
+import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 // declare the component
 @Component({

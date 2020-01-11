@@ -13,7 +13,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 // imports from the material package
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import our custom dialog data
-import { ConfirmationDialogData } from 'src/app/models/confirmation-dialog-data.model';
+import { ConfirmationDialogData } from '../../models/confirmation-dialog-data.model';
 
 // declare the component
 @Component({
