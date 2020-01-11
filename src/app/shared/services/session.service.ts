@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SessionService {
   // declare the cookie name and set the default value
-  cookieName = 'bcrs.auth';
+  cookieName = 'sessionuser';
 
   constructor(private cookieService: CookieService) {}
 
