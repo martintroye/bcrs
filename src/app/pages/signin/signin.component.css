@@ -8,7 +8,9 @@
     width: fit-content;
 }
 
-
+.error-message {
+    color: red;
+}
 
 .signin-title {
     font-weight: lighter;
