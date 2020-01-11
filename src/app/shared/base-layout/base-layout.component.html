@@ -3,17 +3,20 @@
     <!-- navigation -->
     <nav fxFlex>
       <mat-toolbar>
-        <!-- navbar container -->
-        <div class="navbar-container">
+        <mat-toolbar-row>
           <!-- logo -->
           <button class="logo" routerLink="/" mat-button>BCRS</button>
-
-          <button class="navbar-link" routerLink="/" mat-button>Home</button>
-          <button class="navbar-link" mat-button>About</button>
           <div fxFlex></div>
-          <button class="navbar-link"  mat-button (click)='logout()'>Logout</button>
-        </div>
 
+          <button class="navbar-link" mat-button [matMenuTriggerFor]="menu">Administration</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/">Users</button>
+            <button mat-menu-item routerLink="/admin/security-questions">Security Questions</button>
+          </mat-menu>
+          <button class="navbar-link" mat-button>About Us</button>
+          <button class="navbar-link" mat-button>Contact Us</button>
+          <button class="navbar-link" mat-button (click)="logout()">Logout</button>
+        </mat-toolbar-row>
       </mat-toolbar>
     </nav>
 
@@ -29,11 +32,13 @@
       <footer class="footer">
         <mat-toolbar class="footer-content">
           <p>
-            &copy; {{year | date: 'yyyy'}} - Bob's Computer Repair Shop - <a href="https://www.bellevue.edu/" class="bu-link" target="_blank">Bellevue University</a>
+            &copy; {{ year | date: "yyyy" }} - Bob's Computer Repair Shop -
+            <a href="https://www.bellevue.edu/" class="bu-link" target="_blank"
+              >Bellevue University</a
+            >
           </p>
         </mat-toolbar>
       </footer>
     </div>
-
   </div>
 </div>

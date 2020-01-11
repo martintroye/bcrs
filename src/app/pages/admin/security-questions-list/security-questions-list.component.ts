@@ -23,10 +23,10 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 export class SecurityQuestionsListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  questions: MatTableDataSource<SecurityQuestion>;
+  questions: SecurityQuestion[] = [];
   displayedColumns: string[] = ['text', 'functions'];
-
-  pageSize = 5;
+  allQuestions: SecurityQuestion[];
+  filterValue: string;
 
   /*
   ; Params: none
@@ -42,8 +42,29 @@ export class SecurityQuestionsListComponent implements OnInit {
   */
   ngOnInit() {
     this.questionService.getAll().subscribe(questions => {
-      this.questions = new MatTableDataSource<SecurityQuestion>(questions);
-      this.questions.paginator = this.paginator;
+      this.questions = questions;
     });
+  }
+
+  onClear(): void {
+    this.filterValue = '';
+    this.onKeyUp(this.filterValue);
+  }
+
+  onKeyUp(value: string): void {
+    if (value && value.length >= 3) {
+      if (!this.allQuestions) {
+        this.allQuestions = this.questions;
+      }
+
+      this.questions = this.questions.filter(x => {
+        return x.text.indexOf(value) >= 0;
+      });
+    } else {
+      if (this.allQuestions) {
+        this.questions = this.allQuestions;
+        this.allQuestions = null;
+      }
+    }
   }
 }

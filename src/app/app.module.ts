@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routing';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,12 +10,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BaseLayoutComponent } from './shared/base-layout/base-layout.component';
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { HomeComponent } from './pages/home/home.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
-import {MatCardModule, MatPaginatorModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import {
+  MatCardModule,
+  MatPaginatorModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatMenuModule
+} from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -38,7 +44,11 @@ import { SigninComponent } from './pages/signin/signin.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(AppRoutes, { useHash: true, enableTracing: false, scrollPositionRestoration: 'enabled'}),
+    RouterModule.forRoot(AppRoutes, {
+      useHash: true,
+      enableTracing: false,
+      scrollPositionRestoration: 'enabled'
+    }),
     FlexLayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -48,9 +58,15 @@ import { SigninComponent } from './pages/signin/signin.component';
     MatInputModule,
     MatTableModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatMenuModule
   ],
-  providers: [SessionGuard, CookieService, SessionService, SecurityQuestionService],
+  providers: [
+    SessionGuard,
+    CookieService,
+    SessionService,
+    SecurityQuestionService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
