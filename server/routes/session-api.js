@@ -32,19 +32,19 @@ router.post('/signin', (request, response, next) => {
   // declare the default message for an error
   let defaultMessage = 'Invalid username or password';
 
-  let authenticatedUser = null;
+  let userId = null;
 
   // if the request is not formed properly return a 401
   if (!request
     || !request.body
     || !request.body.username
     || !request.body.password) {
-      // user was not authenticated
-      isAuthenticated = false;
-      // return the default message
-      message = defaultMessage;
-      // return unauthorized status code
-      statusCode = 401;
+    // user was not authenticated
+    isAuthenticated = false;
+    // return the default message
+    message = defaultMessage;
+    // return unauthorized status code
+    statusCode = 401;
   } else {
     // Using the findOne method of the user find the matching user by username
     User.findOne({ 'username': request.body.username }, (err, user) => {
@@ -72,26 +72,25 @@ router.post('/signin', (request, response, next) => {
 
           // log the issue to the console for troubleshooting
           console.log(`Password does not match ${user.username}`);
-        } else{ 
-          authenticatedUser = user;
+        } else {
+          userId = user._id;
         }
       }
+
+      // declare the result object returning authentication status, a status code, message, timestamp and the users id
+      const result = {
+        isAuthenticated,
+        message,
+        // return a default date
+        timeStamp: new Date(),
+        userId
+      }
+
+      // return the status code and the result
+      response.status(statusCode).send(result);
+
     });
   }
-
-  // declare the result object returning authentication status, a status code, message, timestamp and the users id
-  const result = {
-    isAuthenticated,
-    message,
-    // return a default date
-    timeStamp: new Date(),
-    // use a ternary if if the user is authenticated return the user id otherwise return null
-    userId: !authenticatedUser ? null: authenticatedUser._id
-  }
-
-  // return the status code and the result
-  response.status(statusCode).send(result);
-
 });
 
 // export the router
