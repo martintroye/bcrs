@@ -14,6 +14,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-security-question-create-dialog',
@@ -25,7 +26,8 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     private fb: FormBuilder, 
-    private router: Router) {
+    private router: Router,
+    private dialogRef: MatDialogRef<SecurityQuestionCreateDialogComponent>) {
    }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
     this.http.post('api/security-questions', {
       text: this.form.controls.text.value
     }).subscribe( res => {
-      this.router.navigate(['admin/security-questions']); // routes back to the secutiy question page
+      this.dialogRef.close(true); // routes back to the secutiy question page
     });
   }
 
@@ -49,7 +51,7 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
    * If cancels route back to security questions page
    */
   cancel() {
-    this.router.navigate(['admin/security-questions']);
+    this.dialogRef.close(true);
   }
 }
 // end program
