@@ -28,6 +28,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { SecurityQuestionService } from './shared/services/security-question.service';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 import { SigninComponent } from './pages/signin/signin.component';
+import { SecurityQuestionCreateDialogComponent } from './dialogs/security-question-create-dialog/security-question-create-dialog.component';
+import { SecurityQuestionEditDialogComponent } from './dialogs/security-question-edit-dialog/security-question-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { SigninComponent } from './pages/signin/signin.component';
     AuthLayoutComponent,
     HomeComponent,
     SigninComponent,
-    SecurityQuestionsListComponent
+    SecurityQuestionsListComponent,
+    SecurityQuestionCreateDialogComponent,
+    SecurityQuestionEditDialogComponent
   ],
   imports: [
     BrowserModule,
