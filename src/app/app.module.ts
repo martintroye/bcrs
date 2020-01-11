@@ -29,7 +29,8 @@ import {
   MatPaginatorModule,
   MatFormFieldModule,
   MatInputModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -72,7 +73,8 @@ import { SecurityQuestionEditDialogComponent } from './dialogs/security-question
     MatTableModule,
     MatCardModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
     SessionGuard,
@@ -80,6 +82,7 @@ import { SecurityQuestionEditDialogComponent } from './dialogs/security-question
     SessionService,
     SecurityQuestionService
   ],
+  entryComponents: [SecurityQuestionCreateDialogComponent,SecurityQuestionEditDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

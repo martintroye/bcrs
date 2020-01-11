@@ -13,6 +13,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SecurityQuestionService } from 'src/app/shared/services/security-question.service';
 // imports our custom security question model
 import { SecurityQuestion } from 'src/app/models/security-question.model';
+import { MatDialog } from '@angular/material';
+import { SecurityQuestionCreateDialogComponent } from 'src/app/dialogs/security-question-create-dialog/security-question-create-dialog.component';
 
 // declare the component
 @Component({
@@ -38,7 +40,7 @@ export class SecurityQuestionsListComponent implements OnInit {
   ; Response: none
   ; Description: default constructor
   */
-  constructor(private questionService: SecurityQuestionService) {}
+  constructor(private questionService: SecurityQuestionService, private dialog: MatDialog) {}
 
   /*
   ; Params: none
@@ -88,5 +90,41 @@ export class SecurityQuestionsListComponent implements OnInit {
         this.allQuestions = null;
       }
     }
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Add a new question
+  */
+  addQuestion(): void {
+    // declare and create the material dialog using the customer order dialog component
+    const dialogRef = this.dialog.open(SecurityQuestionCreateDialogComponent, {
+      width: '40%', // options to control height and width of dialog
+      disableClose: true, // the user cannot click in the overlay to close
+    });
+
+    // subscribe to the after closed event
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  /*
+  ; Params: id: string
+  ; Response: none
+  ; Description: edit an existing question
+  */
+  editQuestion(id: string): void {
+    console.log(id);
+  }
+
+  /*
+  ; Params: id: string
+  ; Response: none
+  ; Description: delete a question
+  */
+  deleteQuestion(id: string): void {
+    console.log(id);
   }
 }
