@@ -13,14 +13,14 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
-        canActivate: [SessionGuard]
+        component: HomeComponent
       },
       {
         path: 'admin/security-questions',
         component: SecurityQuestionsListComponent
       }
-    ]
+    ],
+    canActivateChild: [SessionGuard]
   },
   {
     path: 'session',

@@ -12,13 +12,14 @@
 // import the angular core module
 import { Injectable } from '@angular/core';
 // import the angular router module
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SessionService } from '../services/session.service';
 
 // declare the injectable
 @Injectable()
 // declare and export the class, implementing the CanActivate route guard interface
-export class SessionGuard implements CanActivate {
+export class SessionGuard implements CanActivate, CanActivateChild {
+
   // define the constructor and inject a router
   constructor(private router: Router, private sessionService: SessionService) {}
 
@@ -27,13 +28,20 @@ export class SessionGuard implements CanActivate {
   ; Response: boolean
   ; Description: If the user is logged in return true otherwise route to login page
   */
-  canActivate() {
+  canActivate(): boolean {
     // if the user is not logged in send to the login page
+    return this.hasCookie();
+  }
+
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    return this.hasCookie();
+  }
+
+  private hasCookie() {
     if (!this.sessionService.hasCookie()) {
       // use the route to display the login page
       this.router.navigate(['session/signin']);
     }
-
     // return the logged in status
     return true;
   }
