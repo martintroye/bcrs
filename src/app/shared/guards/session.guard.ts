@@ -33,10 +33,21 @@ export class SessionGuard implements CanActivate, CanActivateChild {
     return this.hasCookie();
   }
 
+  /*
+  ; Params: childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot
+  ; Response: boolean
+  ; Description: If the user is logged in return true otherwise route to the login page
+  */
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    // if the user is not logged in send to the login page
     return this.hasCookie();
   }
 
+  /*
+  ; Params: none
+  ; Response: boolean
+  ; Description: If the user is logged in return true otherwise route to the login page
+  */
   private hasCookie() {
     if (!this.sessionService.hasCookie()) {
       // use the route to display the login page
