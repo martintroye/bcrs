@@ -14,13 +14,23 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
+import {MatCardModule, MatPaginatorModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import { SessionGuard } from './shared/guards/session.guard';
+import { SessionService } from './shared/services/session.service';
+import { CookieService } from 'ngx-cookie-service';
+import { SecurityQuestionService } from './shared/services/security-question.service';
+import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
+import { SigninComponent } from './pages/signin/signin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseLayoutComponent,
     AuthLayoutComponent,
-    HomeComponent
+    HomeComponent,
+    SigninComponent,
+    SecurityQuestionsListComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +43,14 @@ import {MatIconModule} from '@angular/material/icon';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
-  providers: [],
+  providers: [SessionGuard, CookieService, SessionService, SecurityQuestionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
