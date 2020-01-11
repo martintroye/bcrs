@@ -44,7 +44,7 @@
             <th mat-header-cell *matHeaderCellDef>Question</th>
             <td mat-cell *matCellDef="let element">{{ element.text }}</td>
           </ng-container>
-          
+
           <ng-container matColumnDef="functions">
             <th mat-header-cell *matHeaderCellDef>Functions</th>
             <td mat-cell *matCellDef="let element">
@@ -52,12 +52,15 @@
               <button mat-icon-button><mat-icon>delete</mat-icon></button>
             </td>
           </ng-container>
-  
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-        <!-- display a message to the user if the fitler removes all questions -->
-        <p *ngIf="questions.length === 0">No matching security questions found, clear your filter</p>
+        <!-- display a message to the user if the filter removes all questions -->
+        <p *ngIf="questions.length === 0 && filterValue">No matching security questions found, clear your filter.</p>
+        <!-- display a message to the user if the filter removes all questions -->
+        <p *ngIf="questions.length === 0 && !filterValue">No security questions found.</p>
+
       </div>
     </mat-card-content>
   </mat-card>
