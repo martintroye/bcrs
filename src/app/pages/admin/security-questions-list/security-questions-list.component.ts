@@ -15,6 +15,7 @@ import { SecurityQuestionService } from 'src/app/shared/services/security-questi
 import { SecurityQuestion } from 'src/app/models/security-question.model';
 import { MatDialog } from '@angular/material';
 import { SecurityQuestionCreateDialogComponent } from 'src/app/dialogs/security-question-create-dialog/security-question-create-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 // declare the component
 @Component({
@@ -125,6 +126,31 @@ export class SecurityQuestionsListComponent implements OnInit {
   ; Description: delete a question
   */
   deleteQuestion(id: string): void {
-    console.log(id);
+    // find the question the user wants to delete
+    const question = this.questions.find((x) => {
+      // match the value with the question id
+      return x._id === id;
+    });
+
+    // declare and create the material dialog using the customer order dialog component
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '40%', // options to control height and width of dialog
+      disableClose: true, // the user cannot click in the overlay to close
+      // pass the title and message to the dialog
+      data: {dialogTitle: 'Delete security question', message: `Delete security question ${question.text}`}
+    });
+
+    // subscribe to the after closed event
+    dialogRef.afterClosed().subscribe(result => {
+      // if true delete the question from the db
+      if (result) {
+        console.log('delete the question from the db');
+        // filter the question from the existing list to save trip to server
+        this.questions = this.questions.filter((x) => {
+          // match the value with the question id
+          return x._id !== id;
+        });
+      }
+    });
   }
 }
