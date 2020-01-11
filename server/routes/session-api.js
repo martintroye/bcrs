@@ -32,6 +32,8 @@ router.post('/signin', (request, response, next) => {
   // declare the default message for an error
   let defaultMessage = 'Invalid username or password';
 
+  let authenticatedUser = null;
+
   // if the request is not formed properly return a 401
   if (!request
     || !request.body
@@ -70,6 +72,8 @@ router.post('/signin', (request, response, next) => {
 
           // log the issue to the console for troubleshooting
           console.log(`Password does not match ${user.username}`);
+        } else{ 
+          authenticatedUser = user;
         }
       }
     });
@@ -82,7 +86,7 @@ router.post('/signin', (request, response, next) => {
     // return a default date
     timeStamp: new Date(),
     // use a ternary if if the user is authenticated return the user id otherwise return null
-    userId: isAuthenticated ? user._id : null
+    userId: !authenticatedUser ? null: authenticatedUser._id
   }
 
   // return the status code and the result
