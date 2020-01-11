@@ -33,15 +33,21 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
       text: [null, Validators.compose([Validators.required])]
     });
   }
-
+  /**
+   * Creates a new security question using text from the form field
+   */
   create() {
+    // write to the API
     this.http.post('api/security-questions', {
       text: this.form.controls.text.value
     }).subscribe( res => {
-      this.router.navigate(['admin/security-questions']);
+      this.router.navigate(['admin/security-questions']); // routes back to the secutiy question page
     });
   }
 
+  /**
+   * If cancels route back to security questions page
+   */
   cancel() {
     this.router.navigate(['admin/security-questions']);
   }
