@@ -1,3 +1,12 @@
+/*
+============================================
+; Title: home.component.ts
+; Author: Richard Krasso
+; Date: 01/06/2020
+; Modified By:
+; Description: Home component
+;===========================================
+*/
 import { Component, OnInit } from '@angular/core';
 
 @Component({
