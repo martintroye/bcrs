@@ -1,3 +1,14 @@
+/*
+============================================
+; Title: security-question-edit-dialog.component
+; Author: Adam Donner
+; Date: 01/10/2020
+; Modified By: Adam Donner
+; Description: Edits security questions
+;===========================================
+*/
+
+// start program
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -23,19 +34,11 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<SecurityQuestionEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: SecurityQuestionEditDialogComponent) {
       this.questionId = data.questionId;
       this.question = data.question;
-
-      this.http.get('api/security-questions/' + this.questionId).subscribe(res => {
-        this.question = res;
-      }, err => {
-        console.log(err);
-      }, () => {
-        this.form.controls.text.setValue(this.question.text);
-      });
     }
 
   ngOnInit() {
     this.form = this.fb.group({
-      text: [this.question, Validators.compose([Validators.required])]
+      text: [this.question.text, Validators.compose([Validators.required])]
     });
   }
   /**
