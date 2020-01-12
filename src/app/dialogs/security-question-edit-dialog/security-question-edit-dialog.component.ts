@@ -20,7 +20,7 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
     private http: HttpClient, 
     private fb: FormBuilder, 
     private router: Router,
-    private dialogRef: MatDialogRef<SecurityQuestionEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: SecurityQuestionEditDialogComponent ) {
+    private dialogRef: MatDialogRef<SecurityQuestionEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: SecurityQuestionEditDialogComponent) {
       this.questionId = data.questionId;
       this.question = data.question;
 
@@ -35,20 +35,24 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      text: [null, Validators.compose([Validators.required])]
+      text: [this.question, Validators.compose([Validators.required])]
     });
   }
   /**
-   * Puts new value of security quesion using text from the form field
+   * Puts new value of security question using text from the form field
    */
   saveQuestion() {
+    const updatedQuestion = this.form.controls.text.value;
     // write to the API
-    this.http.put('/api/security-questions/' + this.questionId, {
-      text: this.form.controls.text.value
-    }).subscribe( res => {
-      this.dialogRef.close({_id: this.questionId, text: this.question}); // routes back to the secutiy question page
+    this.http.put('/api/security-questions/' + this.questionId, { text: updatedQuestion })
+    .subscribe( res => {
+      // routes back to the security question page
+      this.dialogRef.close({_id: this.questionId, text: updatedQuestion, message: null, updated: true});
+    }, (err) => {
+      this.dialogRef.close({_id: this.questionId, text: this.question, message: err, updated: false});
     });
   }
+
 
   /**
    * If cancels route back to security questions page
