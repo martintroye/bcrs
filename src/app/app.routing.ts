@@ -14,6 +14,7 @@ import { SessionGuard } from './shared/guards/session.guard';
 import {SigninComponent} from './pages/signin/signin.component';
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
+import { SecurityQuestionCreateDialogComponent } from './dialogs/security-question-create-dialog/security-question-create-dialog.component';
 
 export const AppRoutes: Routes = [
   {

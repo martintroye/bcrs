@@ -29,7 +29,8 @@ import {
   MatPaginatorModule,
   MatFormFieldModule,
   MatInputModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -37,6 +38,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { SecurityQuestionService } from './shared/services/security-question.service';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 import { SigninComponent } from './pages/signin/signin.component';
+import { SecurityQuestionCreateDialogComponent } from './dialogs/security-question-create-dialog/security-question-create-dialog.component';
+import { SecurityQuestionEditDialogComponent } from './dialogs/security-question-edit-dialog/security-question-edit-dialog.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,10 @@ import { SigninComponent } from './pages/signin/signin.component';
     AuthLayoutComponent,
     HomeComponent,
     SigninComponent,
-    SecurityQuestionsListComponent
+    SecurityQuestionsListComponent,
+    SecurityQuestionCreateDialogComponent,
+    SecurityQuestionEditDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,8 @@ import { SigninComponent } from './pages/signin/signin.component';
     MatTableModule,
     MatCardModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
     SessionGuard,
@@ -76,6 +84,7 @@ import { SigninComponent } from './pages/signin/signin.component';
     SessionService,
     SecurityQuestionService
   ],
+  entryComponents: [SecurityQuestionCreateDialogComponent,SecurityQuestionEditDialogComponent, ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
