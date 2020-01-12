@@ -43,7 +43,7 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
     this.http.post('api/security-questions', {
       text: this.form.controls.text.value
     }).subscribe( res => {
-      this.dialogRef.close(true); // routes back to the secutiy question page
+      this.dialogRef.close({_id: 1, text: this.form.controls.text.value}); // routes back to the secutiy question page
     });
   }
 

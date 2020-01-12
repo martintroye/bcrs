@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { SecurityQuestionCreateDialogComponent } from '../../../dialogs/security-question-create-dialog/security-question-create-dialog.component';
 import { ConfirmationDialogComponent } from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { SecurityQuestionEditDialogComponent } from 'src/app/dialogs/security-question-edit-dialog/security-question-edit-dialog.component';
 
 // declare the component
 @Component({
@@ -119,9 +120,19 @@ export class SecurityQuestionsListComponent implements OnInit {
   ; Description: edit an existing question
   */
   editQuestion(id: string): void {
-    console.log(id);
-  }
+        // find the question the user wants to delete
+        const question = this.questions.find((x) => {
+          // match the value with the question id
+          return x._id === id;
+        });
 
+  const dialogRef = this.dialog.open(SecurityQuestionEditDialogComponent, {
+    width: '40%', // options to control height and width of dialog
+    disableClose: true, // the user cannot click in the overlay to close
+    // pass the title and message to the dialog
+    data: {questionId: id, question: question.text}
+  });
+  }
   /*
   ; Params: id: string
   ; Response: none
