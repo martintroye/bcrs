@@ -27,7 +27,7 @@ import { SecurityQuestionEditDialogComponent } from 'src/app/dialogs/security-qu
   styleUrls: ['./security-questions-list.component.css']
 })
 // declare and export the component class
-export class SecurityQuestionsListComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
   // declare a local question array to bind to the table
   questions: SecurityQuestion[] = [];
