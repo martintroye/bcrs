@@ -22,9 +22,9 @@ import { SecurityQuestionEditDialogComponent } from 'src/app/dialogs/security-qu
 // declare the component
 @Component({
   // define the html template file
-  templateUrl: './security-questions-list.component.html',
+  templateUrl: './user-list.component.html',
   // define the css for the component
-  styleUrls: ['./security-questions-list.component.css']
+  styleUrls: ['./user-list.component.css']
 })
 // declare and export the component class
 export class UserListComponent implements OnInit {
