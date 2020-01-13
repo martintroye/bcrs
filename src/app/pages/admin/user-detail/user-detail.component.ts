@@ -24,7 +24,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./user-list.component.css']
 })
 
-export class UserListComponent implements OnInit {
+export class UserDetailComponent implements OnInit {
   user: any;
   displayedColumns = ['username', 'firstname', 'lastname', 'phoneNumber', 'address', 'email', 'function']
 
