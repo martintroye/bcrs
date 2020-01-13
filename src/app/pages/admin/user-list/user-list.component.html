@@ -1,10 +1,10 @@
 <!--
 ============================================
-; Title: security-questions-list.component
+; Title: user-list.component.html
 ; Author: Troy Martin
-; Date: 01/09/2020
-; Modified By: Troy Martin
-; Description: List of security questions to manage
+; Date: 12 January 2020
+; Modified By: Reva Baumann
+; Description: user-list.component.html
 ;===========================================
 -->
 <div fxLayout="column" fxLayoutAlign="space-around center">
@@ -12,7 +12,7 @@
     <mat-card-header fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="start center">
         <div fxFlex>
-          <h3>Security Questions</h3>
+          <h3>Users</h3>
         </div>
         <div fxFlex>
           <button
@@ -20,51 +20,34 @@
             type="button"
             class="font"
             style="float: right;"
-            (click)="addQuestion()"
+            (click)="addUser()"
             color="primary"
           >
-            <mat-icon>add</mat-icon>Add question
+            <mat-icon>add</mat-icon>Add user
           </button>
         </div>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <mat-form-field>
-          <!-- capture the keyUp event and pass in the current value -->
-          <input matInput placeholder="Filter" fxFlex [(ngModel)]="filterValue" (keyup)="onKeyUp(filterValue)" />
-          <!-- display the button if there is a value -->
-          <button mat-button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
-            <mat-icon>close</mat-icon>
-          </button>
-      </mat-form-field>
       </div>
     </mat-card-header>
     <mat-card-content>
       <div class="table-container">
         <!-- show the table if there are questions -->
-        <table mat-table [dataSource]="questions" *ngIf="questions.length > 0">
+        <table mat-table [dataSource]="users" *ngIf="users.length > 0">
           <ng-container matColumnDef="text">
-            <th mat-header-cell *matHeaderCellDef>Question</th>
-            <td mat-cell *matCellDef="let element">{{ element.text }}</td>
+            <th mat-header-cell *matHeaderCellDef>First name</th>
+            <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
           </ng-container>
-
+          <!-- add a ng-container for each column we are going to display -->
           <ng-container matColumnDef="functions">
             <th mat-header-cell *matHeaderCellDef>Functions</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="editQuestion(element._id)"><mat-icon>edit</mat-icon></button>
-              <button mat-icon-button (click)="deleteQuestion(element._id)"><mat-icon>delete</mat-icon></button>
+              <button mat-icon-button (click)="editUser(element._id)"><mat-icon>edit</mat-icon></button>
+              <button mat-icon-button (click)="deleteUser(element._id)"><mat-icon>delete</mat-icon></button>
             </td>
           </ng-container>
-
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-        <!-- display a message to the user if the filter removes all questions -->
-        <p *ngIf="questions.length === 0 && filterValue">No matching security questions found, clear your filter.</p>
-        <!-- display a message to the user if the filter removes all questions -->
-        <p *ngIf="questions.length === 0 && !filterValue">No security questions found.</p>
-
       </div>
     </mat-card-content>
   </mat-card>
-
 </div>
