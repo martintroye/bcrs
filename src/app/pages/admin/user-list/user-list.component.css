@@ -11,3 +11,8 @@ table {
   justify-content: center;
   align-content: center;
 }
+
+.mat-raised-button {
+  background-color: #81d4fa;
+  color: black;
+}
