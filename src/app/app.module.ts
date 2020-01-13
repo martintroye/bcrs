@@ -41,6 +41,8 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SecurityQuestionCreateDialogComponent } from './dialogs/security-question-create-dialog/security-question-create-dialog.component';
 import { SecurityQuestionEditDialogComponent } from './dialogs/security-question-edit-dialog/security-question-edit-dialog.component';
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
+import { UserListComponent } from './pages/admin/user-list/user-list.component';
+import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confi
     SecurityQuestionsListComponent,
     SecurityQuestionCreateDialogComponent,
     SecurityQuestionEditDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    UserListComponent,
+    UserDetailDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,12 @@ import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confi
     SessionService,
     SecurityQuestionService
   ],
-  entryComponents: [SecurityQuestionCreateDialogComponent,SecurityQuestionEditDialogComponent, ConfirmationDialogComponent],
+  entryComponents: [
+    SecurityQuestionCreateDialogComponent,
+    SecurityQuestionEditDialogComponent,
+    ConfirmationDialogComponent,
+    UserDetailDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

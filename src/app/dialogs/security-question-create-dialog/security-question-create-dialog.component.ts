@@ -24,10 +24,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class SecurityQuestionCreateDialogComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private http: HttpClient, 
-    private fb: FormBuilder, 
-    private router: Router,
-    private dialogRef: MatDialogRef<SecurityQuestionCreateDialogComponent>) {
+  constructor(private http: HttpClient,
+              private fb: FormBuilder,
+              private router: Router,
+              private dialogRef: MatDialogRef<SecurityQuestionCreateDialogComponent>) {
    }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
     }).subscribe( res => {
       this.dialogRef.close({text: newQuestion}); // routes back to the secutiy question page
     });
-    
+
   }
 
   /**

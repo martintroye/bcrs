@@ -28,22 +28,21 @@ import { SecurityQuestionEditDialogComponent } from 'src/app/dialogs/security-qu
 })
 // declare and export the component class
 export class SecurityQuestionsListComponent implements OnInit {
-
   // declare a local question array to bind to the table
   questions: SecurityQuestion[] = [];
   // declare the columns to display in the table
   displayedColumns: string[] = ['text', 'functions'];
-  // an array to store the original list of questions
-  allQuestions: SecurityQuestion[];
-  // the current filter value
-  filterValue: string;
+
 
   /*
   ; Params: none
   ; Response: none
   ; Description: default constructor
   */
-  constructor(private questionService: SecurityQuestionService, private dialog: MatDialog) {}
+  constructor(
+    private questionService: SecurityQuestionService,
+    private dialog: MatDialog
+  ) {}
 
   /*
   ; Params: none
@@ -59,52 +58,13 @@ export class SecurityQuestionsListComponent implements OnInit {
   /*
   ; Params: none
   ; Response: none
-  ; Description: Clear the current filter value and reset the collection
-  */
-  onClear(): void {
-    this.filterValue = '';
-    this.onKeyUp(this.filterValue);
-  }
-
-  /*
-  ; Params: none
-  ; Response: none
-  ; Description: On key up filter the question list
-  */
-  onKeyUp(value: string): void {
-    // if we have 3 or more characters start filtering the list
-    if (value && value.length >= 3) {
-      // save the full collection so we do not round trip to server
-      if (!this.allQuestions) {
-        // set the question list
-        this.allQuestions = this.questions;
-      }
-
-      // use the array filter function to filter the questions
-      this.questions = this.questions.filter(x => {
-        // return true if the question contains the value
-        return x.text.indexOf(value) >= 0;
-      });
-    } else {
-      // since there is not a valid value show all questions
-      if (this.allQuestions) {
-        this.questions = this.allQuestions;
-        // clear the array
-        this.allQuestions = null;
-      }
-    }
-  }
-
-  /*
-  ; Params: none
-  ; Response: none
   ; Description: Add a new question
   */
   addQuestion(): void {
-    // declare and create the material dialog using the customer order dialog component
+    // declare and create the material dialog
     const dialogRef = this.dialog.open(SecurityQuestionCreateDialogComponent, {
       width: '40%', // options to control height and width of dialog
-      disableClose: true, // the user cannot click in the overlay to close
+      disableClose: true // the user cannot click in the overlay to close
     });
 
     // subscribe to the after closed event
@@ -121,17 +81,17 @@ export class SecurityQuestionsListComponent implements OnInit {
   ; Description: edit an existing question
   */
   editQuestion(id: string): void {
-      // find the question the user wants to delete
-      const question = this.questions.find((x) => {
-        // match the value with the question id
-        return x._id === id;
-      });
+    // find the question the user wants to delete
+    const question = this.questions.find(x => {
+      // match the value with the question id
+      return x._id === id;
+    });
 
     const dialogRef = this.dialog.open(SecurityQuestionEditDialogComponent, {
       width: '40%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the questionID and question to the dialog
-      data: {questionId: id, question: question.text}
+      data: { questionId: id, question: question.text }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -139,20 +99,18 @@ export class SecurityQuestionsListComponent implements OnInit {
       if (result) {
         if (result.updated) {
           // update the question text in the array
-          this.questions.forEach((x) => {
-              if (x._id === id) {
-                x.text = result.text;
-              }
+          this.questions.forEach(x => {
+            if (x._id === id) {
+              x.text = result.text;
+            }
           });
         } else if (result.message) {
           // display the error message
-        } else {
-          // they cancelled nothing to do
         }
       }
     });
+  }
 
-    }
   /*
   ; Params: id: string
   ; Response: none
@@ -160,17 +118,20 @@ export class SecurityQuestionsListComponent implements OnInit {
   */
   deleteQuestion(id: string): void {
     // find the question the user wants to delete
-    const question = this.questions.find((x) => {
+    const question = this.questions.find(x => {
       // match the value with the question id
       return x._id === id;
     });
 
-    // declare and create the material dialog using the customer order dialog component
+    // declare and create the material dialog
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '40%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the title and message to the dialog
-      data: {dialogTitle: 'Delete security question', message: `Delete security question ${question.text}`}
+      data: {
+        dialogTitle: 'Delete security question',
+        message: `Delete security question ${question.text}`
+      }
     });
 
     // subscribe to the after closed event
@@ -178,24 +139,25 @@ export class SecurityQuestionsListComponent implements OnInit {
       // if true delete the question from the db
       if (result) {
         // soft delete the question from the database
-        this.questionService.delete(id).subscribe((isDisabled) => {
-          if (isDisabled) {
-            // filter the question from the existing list to save trip to server
-            this.questions = this.questions.filter((x) => {
-              // match the value with the question id
-              return x._id !== id;
-            });
+        this.questionService.delete(id).subscribe(
+          isDisabled => {
+            if (isDisabled) {
+              // filter the question from the existing list to save trip to server
+              this.questions = this.questions.filter(x => {
+                // match the value with the question id
+                return x._id !== id;
+              });
+            }
+          },
+          err => {
+            // log the error to the console
+            console.log(err);
+          },
+          () => {
+            // log complete to the console
+            console.log('delete security question complete');
           }
-        }, (err) => {
-          // log the error to the console
-          console.log(err);
-
-        }, () => {
-          // log complete to the console
-          console.log('delete security question complete');
-        });
-
-
+        );
       }
     });
   }
