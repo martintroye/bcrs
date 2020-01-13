@@ -1,6 +1,6 @@
 /*
 ============================================
-; Title: user-list.component
+; Title: user-detail-dialog.component
 ; Author: Reva Baumann
 ; Date: 01/09/2020
 ; Modified By: Reva Baumann
@@ -24,7 +24,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./user-list.component.css']
 })
 
-export class UserDetailComponent implements OnInit {
+export class UserDetailDialogComponent implements OnInit {
   user: any;
   displayedColumns = ['username', 'firstname', 'lastname', 'phoneNumber', 'address', 'email', 'function']
 
