@@ -19,6 +19,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 // Export the component
 @Component({
   templateUrl: './user-detail-dialog.component.html',
@@ -51,6 +52,7 @@ export class UserDetailDialogComponent implements OnInit {
       );
     }
   }
+
   ngOnInit() {}
   initForm(): void {
     this.form = this.fb.group({
