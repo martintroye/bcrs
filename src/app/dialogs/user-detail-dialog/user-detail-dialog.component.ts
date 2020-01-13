@@ -7,35 +7,71 @@
 ; Description: List of users
 ;===========================================
 */
-
 // Start Program
-
 // Import the Modules
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 // Not sure if this is the correct import - User Dialog
-import {MatDialog} from '@angular/material/dialog';
-import {HttpClient} from '@angular/common/http';
-
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Export the component
 @Component({
   templateUrl: './user-detail-dialog.component.html',
   styleUrls: ['./user-detail-dialog.component.css']
 })
 export class UserDetailDialogComponent implements OnInit {
+  // declare and set the default base url for the http service calls
+  apiBaseUrl = `${environment.baseUrl}/api/security-questions`;
   user: any;
-  displayedColumns = ['username', 'firstname', 'lastname', 'phoneNumber', 'address', 'email', 'function']
-
-  constructor(private http: HttpClient, private dialog: MatDialog) {
-    this.http.get('/api/users').subscribe(res => {
-      this.user = res;
-      console.log(this.user);
-    }, err=> {
-      console.log(err);
+  id: string;
+  form: FormGroup;
+  constructor(
+    private http: HttpClient,
+    private dialogRef: MatDialogRef<UserDetailDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder) {
+    if (data && data.id) {
+      this.id = data.id;
+      this.http.get(`${this.apiBaseUrl}/api/users/${this.id}`).subscribe(
+        res => {
+          this.user = res;
+          console.log(this.user);
+        },
+        err => {
+          console.log(err);
+        },
+        () => {
+          console.log('complete');
+        }
+      );
+    }
+  }
+  ngOnInit() {}
+  initForm(): void {
+    this.form = this.fb.group({
+      username: [null, Validators.compose([Validators.required])],
+      password: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+-=[]{};:|,.<>/?]+$'),
+          Validators.minLength(8)
+        ])
+      ],
+      firstName: [null],
+      lastName: [null],
+      emailAddress: [null],
+      phoneNumber: [null],
+      addressLine1: [null],
+      addressLine2: [null],
+      city: [null],
+      state: [null],
+      postalCode: [null]
     });
   }
-
-  ngOnInit() {
-
-  }
-
 }
