@@ -14,7 +14,7 @@ import { SessionGuard } from './shared/guards/session.guard';
 import {SigninComponent} from './pages/signin/signin.component';
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
-import { SecurityQuestionCreateDialogComponent } from './dialogs/security-question-create-dialog/security-question-create-dialog.component';
+import { UserListComponent } from './pages/admin/user-list/user-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -28,6 +28,10 @@ export const AppRoutes: Routes = [
       {
         path: 'admin/security-questions',
         component: SecurityQuestionsListComponent
+      },
+      {
+        path: 'admin/users',
+        component: UserListComponent
       }
     ],
     // use the can activate child to secure the routes
