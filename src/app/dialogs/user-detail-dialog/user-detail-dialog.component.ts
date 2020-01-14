@@ -71,6 +71,7 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
+  // Destroy when duplicates are found
   ngOnDestroy(): void {
     if (this.createSubscription) {
       this.createSubscription.unsubscribe();
@@ -80,6 +81,7 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Save details of the user
   saveUser() {
     if (this.id) {
       this.updateUser();
@@ -88,7 +90,8 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     }
 
   }
-
+ 
+  // Update User
   updateUser() {
     if (this.form.valid) {
 
@@ -107,6 +110,7 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Create user details and post form data
   createUser() {
 
     if (this.form.valid) {
@@ -126,6 +130,7 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
 
   }
 
+  // getFormData, include details of users
   private getFormData() {
     return {
       username: this.form.controls.username.value,
@@ -156,9 +161,11 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     this.form.controls.postalCode.setValue(this.user.postalCode ? this.user.postalCode : '');
   }
 
+  // cancel
   cancel() {
     this.dialogRef.close(null);
   }
+
 
   initForm(): void {
     this.form = this.fb.group({
@@ -183,3 +190,6 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     });
   }
 }
+
+
+// End Program
