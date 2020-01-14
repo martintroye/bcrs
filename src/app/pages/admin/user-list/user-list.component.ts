@@ -44,22 +44,10 @@ export class UserListComponent implements OnInit {
   */
   constructor(private http: HttpClient, private dialog: MatDialog) {
     // get all users that are not disabled
-    this.http.get(this.apiBaseUrl).subscribe(
-      // if there are users set the users variable on the component
-      (users: []) => {
-        console.log(users);
-        this.users = users;
-      },
-      err => {
-        // display the error in the log
-        console.log(err);
-      },
-      () => {
-        // the subscription completed
-        console.log('complete');
-      }
-    );
+    this.getUserList();
   }
+
+
 
   /*
   ; Params: none
@@ -76,10 +64,18 @@ export class UserListComponent implements OnInit {
   addUser(): void {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(UserDetailDialogComponent, {
-      width: '40%', // options to control height and width of dialog
+      width: '60%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the title and message to the dialog
       data: { id: null }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // the user was updated need to replace them in the array
+       this.getUserList();
+      }
+      // else the canceled nothing to do here
     });
   }
 
@@ -91,10 +87,24 @@ export class UserListComponent implements OnInit {
   editUser(id: string): void {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(UserDetailDialogComponent, {
-      width: '40%', // options to control height and width of dialog
+      width: '60%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the title and message to the dialog
       data: { id }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // the user was updated need to replace them in the array
+        this.users.forEach((u) => {
+          if (u._id === result._id) {
+            u.user = result.username;
+            u.firstName = result.firstName;
+            u.lastName = result.lastName;
+          }
+        });
+      }
+      // else the canceled nothing to do here
     });
   }
 
@@ -147,6 +157,21 @@ export class UserListComponent implements OnInit {
         );
       }
     });
+  }
+
+  private getUserList() {
+    this.http.get(this.apiBaseUrl).subscribe(
+      // if there are users set the users variable on the component
+      (users: []) => {
+        console.log(users);
+        this.users = users;
+      }, err => {
+        // display the error in the log
+        console.log(err);
+      }, () => {
+        // the subscription completed
+        console.log('complete');
+      });
   }
 }
 

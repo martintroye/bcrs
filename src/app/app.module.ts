@@ -80,7 +80,7 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
     MatCardModule,
     MatPaginatorModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [
     SessionGuard,

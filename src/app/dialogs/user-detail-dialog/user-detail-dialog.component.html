@@ -13,7 +13,7 @@
   <form [formGroup]="form" (ngSubmit)="saveUser()" #userForm>
     <div fxLayout="column" fxLayoutGap="10px">
       <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-form-field>
+        <mat-form-field style="width:50%;padding-right:10px;">
           <input
             type="text"
             matInput
@@ -21,20 +21,19 @@
             placeholder="Username"
           />
         </mat-form-field>
-
-        <mat-form-field>
+        <mat-form-field *ngIf="!id" style="width:50%">
           <input
-            type="text"
+            type="password"
             matInput
             [formControl]="form.controls['password']"
             placeholder="Password"
-            [disabled]="true"
           />
+          <mat-error *ngIf="form.controls['password'].hasError('pattern')">Requires one uppercase, one lowercase, and one number, and min 8 characters.</mat-error>
         </mat-form-field>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-form-field>
+        <mat-form-field style="width:50%;padding-right:10px;">
           <input
             type="text"
             matInput
@@ -43,7 +42,7 @@
           />
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field style="width:50%">
           <input
             type="text"
             matInput
@@ -54,7 +53,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-form-field>
+        <mat-form-field style="width:50%;padding-right:10px;">
           <input
             type="text"
             matInput
@@ -63,7 +62,7 @@
           />
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field style="width:50%">
           <input
             type="text"
             matInput
@@ -99,7 +98,7 @@
         />
       </mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-form-field>
+        <mat-form-field style="width:50%;padding-right:10px;">
           <input
             type="text"
             matInput
@@ -108,7 +107,7 @@
           />
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field style="width:50%">
           <input
             type="text"
             matInput
@@ -118,11 +117,11 @@
         </mat-form-field>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="end center">
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
         <button mat-raised-button (click)="cancel()">
           Cancel
         </button>
-        <button mat-raised-button (click)="saveUser()" color="primary">
+        <button type="submit" mat-raised-button color="primary">
           Submit
         </button>
       </div>

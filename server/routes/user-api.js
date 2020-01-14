@@ -144,12 +144,15 @@ router.delete('/:id', (request, response, next) => {
         console.log(user);
 
         user.set({
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
           phoneNumber: req.body.phoneNumber,
-          address: req.body.address, // Check on that
-          email: req.body.email,
-          role: req.body.role // Did we use role?
+          emailAddress: req.body.emailAddress,
+          addressLine1: req.body.addressLine1,
+          addressLine2: req.body.addressLine2,
+          city: req.body.city,
+          state: req.body.state,
+          postalCode: req.body.postalCode
         });
 
         user.save(function (err, savedUser) {
