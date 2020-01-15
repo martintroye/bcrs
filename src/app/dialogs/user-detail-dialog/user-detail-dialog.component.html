@@ -14,7 +14,7 @@
     <button mat-raised-button (click)="cancel()">
       Cancel
     </button>
-    <button type="button" (click)="saveUser()" mat-raised-button color="primary">
+    <button type="button" (click)="saveUser()" [disabled]="!isValid" mat-raised-button color="primary">
       Submit
     </button>
   </div>

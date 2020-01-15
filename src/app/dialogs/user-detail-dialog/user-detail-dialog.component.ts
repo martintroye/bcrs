@@ -51,13 +51,17 @@ export class UserDetailDialogComponent implements OnInit {
         this.http.get(`${this.apiBaseUrl}/${this.id}`)
         .pipe(
           map((res: any) => {
-            this.user = this.mapUser(res);
-            console.log(this.user);
+            return this.mapUser(res);
           })
-        );
+        ).subscribe((u) => {
+          console.log(u);
+          this.user = u;
+        }, (err) => {
+          console.log('user-detail-dialog', err);
+        });
     } else {
       this.id = null;
-      this.user = null;
+      this.user = new User();
       this.title = 'Create user';
     }
   }
@@ -79,14 +83,48 @@ export class UserDetailDialogComponent implements OnInit {
     if (this.isValid) {
 
       this.user.id = this.id;
+      console.log(this.user);
       this.http.put(`${this.apiBaseUrl}/${this.id}`, this.user)
       .pipe(
         map((result: any) => {
             return this.mapUser(result);
           }
         )
-      );
+      ).subscribe((u) => {
+        this.dialogRef.close(u);
+      }, (err) => {
+        console.log('user-detail-dialog / updateUser', err);
+      });
     }
+  }
+
+  // Create user details and post form data
+  createUser() {
+
+    if (this.isValid) {
+      console.log(this.user);
+      this.http.post(this.apiBaseUrl, this.user)
+      .pipe(
+        map((result: any) => {
+            return this.mapUser(result);
+          }
+        )
+      ).subscribe((u) => {
+        this.dialogRef.close(u);
+      }, (err) => {
+        console.log('user-detail-dialog / createUser', err);
+      });
+    }
+
+  }
+
+  // cancel
+  cancel() {
+    this.dialogRef.close(null);
+  }
+
+  private setValid(isFormValid: boolean) {
+    this.isValid = isFormValid;
   }
 
   private mapUser(result: any): User {
@@ -103,34 +141,7 @@ export class UserDetailDialogComponent implements OnInit {
     user.city = result.city;
     user.state = result.state;
     user.postalCode = result.postalCode;
-
-
     return user;
-  }
-
-  // Create user details and post form data
-  createUser() {
-
-    if (this.isValid) {
-
-      this.http.post(this.apiBaseUrl, this.user)
-      .pipe(
-        map((result: any) => {
-            return this.mapUser(result);
-          }
-        )
-      );
-    }
-
-  }
-
-  // cancel
-  cancel() {
-    this.dialogRef.close(null);
-  }
-
-  private setValid(isFormValid: boolean) {
-    this.isValid = isFormValid;
   }
 
 }
