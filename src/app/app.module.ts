@@ -43,6 +43,8 @@ import { SecurityQuestionEditDialogComponent } from './dialogs/security-question
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-detail-dialog.component';
+import { UserRegistrationDialogComponent } from './dialogs/user-registration-dialog/user-registration-dialog.component';
+import { UserFormComponent } from './dialogs/shared/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
     SecurityQuestionEditDialogComponent,
     ConfirmationDialogComponent,
     UserListComponent,
-    UserDetailDialogComponent
+    UserDetailDialogComponent,
+    UserRegistrationDialogComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +96,8 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
     SecurityQuestionCreateDialogComponent,
     SecurityQuestionEditDialogComponent,
     ConfirmationDialogComponent,
-    UserDetailDialogComponent
+    UserDetailDialogComponent,
+    UserRegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })
