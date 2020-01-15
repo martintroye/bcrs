@@ -11,6 +11,8 @@
 const express = require('express');
 const encryption = require('../encryption');
 const User = require('../db-models/user');
+const createUserFunction = require('./create-user.function');
+
 
 // declare the express router object
 const router = express.Router();
@@ -104,6 +106,15 @@ router.post('/signin', (request, response, next) => {
     });
   }
 });
+
+/*
+; Params: none
+; Response: {_id: string, username: string, password: string ...}
+; Description: Register user - adds a user with an encrypted password and security questions
+; Required: username, password
+; Defaulted: date_created: new Date(), role: standard, isDisabled: false
+*/
+router.post('/signin/register', createUserFunction);
 
 // export the router
 module.exports = router;

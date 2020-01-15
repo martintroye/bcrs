@@ -9,8 +9,8 @@
 */
 // start program
 const express = require('express');
-const encryption = require('../encryption');
 const User = require('../db-models/user')
+const createUserFunction = require('./create-user.function');
 
 // declare the express router object
 const router = express.Router();
@@ -22,35 +22,7 @@ const router = express.Router();
 ; Required: username, password
 ; Defaulted: date_created: new Date(), role: standard, isDisabled: false
 */
-router.post('/', (request, response) => {
-  // if the request and request body are not valid return an error
-  if(!request
-    || !request.body){
-      response.status(400).send('Invalid request.');
-    } else {
-      // create a new user setting it to the request body
-      const user = new User(request.body);
-      // encrypt the users password
-      if(user.password) {
-        user.password = encryption.encryptValue(user.password);
-      }
-      // call the save method to store the new user in the db
-      user.save((err, u) => {
-        // if there is an error
-        if(err) {
-          // log the error
-          console.log(err);
-          // return a server error and the message
-          response.status(500).send(err.message);
-        } else {
-          //console.log(u);
-          // return the created status code and the new user
-          response.status(201).send(u);
-        }
-      });
-    }
-});
-
+router.post('/', createUserFunction);
 
 /*
 ; Params: id: User id
@@ -91,7 +63,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-  /*
+/*
 ; Params: id: user id
 ; Response: updated user
 ; Description: DeleteUser - sets a status of isDisabled user by id
