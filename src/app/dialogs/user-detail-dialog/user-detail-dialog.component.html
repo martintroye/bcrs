@@ -8,7 +8,7 @@
 ;===========================================
 -->
 <div fxLayout="column">
-  <app-user-form (title)="title" [(user)]="user"></app-user-form>
+  <app-user-form (title)="title" [(user)]="user" (isValid)="setValid($event)"></app-user-form>
 
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
     <button mat-raised-button (click)="cancel()">

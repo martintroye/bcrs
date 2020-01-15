@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
+import { map } from 'rxjs/operators';
 
 // Export the component
 @Component({
@@ -30,15 +31,14 @@ import { User } from 'src/app/models/user.model';
 })
 
 // Export the Class
-export class UserDetailDialogComponent implements OnInit, OnDestroy {
+export class UserDetailDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
   apiBaseUrl = `${environment.baseUrl}/api/users`;
   user: User;
   id: string;
   title: string;
 
-  getSubscription: Subscription;
-  createSubscription: Subscription;
+  isValid: boolean;
 
   constructor(
     private http: HttpClient,
@@ -48,19 +48,12 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
       if (data && data.id) {
         this.title = 'Edit user';
         this.id = data.id;
-        this.getSubscription = this.http.get<User>(`${this.apiBaseUrl}/${this.id}`)
-        .subscribe(
-          (res) => {
-            this.user = res;
-            this.populateform();
+        this.http.get(`${this.apiBaseUrl}/${this.id}`)
+        .pipe(
+          map((res: any) => {
+            this.user = this.mapUser(res);
             console.log(this.user);
-          },
-          err => {
-            console.log(err);
-          },
-          () => {
-            console.log('complete');
-          }
+          })
         );
     } else {
       this.id = null;
@@ -70,16 +63,6 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {}
-
-  // Destroy when duplicates are found
-  ngOnDestroy(): void {
-    if (this.createSubscription) {
-      this.createSubscription.unsubscribe();
-    }
-    if (this.getSubscription) {
-      this.getSubscription.unsubscribe();
-    }
-  }
 
   // Save details of the user
   saveUser() {
@@ -93,39 +76,50 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
 
   // Update User
   updateUser() {
-    if (this.form.valid) {
+    if (this.isValid) {
 
-      const body: any = this.getFormData();
-      body._id = this.id;
-      this.createSubscription = this.http.put(`${this.apiBaseUrl}/${this.id}`, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
-      }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
-      });
+      this.user.id = this.id;
+      this.http.put(`${this.apiBaseUrl}/${this.id}`, this.user)
+      .pipe(
+        map((result: any) => {
+            return this.mapUser(result);
+          }
+        )
+      );
     }
+  }
+
+  private mapUser(result: any): User {
+    const user = new User();
+    user.id = result._id;
+    user.username = result.username;
+    user.password = result.password;
+    user.firstName = result.firstName;
+    user.lastName = result.lastName;
+    user.phoneNumber = result.phoneNumber;
+    user.emailAddress = result.emailAddress;
+    user.addressLine1 = result.addressLine1;
+    user.addressLine2 = result.addressLine2;
+    user.city = result.city;
+    user.state = result.state;
+    user.postalCode = result.postalCode;
+
+
+    return user;
   }
 
   // Create user details and post form data
   createUser() {
 
-    if (this.form.valid) {
+    if (this.isValid) {
 
-      const body = this.getFormData();
-      this.createSubscription = this.http.post(this.apiBaseUrl, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
-      }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
-      });
+      this.http.post(this.apiBaseUrl, this.user)
+      .pipe(
+        map((result: any) => {
+            return this.mapUser(result);
+          }
+        )
+      );
     }
 
   }
@@ -133,6 +127,10 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
   // cancel
   cancel() {
     this.dialogRef.close(null);
+  }
+
+  private setValid(isFormValid: boolean) {
+    this.isValid = isFormValid;
   }
 
 }
