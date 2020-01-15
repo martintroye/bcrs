@@ -2,8 +2,8 @@
 ============================================
 ; Title: session-api
 ; Author: Troy Martin
-; Date: 01/08/2019
-; Modified By: Troy Martin
+; Date: 01/14/2019
+; Modified By: Adam Donner
 ; Description: Session API
 ;===========================================
 */
@@ -12,7 +12,6 @@ const express = require('express');
 const encryption = require('../encryption');
 const User = require('../db-models/user');
 const createUserFunction = require('./create-user.function');
-
 
 // declare the express router object
 const router = express.Router();
@@ -107,10 +106,11 @@ router.post('/signin', (request, response, next) => {
   }
 });
 
+
 /*
 ; Params: none
 ; Response: {_id: string, username: string, password: string ...}
-; Description: Register user - adds a user with an encrypted password and security questions
+; Description: CreateUser - adds a user with an encrypted password and security questions
 ; Required: username, password
 ; Defaulted: date_created: new Date(), role: standard, isDisabled: false
 */
@@ -173,10 +173,51 @@ router.put('/users/:username/reset-password', (request, response) => {
         }
       });
     }
-
-
-
   }
+});
+
+
+/*
+; Params: Username, answers to 3 security questions
+; Response: username
+; Description: VerifySecurityQuestion - Accepts answer to security questions looked up by user and verify agains saved answers
+*/
+router.post('/verify/users/:username/security-question', (request, response, next) => {
+  const answerToQuestion1 = request.body.answerToQuestion1;
+  console.log(answerToQuestion1);
+
+  const answerToQuestion2 = request.body.answerToQuestion2;
+  console.log(answerToQuestion2);
+
+  const answerToQuestion3 = request.body.answerToQuestion3;
+  console.log(answerToQuestion3);
+
+
+  User.findOne({ 'username': request.params.username }, (err, username) => {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(username);
+
+      // creates test cases for provided values against values stored in database
+      let validAnswer1 = answerToQuestion1 === user.SecurityQuestions[0].answer;
+      let validAnswer2 = answerToQuestion2 === user.SecurityQuestions[1].answer;
+      let validAnswer3 = answerToQuestion3 === user.SecurityQuestions[2].answer;
+      // If all three are true
+      if (validAnswer1 && validAnswer2 && validAnswer3) {
+        response.status(200).send({
+          type: 'sucessful',
+          auth: true
+        })
+      } else {
+        response.status(401).send({
+          type: 'unauthorized',
+          auth: false
+        })
+      }
+    }
+  })
 });
 
 // export the router
