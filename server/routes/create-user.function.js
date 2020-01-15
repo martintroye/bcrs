@@ -4,7 +4,7 @@
 ; Author: Troy Martin
 ; Date: 01/14/2020
 ; Modified By: Troy Martin
-; Description: Create user common method
+; Description: Create user common function for Users/CreateUser and Session/Register
 ;===========================================
 */
 // start program

@@ -3,8 +3,8 @@
 ; Title: user-detail-dialog.component
 ; Author: Reva Baumann
 ; Date: 01/09/2020
-; Modified By: Reva Baumann
-; Description: List of users
+; Modified By: Troy Martin
+; Description: User config CreateUser
 ;===========================================
 */
 // Start Program
@@ -21,6 +21,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+import { map } from 'rxjs/operators';
 
 // Export the component
 @Component({
@@ -29,57 +31,42 @@ import { Subscription } from 'rxjs';
 })
 
 // Export the Class
-export class UserDetailDialogComponent implements OnInit, OnDestroy {
+export class UserDetailDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
   apiBaseUrl = `${environment.baseUrl}/api/users`;
-  user: any;
+  user: User;
   id: string;
-  form: FormGroup;
   title: string;
 
-  getSubscription: Subscription;
-  createSubscription: Subscription;
+  isValid: boolean;
 
   constructor(
     private http: HttpClient,
     private dialogRef: MatDialogRef<UserDetailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder) {
-      this.initForm();
+    @Inject(MAT_DIALOG_DATA) public data: any) {
 
       if (data && data.id) {
         this.title = 'Edit user';
         this.id = data.id;
-        this.getSubscription = this.http.get(`${this.apiBaseUrl}/${this.id}`).subscribe(
-          res => {
-            this.user = res;
-            this.populateform();
-            console.log(this.user);
-          },
-          err => {
-            console.log(err);
-          },
-          () => {
-            console.log('complete');
-          }
-        );
+        this.http.get(`${this.apiBaseUrl}/${this.id}`)
+        .pipe(
+          map((res: any) => {
+            return this.mapUser(res);
+          })
+        ).subscribe((u) => {
+          console.log(u);
+          this.user = u;
+        }, (err) => {
+          console.log('user-detail-dialog', err);
+        });
     } else {
       this.id = null;
+      this.user = new User();
       this.title = 'Create user';
     }
   }
 
   ngOnInit() {}
-
-  // Destroy when duplicates are found
-  ngOnDestroy(): void {
-    if (this.createSubscription) {
-      this.createSubscription.unsubscribe();
-    }
-    if (this.getSubscription) {
-      this.getSubscription.unsubscribe();
-    }
-  }
 
   // Save details of the user
   saveUser() {
@@ -90,22 +77,23 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     }
 
   }
- 
+
   // Update User
   updateUser() {
-    if (this.form.valid) {
+    if (this.isValid) {
 
-      const body: any = this.getFormData();
-      body._id = this.id;
-      this.createSubscription = this.http.put(`${this.apiBaseUrl}/${this.id}`, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
+      this.user.id = this.id;
+      console.log(this.user);
+      this.http.put(`${this.apiBaseUrl}/${this.id}`, this.user)
+      .pipe(
+        map((result: any) => {
+            return this.mapUser(result);
+          }
+        )
+      ).subscribe((u) => {
+        this.dialogRef.close(u);
       }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
+        console.log('user-detail-dialog / updateUser', err);
       });
     }
   }
@@ -113,52 +101,21 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
   // Create user details and post form data
   createUser() {
 
-    if (this.form.valid) {
-
-      const body = this.getFormData();
-      this.createSubscription = this.http.post(this.apiBaseUrl, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
+    if (this.isValid) {
+      console.log(this.user);
+      this.http.post(this.apiBaseUrl, this.user)
+      .pipe(
+        map((result: any) => {
+            return this.mapUser(result);
+          }
+        )
+      ).subscribe((u) => {
+        this.dialogRef.close(u);
       }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
+        console.log('user-detail-dialog / createUser', err);
       });
     }
 
-  }
-
-  // getFormData, include details of users
-  private getFormData() {
-    return {
-      username: this.form.controls.username.value,
-      password: this.form.controls.password.value,
-      lastName: this.form.controls.lastName.value,
-      firstName: this.form.controls.firstName.value,
-      phoneNumber: this.form.controls.phoneNumber.value,
-      emailAddress: this.form.controls.emailAddress.value,
-      addressLine1: this.form.controls.addressLine1.value,
-      addressLine2: this.form.controls.addressLine2.value,
-      city: this.form.controls.city.value,
-      state: this.form.controls.state.value,
-      postalCode: this.form.controls.postalCode.value
-    };
-  }
-
-  populateform() {
-    this.form.controls.username.setValue(this.user.username);
-    this.form.controls.password.setValue(this.user.password);
-    this.form.controls.lastName.setValue(this.user.lastName ? this.user.lastName : '');
-    this.form.controls.firstName.setValue(this.user.firstName ? this.user.firstName : '');
-    this.form.controls.phoneNumber.setValue(this.user.phoneNumber ? this.user.phoneNumber : '');
-    this.form.controls.emailAddress.setValue(this.user.emailAddress ? this.user.emailAddress : '');
-    this.form.controls.addressLine1.setValue(this.user.addressLine1 ? this.user.addressLine1 : '');
-    this.form.controls.addressLine2.setValue(this.user.addressLine2 ? this.user.addressLine2 : '');
-    this.form.controls.city.setValue(this.user.city ? this.user.city : '');
-    this.form.controls.state.setValue(this.user.state ? this.user.state : '');
-    this.form.controls.postalCode.setValue(this.user.postalCode ? this.user.postalCode : '');
   }
 
   // cancel
@@ -166,30 +123,26 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close(null);
   }
 
-
-  initForm(): void {
-    this.form = this.fb.group({
-      username: [null, Validators.compose([Validators.required])],
-      password: [
-        null,
-        Validators.compose([
-          Validators.required,
-          // https://stackoverflow.com/questions/52850017/how-to-create-custom-lowercase-validator-in-angular-6
-          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-        ])
-      ],
-      firstName: [null],
-      lastName: [null],
-      emailAddress: [null],
-      phoneNumber: [null],
-      addressLine1: [null],
-      addressLine2: [null],
-      city: [null],
-      state: [null],
-      postalCode: [null]
-    });
+  private setValid(isFormValid: boolean) {
+    this.isValid = isFormValid;
   }
+
+  private mapUser(result: any): User {
+    const user = new User();
+    user.id = result._id;
+    user.username = result.username;
+    user.password = result.password;
+    user.firstName = result.firstName;
+    user.lastName = result.lastName;
+    user.phoneNumber = result.phoneNumber;
+    user.emailAddress = result.emailAddress;
+    user.addressLine1 = result.addressLine1;
+    user.addressLine2 = result.addressLine2;
+    user.city = result.city;
+    user.state = result.state;
+    user.postalCode = result.postalCode;
+    return user;
+  }
+
 }
-
-
 // End Program
