@@ -114,7 +114,70 @@ router.post('/signin', (request, response, next) => {
 ; Required: username, password
 ; Defaulted: date_created: new Date(), role: standard, isDisabled: false
 */
-router.post('/signin/register', createUserFunction);
+router.post('/register', createUserFunction);
+
+/*
+; Params: none
+; Response: {_id: string, username: string, password: string ...}
+; Description: update the password of the user
+*/
+router.put('/users/:username/reset-password', (request, response) => {
+  // Declare the username and get the value off the url if it exists
+  var username = request.params && request.params.username ? request.params.username : null;
+
+  // if the username was not defined then return a bad request response
+  if (!username) {
+    // set the status code to 400, bad request and send a message
+    response.status(400).send('Request is invalid or missing the username.');
+  } else {
+    if (!request.body.password) {
+      response.status(400).send('Request is missing the new password.');
+    } else {
+      // Using the findOne method of the user model search for a matching user do not return a disabled user
+      User.findOne({ 'username': username, isDisabled: false }, (err, res) => {
+        // if there is an error
+        if (err) {
+          // log the error to the console
+          console.log('An error occurred finding the user', err);
+          // return an http status code 500, server error and the error
+          response.status(500).send(err);
+        } else {
+          // if a matching user is not found res will be null
+          if (!res) {
+            // set the status code to 404, not found and return a message
+            response.status(404).send('Invalid user, not found.');
+          } else {
+
+            // encrypt the users password
+            if (request.body.password) {
+              res.password = encryption.encryptValue(request.body.password);
+            }
+
+            // set the update date
+            res.date_modified = new Date();
+
+            // save the user
+            res.save(null, (err, doc) => {
+              // if there is an error
+              if (err) {
+                // log the error to the console
+                console.log('An error occurred updating users password', err);
+                // set the status code to 400, bad request and send the error message
+                response.status(400).send(err.message);
+              } else {
+                // set the status code to 200, OK and return the updated user
+                response.status(200).send(doc.toJSON());
+              }
+            });
+          }
+        }
+      });
+    }
+
+
+
+  }
+});
 
 // export the router
 module.exports = router;
