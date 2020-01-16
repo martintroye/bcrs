@@ -41,8 +41,8 @@
 }</con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="401 - Invalid request" id="573ed2a2-fd0d-4ede-84ee-b68b0518a0ce" method="POST"><con:settings/><con:parameters/><con:request name="Request 1" id="e15476f6-0017-4670-b6e6-e61b1ea82a5f" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
   
   "password":"TheHu1K"
-}</con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="Register" path="register" id="26e9b97c-db47-475d-801f-732a3999e8d2"><con:settings/><con:parameters/><con:method name="201" id="3b2632a2-b314-4da2-b490-dcce864b39f2" method="POST"><con:settings/><con:parameters/><con:request name="Request 1" id="5ddcc2f5-20b5-46fa-aaed-5b360a641b6a" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
- "username": "jquick",
+}</con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="Register" path="register" id="26e9b97c-db47-475d-801f-732a3999e8d2"><con:settings/><con:parameters/><con:method name="201" id="3b2632a2-b314-4da2-b490-dcce864b39f2" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>201</con:status><con:params/><con:element xmlns:reg="http://localhost/api/sessions/register">reg:Response</con:element></con:representation><con:request name="Request 1" id="5ddcc2f5-20b5-46fa-aaed-5b360a641b6a" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
+ "username": "testuser4",
  "password": "Passw0rd",
  "questions": [
  	{ 
@@ -60,7 +60,26 @@
  ]
 	
 }
-</con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="users" path="users/mcontrary/reset-password" id="cff24724-1fbc-4322-a19f-1901b6a5c82e"><con:settings/><con:parameters/><con:method name="PUT" id="53fd6624-1280-4142-85d5-876a28f3a9ab" method="PUT"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html; charset=utf-8</con:mediaType><con:status>404</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:res="http://localhost/api/sessions/users/5e1e85172d02963b540027a3/reset_password">res:Response</con:element></con:representation><con:request name="Request 1" id="69af3ace-6019-411d-96b0-0a64345b8c23" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
+</con:request><con:originalUri>http://localhost/api/sessions/register</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="400 Duplicate user" id="07390a58-4189-4e81-b6a0-ad39d180b16a" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>text/html; charset=utf-8</con:mediaType><con:status>400</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>400</con:status><con:params/></con:representation><con:request name="Request 1" id="a4fbf329-b635-4c6f-aea9-f38efa415eed" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
+ "username": "jnimble",
+ "password": "Passw0rd",
+ "questions": [
+ 	{ 
+ 		"id": "5e153ccd9f256226ecfa2c88",
+ 		"answer": "Bel Ridge Dr"
+ 	},
+ 	{
+ 		"id": "5e153d059f256226ecfa2c8a",
+ 		"answer": "Buffy"
+ 	},
+ 	{
+ 		"id":"5e153d729f256226ecfa2c90",
+ 		"answer":"Santa Clara"
+ 	} 	
+ ]
+	
+}
+</con:request><con:originalUri>http://localhost/api/sessions/register</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="users" path="users/mcontrary/reset-password" id="cff24724-1fbc-4322-a19f-1901b6a5c82e"><con:settings/><con:parameters/><con:method name="PUT" id="53fd6624-1280-4142-85d5-876a28f3a9ab" method="PUT"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html; charset=utf-8</con:mediaType><con:status>404</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:res="http://localhost/api/sessions/users/5e1e85172d02963b540027a3/reset_password">res:Response</con:element></con:representation><con:request name="Request 1" id="69af3ace-6019-411d-96b0-0a64345b8c23" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:3000</con:endpoint><con:request>{
 	"password": "Passw0rd1"
 }
 </con:request><con:originalUri>http://localhost/api/sessions/users/5e1e85172d02963b540027a3/reset_password</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:resource></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
