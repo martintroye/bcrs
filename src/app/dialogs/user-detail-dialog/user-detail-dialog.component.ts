@@ -123,7 +123,7 @@ export class UserDetailDialogComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
-  private setValid(isFormValid: boolean) {
+  setValid(isFormValid: boolean) {
     this.isValid = isFormValid;
   }
 

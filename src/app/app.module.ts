@@ -30,7 +30,9 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatMenuModule,
-  MatDialogModule
+  MatDialogModule,
+  MatHorizontalStepper,
+  MatStepperModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -85,6 +87,7 @@ import { UserFormComponent } from './dialogs/shared/user-form/user-form.componen
     MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
+    MatStepperModule
   ],
   providers: [
     SessionGuard,

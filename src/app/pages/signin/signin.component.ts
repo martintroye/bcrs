@@ -14,6 +14,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material';
+import { registerLocaleData } from '@angular/common';
+import { UserRegistrationDialogComponent } from 'src/app/dialogs/user-registration-dialog/user-registration-dialog.component';
 
 @Component({
   selector: 'app-signin',
@@ -25,10 +28,11 @@ export class SigninComponent implements OnInit {
   errorMessage: string;
 
   constructor(
-    private router: Router, 
-    private cookieService: CookieService, 
-    private fb: FormBuilder, 
-    private http: HttpClient) { }
+    private router: Router,
+    private cookieService: CookieService,
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -37,7 +41,7 @@ export class SigninComponent implements OnInit {
     });
   }
   /**
-   * Signin function.
+   * SignIn function.
    * Tests signin calling API from server.
    */
   signin() {
@@ -66,6 +70,25 @@ export class SigninComponent implements OnInit {
         this.errorMessage = err.error.message;
       });
   }
+
+  register() {
+    // declare and create the material dialog
+    const dialogRef = this.dialog.open(UserRegistrationDialogComponent, {
+      width: '60%', // options to control height and width of dialog
+      disableClose: true, // the user cannot click in the overlay to close
+      // pass the title and message to the dialog
+      data: { id: null }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // the user was updated need to replace them in the array
+      }
+      // else the canceled nothing to do here
+    });
+  }
 }
+
+
 
 // end program

@@ -33,11 +33,11 @@ export class UserFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.initForm();
+
+    console.log('user-form.component', this.title);
   }
 
-  ngOnInit() {
-    console.log(this._user);
-  }
+  ngOnInit() { }
 
   /*
   ; Params: none
