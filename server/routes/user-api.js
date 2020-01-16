@@ -2,8 +2,8 @@
 ============================================
 ; Title: user-api
 ; Author: Troy Martin
-; Date: 01/08/2019
-; Modified By: Reva Baumann
+; Date: 01/16/2019
+; Modified By: Adam Donner
 ; Description: User API
 ;===========================================
 */
