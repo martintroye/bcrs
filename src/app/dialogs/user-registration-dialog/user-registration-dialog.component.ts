@@ -2,7 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,25 +11,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserRegistrationDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
-  apiBaseUrl = `${environment.baseUrl}/api/users`;
+  apiBaseUrl = `${environment.baseUrl}/api`;
   user: User = new User();
   isLinear = true;
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
   accountForm: FormGroup;
+  username: string;
 
   constructor(
     private http: HttpClient,
     private dialogRef: MatDialogRef<UserRegistrationDialogComponent>,
-    private fb: FormBuilder) {
-     }
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.personalInfoForm = this.fb.group({
       firstName: [null],
       lastName: [null],
       emailAddress: [null],
-      phoneNumber: [null],
+      phoneNumber: [null]
     });
 
     this.personalInfoForm.valueChanges.subscribe(() => {
@@ -68,14 +70,50 @@ export class UserRegistrationDialogComponent implements OnInit {
     });
 
     this.accountForm.valueChanges.subscribe(() => {
-      this.user.username = this.personalInfoForm.controls.username.value;
-      this.user.password = this.personalInfoForm.controls.password.value;
+      this.user.username = this.accountForm.controls.username.value;
+      this.user.password = this.accountForm.controls.password.value;
     });
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
-  signIn() { }
+  signIn() {
+    // todo also validate that we have three security questions for the user
+    if (this.accountForm.valid) {
+      this.http
+        .post(`${this.apiBaseUrl}/sessions/register`, this.user)
+        .subscribe(
+          (res: any) => {
+            // if we get a result and the result has a mongo id then success
+            if (res
+              && res._id) {
+              console.log('user-registration-dialog / signIn', 'success', res);
+              this.username = res.username;
+            }
+          },
+          (err) => {
+            console.log('user-registration-dialog / signIn', 'error', err);
+            this.displayMessage('There was an error creating your account.');
+          },
+          () => {
+            if (this.username) {
+              this.dialogRef.close(this.username);
+            }
+          }
+        );
+    }
+  }
+
+  /*
+  ; Params: message
+  ; Response: none
+  ; Description: display the snackbar message
+  */
+  private displayMessage(message: string) {
+    this.snackBar.open(message, 'OK', {
+      duration: 10000
+    });
+  }
 }

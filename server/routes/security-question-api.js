@@ -190,7 +190,7 @@ router.post('/find-by-ids', function(req, res, next) {
   }).exec(function (err, securityQuestions) {
     if (err) {
       console.log(err);
-      return.next(err);
+      return next(err);
     } else {
       console.log(securityQuestions);
       res.json(securityQuestions);

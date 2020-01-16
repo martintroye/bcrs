@@ -83,8 +83,11 @@ export class SigninComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // the user was updated need to replace them in the array
+        this.cookieService.set('sessionuser', result, 1);
+        this.router.navigate(['/']);
       }
-      // else the canceled nothing to do here
+
+      // else they canceled nothing to do here
     });
   }
 }

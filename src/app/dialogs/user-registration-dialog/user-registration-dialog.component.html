@@ -1,10 +1,10 @@
 <!--
 ============================================
 ; Title: user-detail-dialog.component
-; Author: Reva Baumann
+; Author: Troy Martin
 ; Date: 01/09/2020
 ; Modified By: Troy Martin
-; Description: User config CreateUser
+; Description: User enrollment
 ;===========================================
 -->
 <div fxLayout="column">
@@ -13,7 +13,7 @@
       <form [formGroup]="accountForm">
         <ng-template matStepLabel>Account</ng-template>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="text"
               matInput
@@ -22,7 +22,7 @@
               autofocus
             />
           </mat-form-field>
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="password"
               matInput
@@ -35,17 +35,18 @@
             >
           </mat-form-field>
         </div>
-        <div fxLayoutAlign="end">
-          <button mat-button (click)="cancel()">Cancel</button>
-          <button mat-button matStepperNext color="primary">Next</button>
+        <div fxLayoutAlign="end" fxLayoutGap="10px">
+          <button mat-raised-button (click)="cancel()">Cancel</button>
+          <button mat-raised-button matStepperNext [disabled]="!accountForm.valid">Next</button>
         </div>
       </form>
     </mat-step>
+
     <mat-step [stepControl]="personalInfoForm">
       <form [formGroup]="personalInfoForm">
         <ng-template matStepLabel>Personal information</ng-template>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="text"
               matInput
@@ -55,7 +56,7 @@
             />
           </mat-form-field>
 
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="text"
               matInput
@@ -66,7 +67,7 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="text"
               matInput
@@ -75,7 +76,7 @@
             />
           </mat-form-field>
 
-          <mat-form-field style="width:50%">
+          <mat-form-field fxFlex="50%">
             <input
               type="text"
               matInput
@@ -84,43 +85,48 @@
             />
           </mat-form-field>
         </div>
-        <div fxLayoutAlign="end">
-          <button mat-button (click)="cancel()">Cancel</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext color="primary">Next</button>
+        <div fxLayoutAlign="end" fxLayoutGap="10px">
+          <button mat-raised-button (click)="cancel()">Cancel</button>
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
+
     <mat-step [stepControl]="addressForm">
       <form [formGroup]="addressForm">
         <ng-template matStepLabel>Address</ng-template>
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            formControlName="addressLine1"
-            placeholder="Address Line 1"
-            autofocus
-          />
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxFlexFill>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                formControlName="addressLine1"
+                placeholder="Address Line 1"
+                autofocus
+              />
+            </mat-form-field>
 
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            formControlName="addressLine2"
-            placeholder="Address Line 2"
-          />
-        </mat-form-field>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                formControlName="addressLine2"
+                placeholder="Address Line 2"
+              />
+            </mat-form-field>
 
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            formControlName="city"
-            placeholder="City"
-          />
-        </mat-form-field>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                formControlName="city"
+                placeholder="City"
+              />
+            </mat-form-field>
+          </div>
+        </div>
 
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
           <mat-form-field style="width:50%">
@@ -141,21 +147,30 @@
             />
           </mat-form-field>
         </div>
-        <div fxLayoutAlign="end">
-          <button mat-button (click)="cancel()">Cancel</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext color="primary">Next</button>
+
+        <div fxLayoutAlign="end" fxLayoutGap="10px">
+          <button mat-raised-button (click)="cancel()">Cancel</button>
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
-
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      Congratulations you are done.
-      <div fxLayoutAlign="end">
-        <button mat-button (click)="cancel()">Cancel</button>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="signIn()" color="primary">Sign in</button>
+      <ng-template matStepLabel>Security questions</ng-template>
+      This is the form for security questions
+      <div fxLayoutAlign="end" fxLayoutGap="10px">
+        <button mat-raised-button (click)="cancel()">Cancel</button>
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Sign in</ng-template>
+      Click the Sign in button to setup your account and sign in.
+      <div fxLayoutAlign="end" fxLayoutGap="10px">
+        <button mat-raised-button (click)="cancel()">Cancel</button>
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button (click)="signIn()">Sign in</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
