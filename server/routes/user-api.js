@@ -140,6 +140,23 @@ router.put('/:id', function (req, res, next) {
   })
 })
 
+/*
+; Params: id: user id
+; Response: Selected Security Questions
+; Description: FindSelectedSecurityQuestions - returns an array of security questions based on user
+*/
+router.get('/:username/security-question', (request, response, next) => {
+  User.findOne({'username': request.params.username}), (err, user) => {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(user);
+      res.json(user.securityQuestions);
+    }
+  });
+});
+
 // export the router
 module.exports = router;
 // end program
