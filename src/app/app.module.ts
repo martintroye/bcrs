@@ -48,6 +48,7 @@ import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-detail-dialog.component';
 import { UserRegistrationDialogComponent } from './dialogs/user-registration-dialog/user-registration-dialog.component';
 import { UserFormComponent } from './dialogs/shared/user-form/user-form.component';
+import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { UserFormComponent } from './dialogs/shared/user-form/user-form.componen
     UserListComponent,
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
-    UserFormComponent
+    UserFormComponent,
+    ForgotPasswordDialogComponent
   ],
   imports: [
     BrowserModule,
