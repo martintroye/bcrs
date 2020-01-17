@@ -47,4 +47,9 @@ export const AppRoutes: Routes = [
       }
     ]
   }
+  ,
+  {
+    path: '**',
+    redirectTo: 'session/not-found'
+  }
 ];
