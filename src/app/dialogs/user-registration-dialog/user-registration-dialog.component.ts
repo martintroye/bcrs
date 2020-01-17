@@ -1,17 +1,32 @@
+/*
+============================================
+; Title: user-registration-dialog.component
+; Author: Troy Martin
+; Date: 01/16/2019
+; Modified By: Troy Martin
+; Description: Enrollment
+;===========================================
+*/
+
+// imports from angular and our custom components
 import { Component, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
+// declare the component
 @Component({
   templateUrl: './user-registration-dialog.component.html',
   styleUrls: ['./user-registration-dialog.component.css']
 })
+// declare and export the class
 export class UserRegistrationDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
   apiBaseUrl = `${environment.baseUrl}/api`;
+
+  // declare the variables
   user: User = new User();
   isLinear = true;
   personalInfoForm: FormGroup;
@@ -19,6 +34,11 @@ export class UserRegistrationDialogComponent implements OnInit {
   accountForm: FormGroup;
   username: string;
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: default constructor
+  */
   constructor(
     private http: HttpClient,
     private dialogRef: MatDialogRef<UserRegistrationDialogComponent>,
@@ -26,7 +46,13 @@ export class UserRegistrationDialogComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: initialize the component
+  */
   ngOnInit() {
+    // declare the personal information form
     this.personalInfoForm = this.fb.group({
       firstName: [null],
       lastName: [null],
@@ -34,6 +60,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       phoneNumber: [null]
     });
 
+    // subscribe to form changes and populate the user variable for the component
     this.personalInfoForm.valueChanges.subscribe(() => {
       this.user.firstName = this.personalInfoForm.controls.firstName.value;
       this.user.lastName = this.personalInfoForm.controls.firstName.value;
@@ -41,6 +68,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       this.user.emailAddress = this.personalInfoForm.controls.firstName.value;
     });
 
+    // declare the address form
     this.addressForm = this.fb.group({
       addressLine1: [null],
       addressLine2: [null],
@@ -49,6 +77,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       postalCode: [null]
     });
 
+    // subscribe to address form changes and populate the user on the component
     this.addressForm.valueChanges.subscribe(() => {
       this.user.addressLine1 = this.addressForm.controls.addressLine1.value;
       this.user.addressLine2 = this.addressForm.controls.addressLine2.value;
@@ -57,28 +86,42 @@ export class UserRegistrationDialogComponent implements OnInit {
       this.user.postalCode = this.addressForm.controls.postalCode.value;
     });
 
+    // declare the account form, set validators for the password
     this.accountForm = this.fb.group({
       username: [null, Validators.compose([Validators.required])],
       password: [
         null,
         Validators.compose([
           Validators.required,
-          // https://stackoverflow.com/questions/52850017/how-to-create-custom-lowercase-validator-in-angular-6
-          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+          Validators.minLength(8),
+          Validators.pattern(/[a-z]/),
+          Validators.pattern(/[A-Z]/),
+          Validators.pattern(/[0-9]/)
         ])
       ]
     });
 
+    // subscribe to form changes and populate the user on the component
     this.accountForm.valueChanges.subscribe(() => {
       this.user.username = this.accountForm.controls.username.value;
       this.user.password = this.accountForm.controls.password.value;
     });
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: close the dialog box without saving
+  */
   cancel() {
     this.dialogRef.close(null);
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Complete the registration process and sign in
+  */
   signIn() {
     // todo also validate that we have three security questions for the user
     if (this.accountForm.valid) {
@@ -89,15 +132,18 @@ export class UserRegistrationDialogComponent implements OnInit {
             // if we get a result and the result has a mongo id then success
             if (res
               && res._id) {
+              // log the response
               console.log('user-registration-dialog / signIn', 'success', res);
               this.username = res.username;
             }
           },
           (err) => {
+            // log the error and display a message to the user
             console.log('user-registration-dialog / signIn', 'error', err);
             this.displayMessage('There was an error creating your account.');
           },
           () => {
+            // on complete if we succeeded in creating the user close the dialog
             if (this.username) {
               this.dialogRef.close(this.username);
             }
@@ -112,6 +158,7 @@ export class UserRegistrationDialogComponent implements OnInit {
   ; Description: display the snackbar message
   */
   private displayMessage(message: string) {
+    // display the snackbar message for 10sec
     this.snackBar.open(message, 'OK', {
       duration: 10000
     });

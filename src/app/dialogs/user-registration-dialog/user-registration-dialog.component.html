@@ -8,6 +8,7 @@
 ;===========================================
 -->
 <div fxLayout="column">
+  <!-- include the stepper liner requires form to be valid before continuing -->
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="accountForm">
       <form [formGroup]="accountForm">
@@ -29,13 +30,11 @@
               formControlName="password"
               placeholder="Password"
             />
-            <mat-error *ngIf="accountForm.controls['password'].hasError('pattern')"
-              >Requires one uppercase, one lowercase, and one number, and min 8
-              characters.</mat-error
-            >
+            <mat-error *ngIf="accountForm.controls['password'].hasError('minlength')">Minimum of 8 characters</mat-error>
+            <mat-error *ngIf="accountForm.controls['password'].hasError('pattern')">Requires one uppercase, one lowercase, and one number.</mat-error>
           </mat-form-field>
         </div>
-        <div fxLayoutAlign="end" fxLayoutGap="10px">
+        <div fxLayoutAlign="end" fxLayoutGap="10px" style="padding-top:30px;">
           <button mat-raised-button (click)="cancel()">Cancel</button>
           <button mat-raised-button matStepperNext [disabled]="!accountForm.valid">Next</button>
         </div>
