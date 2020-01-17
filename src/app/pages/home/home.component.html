@@ -3,15 +3,39 @@
 ; Title: home.component
 ; Author: Richard Krasso
 ; Date: 01/06/2020
-; Modified By:
+; Modified By: Troy Martin
 ; Description: Home Component
 ;===========================================
 -->
-<div fxLayout="column" class="main-welcome">
-  <h1 class="title">
-    Welcome to WEB 450's - Bob's Computer Repair Shop <br />
-    <span class="subtitle">
-      Pay close attention to the requirements, double and triple check the files for code attribution, and do not wait unitl the last minute to begin working on each item.
-    </span>
-  </h1>
+
+<div fxLayout="column" fxLayoutAlign="center space-around" fxFlex="1 1 50%">
+  <mat-card>
+    <mat-card-header fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex>
+          <h3>Welcome to Bob's Computer Repair Shop</h3>
+        </div>
+        <div fxFlex>
+          <button mat-raised-button type="button" class="font" style="float: right;" color="primary">
+            <mat-icon>add</mat-icon>Create an order
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutAlign="start">
+      <div fxFlex>
+        <p>Open invoices: 100</p>
+      </div>
+      <div fxFlex>
+        <p>Password resets: 5</p>
+      </div>
+      <div fxFlex>
+        <p>Spyware removals: 20</p>
+      </div>
+      <div fxFlex>
+        <p>Keyboard cleanings: 4</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>

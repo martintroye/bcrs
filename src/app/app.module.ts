@@ -33,7 +33,8 @@ import {
   MatDialogModule,
   MatHorizontalStepper,
   MatStepperModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -95,7 +96,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     MatMenuModule,
     MatDialogModule,
     MatStepperModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule
   ],
   providers: [
     SessionGuard,
