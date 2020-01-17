@@ -15,6 +15,7 @@ import {SigninComponent} from './pages/signin/signin.component';
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
 
 export const AppRoutes: Routes = [
   {
@@ -44,10 +45,13 @@ export const AppRoutes: Routes = [
       {
         path: 'signin',
         component: SigninComponent
+      },
+      {
+        path: '500',
+        component: ServerErrorComponent
       }
     ]
-  }
-  ,
+  },
   {
     path: '**',
     redirectTo: 'session/not-found'
