@@ -191,17 +191,17 @@ router.put('/users/:username/reset-password', (request, response) => {
    User.findOne({'username': req.params.username}, function (err, user) {
      if (err) {
        console.log(err);
-       return.next(err);
+       return next(err);
      } else {
        console.log(user);
 
        let answer1IsValid = answerToSecurityQuestion1 === user.securityQuestions[0].answer;
        console.log(answer1IsValid);
 
-       let answer1IsValid = answerToSecurityQuestion2 === user.securityQuestions[1].answer;
+       let answer2IsValid = answerToSecurityQuestion2 === user.securityQuestions[1].answer;
        console.log(answer2IsValid);
 
-       let answer1IsValid = answerToSecurityQuestion3 === user.securityQuestions[2].answer;
+       let answer3IsValid = answerToSecurityQuestion3 === user.securityQuestions[2].answer;
        console.log(answer3IsValid);
 
        if (answer1IsValid && answer2IsValid && answer3IsValid) {
