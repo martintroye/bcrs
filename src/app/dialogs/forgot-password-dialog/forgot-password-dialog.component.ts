@@ -14,6 +14,11 @@ userNameForm: FormGroup;
 securityQuestionForm: FormGroup;
 newPasswordForm: FormGroup;
 selectedSecurityQuestions: any;
+question1: string;
+question2: string;
+question3: string;
+errorMessage: string;
+
 
 
 /*
@@ -43,16 +48,32 @@ validUserName() {
   const username = this.userNameForm.controls.username.value;
 
   this.http.get('/api/session/verify/users/' + username).subscribe( res => {
+    //if true pull selected security questions.
     if (res) {
       this.http.get('/api/users/' + username + 'security-questions').subscribe(res => {
         this.selectedSecurityQuestions = res; 
-        /**
-         * Should the remainder of the code for validating password go here?
-         */
-      })
+      },  err => {
+        console.log(err)
+      }, () => {
+        // find selected security questions by id and populate from array
+        this.http.post('/api/security-questions/find-by-ids', {
+          question1: this.selectedSecurityQuestions[0].questionId,
+          question2: this.selectedSecurityQuestions[1].questionId,
+          question3: this.selectedSecurityQuestions[2].questionId,
+        }).subscribe(res => {
+          this.question1 = res[0].text;
+          this.question2 = res[1].text;
+          this.question3 = res[2].text;
+
+          console.log(this.question1);
+          console.log(this.question2);
+          console.log(this.question3);
+        });
+      });
     }
   }, err => {
     console.log(err);
+    this.errorMessage = "Invalid username."
   })
 }
 
