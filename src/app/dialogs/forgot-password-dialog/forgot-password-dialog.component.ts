@@ -10,6 +10,7 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 })
 export class ForgotPasswordDialogComponent implements OnInit {
   // declare the variables
+isLinear = true;
 userNameForm: FormGroup;
 securityQuestionForm: FormGroup;
 newPasswordForm: FormGroup;
@@ -36,6 +37,9 @@ constructor(
 
 
   ngOnInit() {
+    this.userNameForm = this.fb.group({
+      username: [null]
+    });
     
   }
 
@@ -47,9 +51,10 @@ constructor(
 validUserName() {
   const username = this.userNameForm.controls.username.value;
 
-  this.http.get('/api/session/verify/users/' + username).subscribe( res => {
+  this.http.get('/api/sessions/verify/users/' + username).subscribe( res => {
     //if true pull selected security questions.
     if (res) {
+      console.log(res);
       this.http.get('/api/users/' + username + 'security-questions').subscribe(res => {
         this.selectedSecurityQuestions = res; 
       },  err => {
