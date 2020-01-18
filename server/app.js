@@ -24,6 +24,7 @@ const securityQuestionRouter = require('./routes/security-question-api');
 const userRouter = require('./routes/user-api');
 const sessionRouter = require('./routes/session-api');
 const config = require('./config');
+const cors = require('cors');
 
 /**
  * App configurations
@@ -36,12 +37,7 @@ app.use(express.static(path.join(__dirname, '../dist/bcrs')));
 app.use('/', express.static(path.join(__dirname, '../dist/bcrs')));
 
 // allow cross origin requests to our api
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "*")
-  next();
-});
+app.use(cors());
 
 /**
  * Variables

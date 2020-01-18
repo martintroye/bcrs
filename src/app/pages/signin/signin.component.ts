@@ -14,7 +14,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import { UserRegistrationDialogComponent } from 'src/app/dialogs/user-registration-dialog/user-registration-dialog.component';
 import { ForgotPasswordDialogComponent } from 'src/app/dialogs/forgot-password-dialog/forgot-password-dialog.component';
@@ -33,7 +33,8 @@ export class SigninComponent implements OnInit {
     private cookieService: CookieService,
     private fb: FormBuilder,
     private http: HttpClient,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -49,7 +50,7 @@ export class SigninComponent implements OnInit {
     /**
      * Assign variables with values collected from form.
      */
-    const username  = this.form.controls.username.value;
+    const username = this.form.controls.username.value;
     const password = this.form.controls.password.value;
 
     // Call API
@@ -57,19 +58,19 @@ export class SigninComponent implements OnInit {
       username,
       password
     }).subscribe(res => {
-        if (res['isAuthenticated']) {
-          /**
-           * Signing to application
-           */
-          this.cookieService.set('sessionuser', username, 1);
-          this.router.navigate(['/']);
-        } else { // else display error message
-          this.errorMessage = res['message'];
-        }
-      }, (err) => {
-        console.log(err);
-        this.errorMessage = err.error.message;
-      });
+      if (res['isAuthenticated']) {
+        /**
+         * Signing to application
+         */
+        this.cookieService.set('sessionuser', username, 1);
+        this.router.navigate(['/']);
+      } else { // else display error message
+        this.errorMessage = res['message'];
+      }
+    }, (err) => {
+      console.log(err);
+      this.errorMessage = err.error.message;
+    });
   }
 
   register() {
@@ -103,16 +104,22 @@ export class SigninComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // the user was updated need to replace them in the array
-        this.cookieService.set('sessionuser', result, 1);
-        this.router.navigate(['/']);
+        this.displayMessage('Your password was updated sigin with your username and new password.')
       }
-
       // else they canceled nothing to do here
     });
   }
+
+  /*
+  ; Params: message
+  ; Response: none
+  ; Description: display the snackbar message
+  */
+  private displayMessage(message: string) {
+    // display the snackbar message for 10sec
+    this.snackBar.open(message, 'OK', {
+      duration: 10000
+    });
+  }
 }
-
-
-
 // end program
