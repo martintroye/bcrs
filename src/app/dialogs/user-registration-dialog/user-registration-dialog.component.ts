@@ -56,16 +56,16 @@ export class UserRegistrationDialogComponent implements OnInit {
     this.personalInfoForm = this.fb.group({
       firstName: [null],
       lastName: [null],
-      emailAddress: [null],
+      email: [null],
       phoneNumber: [null]
     });
 
     // subscribe to form changes and populate the user variable for the component
     this.personalInfoForm.valueChanges.subscribe(() => {
       this.user.firstName = this.personalInfoForm.controls.firstName.value;
-      this.user.lastName = this.personalInfoForm.controls.firstName.value;
-      this.user.phoneNumber = this.personalInfoForm.controls.firstName.value;
-      this.user.emailAddress = this.personalInfoForm.controls.firstName.value;
+      this.user.lastName = this.personalInfoForm.controls.lastName.value;
+      this.user.phoneNumber = this.personalInfoForm.controls.phoneNumber.value;
+      this.user.email = this.personalInfoForm.controls.email.value;
     });
 
     // declare the address form

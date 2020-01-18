@@ -20,10 +20,6 @@ import { BaseLayoutComponent } from './shared/base-layout/base-layout.component'
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
 import {
   MatCardModule,
   MatPaginatorModule,
@@ -31,10 +27,13 @@ import {
   MatInputModule,
   MatMenuModule,
   MatDialogModule,
-  MatHorizontalStepper,
   MatStepperModule,
   MatSnackBarModule,
-  MatChipsModule
+  MatChipsModule,
+  MatIconModule,
+  MatTableModule,
+  MatButtonModule,
+  MatToolbarModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -48,7 +47,6 @@ import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confi
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-detail-dialog.component';
 import { UserRegistrationDialogComponent } from './dialogs/user-registration-dialog/user-registration-dialog.component';
-import { UserFormComponent } from './dialogs/shared/user-form/user-form.component';
 import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -67,7 +65,6 @@ import { FooterComponent } from './shared/footer/footer.component';
     UserListComponent,
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
-    UserFormComponent,
     ForgotPasswordDialogComponent,
     ServerErrorComponent,
     FooterComponent
