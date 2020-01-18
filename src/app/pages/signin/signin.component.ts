@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import { UserRegistrationDialogComponent } from 'src/app/dialogs/user-registration-dialog/user-registration-dialog.component';
+import { ForgotPasswordDialogComponent } from 'src/app/dialogs/forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-signin',
@@ -74,6 +75,26 @@ export class SigninComponent implements OnInit {
   register() {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(UserRegistrationDialogComponent, {
+      width: '60%', // options to control height and width of dialog
+      disableClose: true, // the user cannot click in the overlay to close
+      // pass the title and message to the dialog
+      data: { id: null }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // the user was updated need to replace them in the array
+        this.cookieService.set('sessionuser', result, 1);
+        this.router.navigate(['/']);
+      }
+
+      // else they canceled nothing to do here
+    });
+  }
+
+  forgotPassword() {
+    // declare and create the material dialog
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
       width: '60%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the title and message to the dialog
