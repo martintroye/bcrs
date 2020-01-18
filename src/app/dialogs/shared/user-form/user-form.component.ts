@@ -90,7 +90,7 @@ export class UserFormComponent implements OnInit {
       ],
       firstName: [null],
       lastName: [null],
-      emailAddress: [null],
+      email: [null],
       phoneNumber: [null],
       addressLine1: [null],
       addressLine2: [null],
@@ -116,7 +116,7 @@ export class UserFormComponent implements OnInit {
     this._user.lastName = this.form.controls.lastName.value;
     this._user.firstName = this.form.controls.firstName.value;
     this._user.phoneNumber = this.form.controls.phoneNumber.value;
-    this._user.emailAddress = this.form.controls.emailAddress.value;
+    this._user.email = this.form.controls.email.value;
     this._user.addressLine1 = this.form.controls.addressLine1.value;
     this._user.addressLine2 = this.form.controls.addressLine2.value;
     this._user.city = this.form.controls.city.value;
@@ -164,8 +164,8 @@ export class UserFormComponent implements OnInit {
     this.form.controls.phoneNumber.setValue(
       this.getOptionalValue(this._user.phoneNumber)
     );
-    this.form.controls.emailAddress.setValue(
-      this.getOptionalValue(this._user.emailAddress)
+    this.form.controls.email.setValue(
+      this.getOptionalValue(this._user.email)
     );
     this.form.controls.addressLine1.setValue(
       this.getOptionalValue(this._user.addressLine1)
