@@ -180,17 +180,17 @@ router.put('/users/:username/reset-password', (request, response) => {
  * VerifyUser
  */
 
- router.get('/verify/users/:username'), (request, response, next) => {
-   User.findOne({'username': request.params.username}, (err, user) => {
-     if (err){
+ router.get('verify/users/:username', function(request, response, next) {
+   User.findOne({'username': request.params.username}, function(err, user) {
+     if (err) {
        console.log(err);
        return next(err);
      } else {
        console.log(user);
        response.json(user);
      }
-   })
- }
+   });
+ })
 
 /**
  * VerifySecurityQuestions
