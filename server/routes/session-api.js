@@ -177,6 +177,22 @@ router.put('/users/:username/reset-password', (request, response) => {
 });
 
 /**
+ * VerifyUser
+ */
+
+ router.get('verify/users/:username', function(req, res, next) {
+   User.findOne({'username': erq.params.username}, function(err, user) {
+     if (err) {
+       console.log(err);
+       return next(err);
+     } else {
+       console.log(user);
+       res.json(user);
+     }
+   })
+ })
+
+/**
  * VerifySecurityQuestions
  */
 
