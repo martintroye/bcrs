@@ -41,7 +41,7 @@ constructor(
 
 /**
  * Params: Username
- * Response: boolean
+ * Response: boolean, security questions for username.
  * description: Test if there is a valid username in the system.
  */
 validUserName() {
