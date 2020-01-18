@@ -113,13 +113,14 @@ router.put('/:id', function (req, res, next) {
       console.log(err);
       return next(err);
     } else {
+      console.log(req.body);
       console.log(user);
 
       user.set({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phoneNumber: req.body.phoneNumber,
-        emailAddress: req.body.emailAddress,
+        email: req.body.email,
         addressLine1: req.body.addressLine1,
         addressLine2: req.body.addressLine2,
         city: req.body.city,
