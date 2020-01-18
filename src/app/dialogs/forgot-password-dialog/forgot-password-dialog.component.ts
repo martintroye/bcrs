@@ -55,16 +55,17 @@ validUserName() {
     //if true pull selected security questions.
     if (res) {
       console.log(res);
-      this.http.get('/api/users/' + username + 'security-questions').subscribe(res => {
+      this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
         this.selectedSecurityQuestions = res; 
+        console.log(this.selectedSecurityQuestions)
       },  err => {
         console.log(err)
       }, () => {
         // find selected security questions by id and populate from array
         this.http.post('/api/security-questions/find-by-ids', {
-          question1: this.selectedSecurityQuestions[0].questionId,
-          question2: this.selectedSecurityQuestions[1].questionId,
-          question3: this.selectedSecurityQuestions[2].questionId,
+          question1: this.selectedSecurityQuestions[0].id,
+          question2: this.selectedSecurityQuestions[1].id,
+          question3: this.selectedSecurityQuestions[2].id,
         }).subscribe(res => {
           this.question1 = res[0].text;
           this.question2 = res[1].text;
@@ -75,11 +76,22 @@ validUserName() {
           console.log(this.question3);
         });
       });
+    } else {
+      this.errorMessage = "Invalid username."
     }
   }, err => {
     console.log(err);
-    this.errorMessage = "Invalid username."
   })
 }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: close the dialog box without saving
+  */
+ cancel() {
+  this.dialogRef.close(null);
+}
+
 
 }
