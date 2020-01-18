@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 // declare the component
 @Component({
@@ -44,7 +45,7 @@ export class UserRegistrationDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<UserRegistrationDialogComponent>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   /*
   ; Params: none
@@ -88,7 +89,7 @@ export class UserRegistrationDialogComponent implements OnInit {
 
     // declare the account form, set validators for the password
     this.accountForm = this.fb.group({
-      username: [null, Validators.compose([Validators.required])],
+      username: [null, [Validators.required], [this.availableUsernameValidator.bind(this)]],
       password: [
         null,
         Validators.compose([
@@ -106,6 +107,20 @@ export class UserRegistrationDialogComponent implements OnInit {
       this.user.username = this.accountForm.controls.username.value;
       this.user.password = this.accountForm.controls.password.value;
     });
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Async validator to test if user name is valid
+  */
+  availableUsernameValidator(control: FormControl) {
+    // get the user by user name
+    return this.http.get(this.apiBaseUrl + '/sessions/verify/users/' + control.value).pipe(map((u: any) => {
+      // validation statement
+      return u ? { usernameExists: true } : null;
+    }
+    ));
   }
 
   /*

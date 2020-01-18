@@ -23,6 +23,7 @@
               placeholder="Username"
               autofocus
             />
+            <mat-error *ngIf="accountForm.controls['username'].hasError('usernameExists')">The username is already in use.</mat-error>
           </mat-form-field>
           <mat-form-field fxFlex="50%" *ngIf="!id">
             <input

@@ -19,7 +19,7 @@ import {
 } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { map } from 'rxjs/operators';
@@ -34,7 +34,7 @@ import { MatSnackBar } from '@angular/material';
 // Export the Class
 export class UserDetailDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
-  apiBaseUrl = `${environment.baseUrl}/api/users`;
+  apiBaseUrl = `${environment.baseUrl}/api`;
   user: User;
   id: string;
   title: string;
@@ -88,7 +88,7 @@ export class UserDetailDialogComponent implements OnInit {
 
     // declare the account form, set validators for the password
     this.accountForm = this.fb.group({
-      username: [null, Validators.compose([Validators.required])],
+      username: [null, [Validators.required], [this.availableUsernameValidator.bind(this)]],
       password: [
         null,
         Validators.compose([
@@ -105,7 +105,7 @@ export class UserDetailDialogComponent implements OnInit {
       this.subscribeFormChanges();
     } else {
       // get the user and set them on the component
-      this.http.get(`${this.apiBaseUrl}/${this.id}`)
+      this.http.get(`${this.apiBaseUrl}/users/${this.id}`)
         .pipe(
           map((res: any) => {
             console.log(res);
@@ -121,6 +121,25 @@ export class UserDetailDialogComponent implements OnInit {
 
         });
     }
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Async validator to test if user name is valid
+  */
+  availableUsernameValidator(control: FormControl) {
+    let validate = false;
+    if ((this.id && control.value !== this.user.username)
+      || !this.id) {
+      validate = true;
+    }
+    // get the user by user name
+    return this.http.get(this.apiBaseUrl + '/sessions/verify/users/' + control.value).pipe(map((u: any) => {
+      // validation statement
+      return u && validate ? { usernameExists: true } : null;
+    }
+    ));
   }
 
   private unsubscribeFormChanges() {
@@ -171,7 +190,7 @@ export class UserDetailDialogComponent implements OnInit {
 
       this.user.id = this.id;
       console.log(this.user);
-      this.http.put(`${this.apiBaseUrl}/${this.id}`, this.user)
+      this.http.put(`${this.apiBaseUrl}/users/${this.id}`, this.user)
         .pipe(
           map((result: any) => {
             return this.mapUser(result);
@@ -190,7 +209,7 @@ export class UserDetailDialogComponent implements OnInit {
 
     if (this.accountForm.valid) {
       console.log(this.user);
-      this.http.post(this.apiBaseUrl, this.user)
+      this.http.post(`${this.apiBaseUrl}/users`, this.user)
         .pipe(
           map((result: any) => {
             return this.mapUser(result);
