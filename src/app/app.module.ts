@@ -33,7 +33,8 @@ import {
   MatDialogModule,
   MatHorizontalStepper,
   MatStepperModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule
 } from '@angular/material';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -49,6 +50,8 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
 import { UserRegistrationDialogComponent } from './dialogs/user-registration-dialog/user-registration-dialog.component';
 import { UserFormComponent } from './dialogs/shared/user-form/user-form.component';
 import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,9 @@ import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
     UserFormComponent,
-    ForgotPasswordDialogComponent
+    ForgotPasswordDialogComponent,
+    ServerErrorComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +96,8 @@ import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/
     MatMenuModule,
     MatDialogModule,
     MatStepperModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule
   ],
   providers: [
     SessionGuard,
