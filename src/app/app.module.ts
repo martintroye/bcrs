@@ -107,7 +107,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     SecurityQuestionEditDialogComponent,
     ConfirmationDialogComponent,
     UserDetailDialogComponent,
-    UserRegistrationDialogComponent
+    UserRegistrationDialogComponent,
+    ForgotPasswordDialogComponent
   ],
   bootstrap: [AppComponent]
 })
