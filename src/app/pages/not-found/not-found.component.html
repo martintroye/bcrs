@@ -9,14 +9,16 @@
 ;===========================================
 -->
 
-<div class="container">
-  <mat-card color="accent" class="form">
-    <mat-card-content class="message">
-      <h1>Sorry, this page doesn't exist.</h1>
-      <h3>Error 404</h3>
-      <button (click)="goHome()" mat-button color="primary">
-        Home
-      </button>
+<div fxLayout="column">
+  <mat-card fxFlex style="margin-top: 20%; width: 60%; margin-left: 25%;" class="mat-elevation-z8">
+    <br />
+
+    <mat-card-subtitle style="text-align: center;" class="mat-headline">Sorry, that page is not found.</mat-card-subtitle>
+
+    <mat-card-content style="text-align: center;">
+
+      <button mat-raised-button color="primary" routerLink="/">Return to Home</button>
+
     </mat-card-content>
   </mat-card>
 </div>
