@@ -17,6 +17,7 @@ import { SecurityQuestionsListComponent } from './pages/admin/security-questions
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 export const AppRoutes: Routes = [
   {
@@ -34,6 +35,10 @@ export const AppRoutes: Routes = [
       {
         path: 'admin/users',
         component: UserListComponent
+      },
+      {
+        path: 'contactus',
+        component: ContactUsComponent
       }
     ],
     // use the can activate child to secure the routes
