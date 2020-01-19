@@ -62,8 +62,7 @@ router.post('/signin', (request, response, next) => {
     // Using the findOne method of the user find the matching user by username
     User.findOne({ 'username': request.body.username }, (err, user) => {
       // if there is an error
-      if (err
-        || !user) {
+      if (err) {
         // log the error to the console
         console.log('An error occurred finding the user to sign in', err);
         // user was not authenticated
@@ -72,6 +71,14 @@ router.post('/signin', (request, response, next) => {
         statusCode = 500;
         // inform the user they should try again
         message = 'An error occurred signing in please try again';
+
+      } else if (!user) {
+        // user was not authenticated
+        isAuthenticated = false;
+        // return a server error code
+        statusCode = 401;
+        // log the error to the console
+        console.log(`User ${request.body.username} not found`);
 
       } else {
         // compare the password with the users encrypted value if it does not match return unauthorized
@@ -100,7 +107,7 @@ router.post('/signin', (request, response, next) => {
       }
 
       // return the status code and the result
-      response.status(statusCode).send(result);
+      response.json(result).status(statusCode).send();
 
     });
   }
@@ -144,8 +151,8 @@ router.put('/users/:username/reset-password', (request, response) => {
         } else {
           // if a matching user is not found res will be null
           if (!res) {
-            // set the status code to 404, not found and return a message
-            response.status(404).send('Invalid user, not found.');
+            // set the status code to 400 bad request and return a message
+            response.status(400).send('Invalid user, not found.');
           } else {
 
             // encrypt the users password
@@ -179,99 +186,54 @@ router.put('/users/:username/reset-password', (request, response) => {
 /**
  * VerifyUser
  */
-
- router.get('/verify/users/:username', function(req, res, next) {
-   User.findOne({'username': req.params.username}, function(err, user) {
-     if (err) {
-       console.log(err);
-       return next(err);
-     } else {
-       console.log(user);
-       res.json(user);
-     }
-   })
- })
+router.get('/verify/users/:username', function (req, res, next) {
+  User.findOne({ 'username': req.params.username }, function (err, user) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(user);
+      res.json(user);
+    }
+  })
+})
 
 /**
  * VerifySecurityQuestions
  */
 
- router.post('/verify/users/:username/security-questions', function (req, res, next) {
-   const answerToSecurityQuestion1 = req.body.answerToSecurityQuestion1;
-   console.log(answerToSecurityQuestion1);
-   const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2;
-   console.log(answerToSecurityQuestion2);
-   const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3;
-   console.log(answerToSecurityQuestion3);
+router.post('/verify/users/:username/security-questions', function (req, res, next) {
+  const answerToSecurityQuestion1 = req.body.answerToSecurityQuestion1;
+  console.log(answerToSecurityQuestion1);
+  const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2;
+  console.log(answerToSecurityQuestion2);
+  const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3;
+  console.log(answerToSecurityQuestion3);
 
-   User.findOne({'username': req.params.username}, function (err, user) {
-     if (err) {
-       console.log(err);
-       return next(err);
-     } else {
-       console.log(user);
-
-       let answer1IsValid = answerToSecurityQuestion1 === user.securityQuestions[0].answer;
-       console.log(answer1IsValid);
-
-       let answer2IsValid = answerToSecurityQuestion2 === user.securityQuestions[1].answer;
-       console.log(answer2IsValid);
-
-       let answer3IsValid = answerToSecurityQuestion3 === user.securityQuestions[2].answer;
-       console.log(answer3IsValid);
-
-       if (answer1IsValid && answer2IsValid && answer3IsValid) {
-         res.status(200).send({
-           type: 'success',
-           auth: true
-         })
-       } else {
-         res.status(200).send({
-           type: 'error',
-           auth: false
-         })
-       }
-     }
-   })
- });
-
-
-/*
-; Params: Username, answers to 3 security questions
-; Response: username
-; Description: VerifySecurityQuestion - Accepts answer to security questions looked up by user and verify agains saved answers
-*/
-router.post('/verify/users/:username/security-question', (request, response, next) => {
-  const answerToQuestion1 = request.body.answerToQuestion1;
-  console.log(answerToQuestion1);
-
-  const answerToQuestion2 = request.body.answerToQuestion2;
-  console.log(answerToQuestion2);
-
-  const answerToQuestion3 = request.body.answerToQuestion3;
-  console.log(answerToQuestion3);
-
-
-  User.findOne({ 'username': request.params.username }, (err, username) => {
+  User.findOne({ 'username': req.params.username }, function (err, user) {
     if (err) {
       console.log(err);
       return next(err);
     } else {
-      console.log(username);
+      console.log(user);
 
-      // creates test cases for provided values against values stored in database
-      let validAnswer1 = answerToQuestion1 === username.SecurityQuestions[0].answer;
-      let validAnswer2 = answerToQuestion2 === username.SecurityQuestions[1].answer;
-      let validAnswer3 = answerToQuestion3 === username.SecurityQuestions[2].answer;
-      // If all three are true
-      if (validAnswer1 && validAnswer2 && validAnswer3) {
-        response.status(200).send({
-          type: 'sucessful',
+      let answer1IsValid = answerToSecurityQuestion1 === user.SecurityQuestions[0].answer;
+      console.log(answer1IsValid);
+
+      let answer2IsValid = answerToSecurityQuestion2 === user.SecurityQuestions[1].answer;
+      console.log(answer2IsValid);
+
+      let answer3IsValid = answerToSecurityQuestion3 === user.SecurityQuestions[2].answer;
+      console.log(answer3IsValid);
+
+      if (answer1IsValid && answer2IsValid && answer3IsValid) {
+        res.status(200).send({
+          type: 'success',
           auth: true
         })
       } else {
-        response.status(401).send({
-          type: 'unauthorized',
+        res.status(200).send({
+          type: 'error',
           auth: false
         })
       }

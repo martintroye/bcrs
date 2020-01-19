@@ -16,6 +16,7 @@ import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component'
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const AppRoutes: Routes = [
   {
@@ -49,11 +50,15 @@ export const AppRoutes: Routes = [
       {
         path: '500',
         component: ServerErrorComponent
+      },
+      {
+        path: '404',
+        component: NotFoundComponent
       }
     ]
   },
   {
     path: '**',
-    redirectTo: 'session/not-found'
+    redirectTo: 'session/404'
   }
 ];

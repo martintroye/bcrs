@@ -8,6 +8,7 @@
 ;===========================================
 -->
 <div fxLayout="column">
+  <h2>Create a new account</h2>
   <!-- include the stepper liner requires form to be valid before continuing -->
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="accountForm">
@@ -22,6 +23,7 @@
               placeholder="Username"
               autofocus
             />
+            <mat-error *ngIf="accountForm.controls['username'].hasError('usernameExists')">The username is already in use.</mat-error>
           </mat-form-field>
           <mat-form-field fxFlex="50%">
             <input
@@ -72,6 +74,8 @@
               matInput
               formControlName="phoneNumber"
               placeholder="Phone Number"
+              mask="(000)000-0000"
+              [showMaskTyped]="true"
             />
           </mat-form-field>
 
@@ -82,6 +86,8 @@
               formControlName="email"
               placeholder="Email Address"
             />
+            <mat-error *ngIf="personalInfoForm.controls['email'].errors">Invalid email.</mat-error>
+
           </mat-form-field>
         </div>
         <div fxLayoutAlign="end" fxLayoutGap="10px">
