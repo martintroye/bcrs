@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -51,6 +51,8 @@ import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -70,7 +72,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     UserRegistrationDialogComponent,
     ForgotPasswordDialogComponent,
     ServerErrorComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -104,7 +107,12 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     SessionGuard,
     CookieService,
     SessionService,
-    SecurityQuestionService
+    SecurityQuestionService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
   ],
   entryComponents: [
     SecurityQuestionCreateDialogComponent,

@@ -62,8 +62,7 @@ router.post('/signin', (request, response, next) => {
     // Using the findOne method of the user find the matching user by username
     User.findOne({ 'username': request.body.username }, (err, user) => {
       // if there is an error
-      if (err
-        || !user) {
+      if (err) {
         // log the error to the console
         console.log('An error occurred finding the user to sign in', err);
         // user was not authenticated
@@ -72,6 +71,14 @@ router.post('/signin', (request, response, next) => {
         statusCode = 500;
         // inform the user they should try again
         message = 'An error occurred signing in please try again';
+
+      } else if (!user) {
+        // user was not authenticated
+        isAuthenticated = false;
+        // return a server error code
+        statusCode = 401;
+        // log the error to the console
+        console.log(`User ${request.body.username} not found`);
 
       } else {
         // compare the password with the users encrypted value if it does not match return unauthorized
@@ -100,7 +107,7 @@ router.post('/signin', (request, response, next) => {
       }
 
       // return the status code and the result
-      response.status(statusCode).send(result);
+      response.json(result).status(statusCode).send();
 
     });
   }
@@ -144,8 +151,8 @@ router.put('/users/:username/reset-password', (request, response) => {
         } else {
           // if a matching user is not found res will be null
           if (!res) {
-            // set the status code to 404, not found and return a message
-            response.status(404).send('Invalid user, not found.');
+            // set the status code to 400 bad request and return a message
+            response.status(400).send('Invalid user, not found.');
           } else {
 
             // encrypt the users password
