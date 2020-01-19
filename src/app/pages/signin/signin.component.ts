@@ -96,7 +96,7 @@ export class SigninComponent implements OnInit {
   forgotPassword() {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
-      width: '60%', // options to control height and width of dialog
+      width: '40%', // options to control height and width of dialog
       disableClose: true, // the user cannot click in the overlay to close
       // pass the title and message to the dialog
       data: { id: null }
