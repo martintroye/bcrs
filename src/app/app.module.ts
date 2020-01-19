@@ -54,7 +54,8 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 
-export let options: Partial<IConfig> | (() => Partial<IConfig>);
+// options required by ngx-mask
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 @NgModule({
   declarations: [
