@@ -74,6 +74,8 @@
               matInput
               formControlName="phoneNumber"
               placeholder="Phone Number"
+              mask="(000)000-0000"
+              [showMaskTyped]="true"
             />
           </mat-form-field>
 
@@ -84,6 +86,8 @@
               formControlName="email"
               placeholder="Email Address"
             />
+            <mat-error *ngIf="personalInfoForm.controls['email'].errors">Invalid email.</mat-error>
+
           </mat-form-field>
         </div>
         <div fxLayoutAlign="end" fxLayoutGap="10px">

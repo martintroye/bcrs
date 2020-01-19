@@ -50,6 +50,9 @@ import { UserRegistrationDialogComponent } from './dialogs/user-registration-dia
 import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -70,6 +73,7 @@ import { FooterComponent } from './shared/footer/footer.component';
     FooterComponent
   ],
   imports: [
+    NgxMaskModule.forRoot(options),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

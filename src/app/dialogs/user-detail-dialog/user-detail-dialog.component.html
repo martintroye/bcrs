@@ -70,6 +70,8 @@
               matInput
               formControlName="phoneNumber"
               placeholder="Phone Number"
+              mask="(000)000-0000"
+              [showMaskTyped]="true"
             />
           </mat-form-field>
 
@@ -79,7 +81,12 @@
               matInput
               formControlName="email"
               placeholder="Email Address"
+              mask="A*@A*.SSS"
+              [dropSpecialCharacters]="false"
+              [specialCharacters]="['@','.','-']"
             />
+            <mat-error *ngIf="personalInfoForm.controls['email'].errors">Invalid email.</mat-error>
+
           </mat-form-field>
         </div>
       </form>

@@ -73,7 +73,7 @@ export class UserDetailDialogComponent implements OnInit {
     this.personalInfoForm = this.fb.group({
       firstName: [null],
       lastName: [null],
-      email: [null],
+      email: [null, [Validators.email]],
       phoneNumber: [null]
     });
 
