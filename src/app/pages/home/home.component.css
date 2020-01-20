@@ -2,12 +2,19 @@
   margin-top: 30px;
 }
 
-.title {
-  text-align: center;
-  font-weight: lighter;
-}
-
 .subtitle {
   text-align: center;
   font-size: 14px;
+}
+
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
+
+.mat-raised-button {
+  background-color: #81d4fa;
+  color: black;
 }

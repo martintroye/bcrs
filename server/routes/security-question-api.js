@@ -87,8 +87,8 @@ router.put('/:id', (request, response) => {
       } else {
         // if a matching question is not found res will be null
         if (!res) {
-          // set the status code to 404, not found and return a message
-          response.status(404).send('Invalid question, not found.');
+          // set the status code to 400 bad request and return a message
+          response.status(400).send('Invalid question, not found.');
         } else {
           // ignore isDisabled and use delete to soft delete the question
           res.text = request.body.text;
@@ -100,7 +100,7 @@ router.put('/:id', (request, response) => {
               // log the error to the console
               console.log('An error occurred updating security question', err);
               // set the status code to 400, bad request and send the error message
-              response.status(400).send(err.message);
+              response.status(500).send(err.message);
             } else {
               // set the status code to 200, OK and return the updated question
               response.status(200).send(doc.toJSON());
@@ -169,6 +169,31 @@ router.post('/', function(req, res, next) {
     } else {
       console.log(securityQuestion);
       res.json(securityQuestion);
+    }
+  })
+});
+
+/**
+ * FindSecurityQuestionsByIds
+ */
+router.post('/find-by-ids', function(req, res, next) {
+  const question1 = req.body.question1;
+  const question2 = req.body.question2;
+  const question3 = req.body.question3;
+
+  SecurityQuestion.find({
+    $or: [
+      {'_id': question1},
+      {'_id': question2},
+      {'_id': question3},
+    ]
+  }).exec(function (err, securityQuestions) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(securityQuestions);
+      res.json(securityQuestions);
     }
   })
 });

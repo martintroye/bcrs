@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -20,18 +20,22 @@ import { BaseLayoutComponent } from './shared/base-layout/base-layout.component'
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
 import {
   MatCardModule,
   MatPaginatorModule,
   MatFormFieldModule,
   MatInputModule,
   MatMenuModule,
-  MatDialogModule
+  MatDialogModule,
+  MatStepperModule,
+  MatSnackBarModule,
+  MatChipsModule,
+  MatIconModule,
+  MatTableModule,
+  MatButtonModule,
+  MatToolbarModule
 } from '@angular/material';
+import {MatListModule} from '@angular/material/list';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -43,6 +47,18 @@ import { SecurityQuestionEditDialogComponent } from './dialogs/security-question
 import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-detail-dialog.component';
+import { UserRegistrationDialogComponent } from './dialogs/user-registration-dialog/user-registration-dialog.component';
+import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
+
+// options required by ngx-mask
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 @NgModule({
   declarations: [
@@ -56,9 +72,17 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
     SecurityQuestionEditDialogComponent,
     ConfirmationDialogComponent,
     UserListComponent,
-    UserDetailDialogComponent
+    UserDetailDialogComponent,
+    UserRegistrationDialogComponent,
+    ForgotPasswordDialogComponent,
+    ServerErrorComponent,
+    FooterComponent,
+    NotFoundComponent,
+    ContactUsComponent,
+    AboutUsComponent
   ],
   imports: [
+    NgxMaskModule.forRoot(options),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -81,18 +105,29 @@ import { UserDetailDialogComponent } from './dialogs/user-detail-dialog/user-det
     MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
+    MatStepperModule,
+    MatSnackBarModule,
+    MatChipsModule,
+    MatListModule
   ],
   providers: [
     SessionGuard,
     CookieService,
     SessionService,
-    SecurityQuestionService
+    SecurityQuestionService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
   ],
   entryComponents: [
     SecurityQuestionCreateDialogComponent,
     SecurityQuestionEditDialogComponent,
     ConfirmationDialogComponent,
-    UserDetailDialogComponent
+    UserDetailDialogComponent,
+    UserRegistrationDialogComponent,
+    ForgotPasswordDialogComponent
   ],
   bootstrap: [AppComponent]
 })

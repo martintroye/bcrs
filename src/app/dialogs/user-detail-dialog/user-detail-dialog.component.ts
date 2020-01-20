@@ -3,8 +3,8 @@
 ; Title: user-detail-dialog.component
 ; Author: Reva Baumann
 ; Date: 01/09/2020
-; Modified By: Reva Baumann
-; Description: List of users
+; Modified By: Troy Martin
+; Description: User config CreateUser
 ;===========================================
 */
 // Start Program
@@ -19,8 +19,11 @@ import {
 } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 // Export the component
 @Component({
@@ -29,56 +32,147 @@ import { Subscription } from 'rxjs';
 })
 
 // Export the Class
-export class UserDetailDialogComponent implements OnInit, OnDestroy {
+export class UserDetailDialogComponent implements OnInit {
   // declare and set the default base url for the http service calls
-  apiBaseUrl = `${environment.baseUrl}/api/users`;
-  user: any;
+  apiBaseUrl = `${environment.baseUrl}/api`;
+  user: User;
   id: string;
-  form: FormGroup;
   title: string;
 
-  getSubscription: Subscription;
-  createSubscription: Subscription;
+  personalInfoForm: FormGroup;
+  addressForm: FormGroup;
+  accountForm: FormGroup;
+
+  accountSubscription: Subscription;
+  personalSubscription: Subscription;
+  addressSubscription: Subscription;
 
   constructor(
     private http: HttpClient,
     private dialogRef: MatDialogRef<UserDetailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder) {
-      this.initForm();
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      if (data && data.id) {
-        this.title = 'Edit user';
-        this.id = data.id;
-        this.getSubscription = this.http.get(`${this.apiBaseUrl}/${this.id}`).subscribe(
-          res => {
-            this.user = res;
-            this.populateform();
-            console.log(this.user);
-          },
-          err => {
-            console.log(err);
-          },
-          () => {
-            console.log('complete');
-          }
-        );
+    if (data && data.id) {
+      console.log('user-detail-dialog.component', data, 'edit');
+      this.title = 'Edit user';
+      this.id = data.id;
     } else {
+      console.log('user-detail-dialog.component', 'add');
+
       this.id = null;
+      this.user = new User();
       this.title = 'Create user';
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
 
-  // Destroy when duplicates are found
-  ngOnDestroy(): void {
-    if (this.createSubscription) {
-      this.createSubscription.unsubscribe();
+    // declare the personal information form
+    this.personalInfoForm = this.fb.group({
+      firstName: [null],
+      lastName: [null],
+      email: [null, [Validators.email]],
+      phoneNumber: [null]
+    });
+
+    // declare the address form
+    this.addressForm = this.fb.group({
+      addressLine1: [null],
+      addressLine2: [null],
+      city: [null],
+      state: [null],
+      postalCode: [null]
+    });
+
+    // declare the account form, set validators for the password
+    this.accountForm = this.fb.group({
+      username: [null, [Validators.required], [this.availableUsernameValidator.bind(this)]],
+      password: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/[a-z]/),
+          Validators.pattern(/[A-Z]/),
+          Validators.pattern(/[0-9]/)
+        ])
+      ]
+    });
+
+    if (!this.id) {
+      this.subscribeFormChanges();
+    } else {
+      // get the user and set them on the component
+      this.http.get(`${this.apiBaseUrl}/users/${this.id}`)
+        .pipe(
+          map((res: any) => {
+            console.log(res);
+
+            return this.mapUser(res);
+          })
+        ).subscribe((u) => {
+          this.user = u;
+        }, (err) => {
+          console.log('user-detail-dialog', err);
+        }, () => {
+          this.populateForm();
+
+        });
     }
-    if (this.getSubscription) {
-      this.getSubscription.unsubscribe();
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Async validator to test if user name is valid
+  */
+  availableUsernameValidator(control: FormControl) {
+    let validate = false;
+    if ((this.id && control.value !== this.user.username)
+      || !this.id) {
+      validate = true;
     }
+    // get the user by user name
+    return this.http.get(this.apiBaseUrl + '/sessions/verify/users/' + control.value).pipe(map((u: any) => {
+      // validation statement
+      return u && validate ? { usernameExists: true } : null;
+    }
+    ));
+  }
+
+  private unsubscribeFormChanges() {
+    if (this.accountSubscription) {
+      this.accountSubscription.unsubscribe();
+      this.personalSubscription.unsubscribe();
+      this.addressSubscription.unsubscribe();
+    }
+  }
+
+  private subscribeFormChanges() {
+    // subscribe to form changes and populate the user on the component
+    this.accountSubscription = this.accountForm.valueChanges.subscribe(() => {
+      this.user.username = this.accountForm.controls.username.value;
+      this.user.password = this.accountForm.controls.password.value;
+    });
+
+    // subscribe to form changes and populate the user variable for the component
+    this.personalSubscription = this.personalInfoForm.valueChanges.subscribe(() => {
+      this.user.firstName = this.personalInfoForm.controls.firstName.value;
+      this.user.lastName = this.personalInfoForm.controls.lastName.value;
+      this.user.phoneNumber = this.personalInfoForm.controls.phoneNumber.value;
+      this.user.email = this.personalInfoForm.controls.email.value;
+    });
+
+    // subscribe to address form changes and populate the user on the component
+    this.addressSubscription = this.addressForm.valueChanges.subscribe(() => {
+      this.user.addressLine1 = this.addressForm.controls.addressLine1.value;
+      this.user.addressLine2 = this.addressForm.controls.addressLine2.value;
+      this.user.city = this.addressForm.controls.city.value;
+      this.user.state = this.addressForm.controls.state.value;
+      this.user.postalCode = this.addressForm.controls.postalCode.value;
+    });
   }
 
   // Save details of the user
@@ -88,77 +182,46 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     } else {
       this.createUser();
     }
-
   }
- 
+
   // Update User
   updateUser() {
-    if (this.form.valid) {
+    if (this.accountForm.valid) {
 
-      const body: any = this.getFormData();
-      body._id = this.id;
-      this.createSubscription = this.http.put(`${this.apiBaseUrl}/${this.id}`, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
-      }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
-      });
+      this.user.id = this.id;
+      console.log(this.user);
+      this.http.put(`${this.apiBaseUrl}/users/${this.id}`, this.user)
+        .pipe(
+          map((result: any) => {
+            return this.mapUser(result);
+          }
+          )
+        ).subscribe((u) => {
+          this.dialogRef.close(u);
+        }, (err) => {
+          console.log('user-detail-dialog / updateUser', err);
+        });
     }
   }
 
   // Create user details and post form data
   createUser() {
 
-    if (this.form.valid) {
-
-      const body = this.getFormData();
-      this.createSubscription = this.http.post(this.apiBaseUrl, body).subscribe((result: any) => {
-        if (result
-          && result._id) {
-          this.dialogRef.close(result);
-        }
-      }, (err) => {
-          console.log(err);
-      }, () => {
-        // complete
-      });
+    if (this.accountForm.valid) {
+      console.log(this.user);
+      this.http.post(`${this.apiBaseUrl}/users`, this.user)
+        .pipe(
+          map((result: any) => {
+            return this.mapUser(result);
+          }
+          )
+        ).subscribe((u) => {
+          this.dialogRef.close(u);
+        }, (err) => {
+          console.log('user-detail-dialog / createUser', err);
+        });
     }
 
-  }
-
-  // getFormData, include details of users
-  private getFormData() {
-    return {
-      username: this.form.controls.username.value,
-      password: this.form.controls.password.value,
-      lastName: this.form.controls.lastName.value,
-      firstName: this.form.controls.firstName.value,
-      phoneNumber: this.form.controls.phoneNumber.value,
-      emailAddress: this.form.controls.emailAddress.value,
-      addressLine1: this.form.controls.addressLine1.value,
-      addressLine2: this.form.controls.addressLine2.value,
-      city: this.form.controls.city.value,
-      state: this.form.controls.state.value,
-      postalCode: this.form.controls.postalCode.value
-    };
-  }
-
-  populateform() {
-    this.form.controls.username.setValue(this.user.username);
-    this.form.controls.password.setValue(this.user.password);
-    this.form.controls.lastName.setValue(this.user.lastName ? this.user.lastName : '');
-    this.form.controls.firstName.setValue(this.user.firstName ? this.user.firstName : '');
-    this.form.controls.phoneNumber.setValue(this.user.phoneNumber ? this.user.phoneNumber : '');
-    this.form.controls.emailAddress.setValue(this.user.emailAddress ? this.user.emailAddress : '');
-    this.form.controls.addressLine1.setValue(this.user.addressLine1 ? this.user.addressLine1 : '');
-    this.form.controls.addressLine2.setValue(this.user.addressLine2 ? this.user.addressLine2 : '');
-    this.form.controls.city.setValue(this.user.city ? this.user.city : '');
-    this.form.controls.state.setValue(this.user.state ? this.user.state : '');
-    this.form.controls.postalCode.setValue(this.user.postalCode ? this.user.postalCode : '');
   }
 
   // cancel
@@ -166,30 +229,56 @@ export class UserDetailDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close(null);
   }
 
+  private mapUser(result: any): User {
+    const user = new User();
+    user.id = result._id;
+    user.username = result.username;
+    user.password = result.password;
+    user.firstName = result.firstName;
+    user.lastName = result.lastName;
+    user.phoneNumber = result.phoneNumber;
+    user.email = result.email;
+    user.addressLine1 = result.addressLine1;
+    user.addressLine2 = result.addressLine2;
+    user.city = result.city;
+    user.state = result.state;
+    user.postalCode = result.postalCode;
+    return user;
+  }
 
-  initForm(): void {
-    this.form = this.fb.group({
-      username: [null, Validators.compose([Validators.required])],
-      password: [
-        null,
-        Validators.compose([
-          Validators.required,
-          // https://stackoverflow.com/questions/52850017/how-to-create-custom-lowercase-validator-in-angular-6
-          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-        ])
-      ],
-      firstName: [null],
-      lastName: [null],
-      emailAddress: [null],
-      phoneNumber: [null],
-      addressLine1: [null],
-      addressLine2: [null],
-      city: [null],
-      state: [null],
-      postalCode: [null]
+  private populateForm() {
+    if (this.user) {
+      this.unsubscribeFormChanges();
+
+      this.accountForm.controls.username.setValue(this.user.username);
+      this.accountForm.controls.password.setValue(this.user.password);
+
+      this.personalInfoForm.controls.firstName.setValue(this.user.firstName);
+      this.personalInfoForm.controls.lastName.setValue(this.user.lastName);
+      this.personalInfoForm.controls.phoneNumber.setValue(this.user.phoneNumber);
+      this.personalInfoForm.controls.email.setValue(this.user.email);
+
+      this.addressForm.controls.addressLine1.setValue(this.user.addressLine1);
+      this.addressForm.controls.addressLine2.setValue(this.user.addressLine2);
+      this.addressForm.controls.city.setValue(this.user.city);
+      this.addressForm.controls.state.setValue(this.user.state);
+      this.addressForm.controls.postalCode.setValue(this.user.postalCode);
+    }
+
+    this.subscribeFormChanges();
+  }
+
+  /*
+  ; Params: message
+  ; Response: none
+  ; Description: display the snackbar message
+  */
+  private displayMessage(message: string) {
+    // display the snackbar message for 10sec
+    this.snackBar.open(message, 'OK', {
+      duration: 10000
     });
   }
+
 }
-
-
 // End Program

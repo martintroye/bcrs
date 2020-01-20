@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
  * Declare user security question schema
  */
 let userSecurityQuestionSchema = mongoose.Schema({
-    question: {type: String},
+    id: {type: String},
     answer: {type: String}
 });
 

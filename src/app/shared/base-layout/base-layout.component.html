@@ -14,7 +14,7 @@
       <mat-toolbar>
         <mat-toolbar-row>
           <!-- logo -->
-          <button class="logo" routerLink="/" mat-button>BCRS</button>
+          <a routerLink="/" style="text-decoration: none;"><img src="/assets/bobslogo.png" width="150px" height="120px"></a>
           <div fxFlex></div>
 
           <button class="navbar-link" mat-button [matMenuTriggerFor]="menu">Administration</button>
@@ -22,8 +22,8 @@
             <button mat-menu-item routerLink="/admin/users">Users</button>
             <button mat-menu-item routerLink="/admin/security-questions">Security Questions</button>
           </mat-menu>
-          <button class="navbar-link" mat-button>About Us</button>
-          <button class="navbar-link" mat-button>Contact Us</button>
+          <button class="navbar-link" routerLink="/aboutus" mat-button>About Us</button>
+          <button class="navbar-link" routerLink="/contactus" mat-button>Contact Us</button>
           <button class="navbar-link" mat-button (click)="logout()">Logout</button>
         </mat-toolbar-row>
       </mat-toolbar>
@@ -37,17 +37,6 @@
     </div>
 
     <!-- footer -->
-    <div fxFlex>
-      <footer class="footer">
-        <mat-toolbar class="footer-content">
-          <p>
-            &copy; {{ year | date: "yyyy" }} - Bob's Computer Repair Shop -
-            <a href="https://www.bellevue.edu/" class="bu-link" target="_blank"
-              >Bellevue University</a
-            >
-          </p>
-        </mat-toolbar>
-      </footer>
-    </div>
+    <app-footer></app-footer>
   </div>
 </div>

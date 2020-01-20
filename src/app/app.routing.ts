@@ -15,6 +15,10 @@ import {SigninComponent} from './pages/signin/signin.component';
 import { AuthLayoutComponent } from './shared/auth-layout/auth-layout.component';
 import { SecurityQuestionsListComponent } from './pages/admin/security-questions-list/security-questions-list.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
+import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 
 export const AppRoutes: Routes = [
   {
@@ -32,6 +36,14 @@ export const AppRoutes: Routes = [
       {
         path: 'admin/users',
         component: UserListComponent
+      },
+      {
+        path: 'contactus',
+        component: ContactUsComponent
+      },
+      {
+        path: 'aboutus',
+        component: AboutUsComponent
       }
     ],
     // use the can activate child to secure the routes
@@ -44,7 +56,19 @@ export const AppRoutes: Routes = [
       {
         path: 'signin',
         component: SigninComponent
+      },
+      {
+        path: '500',
+        component: ServerErrorComponent
+      },
+      {
+        path: '404',
+        component: NotFoundComponent
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'session/404'
   }
 ];

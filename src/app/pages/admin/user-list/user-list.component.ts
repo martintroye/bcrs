@@ -97,7 +97,7 @@ export class UserListComponent implements OnInit {
       if (result) {
         // the user was updated need to replace them in the array
         this.users.forEach((u) => {
-          if (u._id === result._id) {
+          if (u._id === result.id) {
             u.user = result.username;
             u.firstName = result.firstName;
             u.lastName = result.lastName;
