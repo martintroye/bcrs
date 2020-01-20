@@ -161,12 +161,13 @@
       </form>
     </mat-step>
 
-    <mat-step>
+    <mat-step [stepControl]="securityQuestionsForm">
       <form [formGroup]="securityQuestionsForm">
         <ng-template matStepLabel>Security Questions</ng-template>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
           <mat-form-field fxFlex="50%">
-            <select matNativeControl formControlName="questionId1" placeHolder="Select a question">
+            <mat-label>Select a question</mat-label>
+            <select matNativeControl formControlName="questionId1">
               <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
             </select>
           </mat-form-field>
@@ -181,7 +182,8 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
           <mat-form-field fxFlex="50%">
-            <select matNativeControl formControlName="questionId2" placeHolder="Select a question">
+            <mat-label>Select a question</mat-label>
+            <select matNativeControl formControlName="questionId2">
               <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
             </select>
           </mat-form-field>
@@ -196,7 +198,8 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
           <mat-form-field fxFlex="50%">
-            <select matNativeControl formControlName="questionId3" placeHolder="Select a question">
+            <mat-label>Select a question</mat-label>
+            <select matNativeControl formControlName="questionId3">
               <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
             </select>
           </mat-form-field>
