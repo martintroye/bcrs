@@ -12,7 +12,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { environment } from 'src/environments/environment';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -20,7 +20,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './forgot-password-dialog.component.html',
   styleUrls: ['./forgot-password-dialog.component.css'],
   providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true }
   }]
 })
 export class ForgotPasswordDialogComponent implements OnInit {
@@ -37,6 +37,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   errorMessage: string;
   username: string;
   isCompleted = false;
+  questionsVerified = false;
 
 
   /*
@@ -62,7 +63,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
       answerToSecurityQuestion2: [null, [Validators.required]],
       answerToSecurityQuestion3: [null, [Validators.required]]
     });
-    
+
 
     // declare the new password form
     this.newPasswordForm = this.fb.group({
@@ -110,24 +111,30 @@ export class ForgotPasswordDialogComponent implements OnInit {
   }
 
   verifySecurityQuestions() {
-    const answerToSecurityQuestion1 = this.securityQuestionForm.controls['answerToSecurityQuestion1'].value;
-    const answerToSecurityQuestion2 = this.securityQuestionForm.controls['answerToSecurityQuestion2'].value;
-    const answerToSecurityQuestion3 = this.securityQuestionForm.controls['answerToSecurityQuestion3'].value;
+    const answer1 = this.securityQuestionForm.controls.answerToSecurityQuestion1.value;
+    const answer2 = this.securityQuestionForm.controls.answerToSecurityQuestion2.value;
+    const answer3 = this.securityQuestionForm.controls.answerToSecurityQuestion3.value;
 
     this.http.post('/api/sessions/verify/users/' + this.username + '/security-questions', {
-      answerToSecurityQuestion1: answerToSecurityQuestion1,
-      answerToSecurityQuestion2: answerToSecurityQuestion2,
-      answerToSecurityQuestion3: answerToSecurityQuestion3,
-    }).subscribe(res => {
-      if(res['auth']) {
-       console.log('Sucess') 
+      answerToSecurityQuestion1: answer1,
+      answerToSecurityQuestion2: answer2,
+      answerToSecurityQuestion3: answer3,
+    }).subscribe((res: any) => {
+      if (res.auth
+        && res.auth === true) {
+        console.log(res);
+        this.questionsVerified = true;
       } else {
         console.log('Unable to verify security questions');
+        this.securityQuestionForm.controls.answerToSecurityQuestion1.setValue(null);
+        this.securityQuestionForm.controls.answerToSecurityQuestion2.setValue(null);
+        this.securityQuestionForm.controls.answerToSecurityQuestion3.setValue(null);
+
       }
     });
   }
 
-  
+
 
 
   /**
@@ -137,28 +144,28 @@ export class ForgotPasswordDialogComponent implements OnInit {
    */
   validUserName() {
     const username = this.userNameForm.controls.username.value;
-        this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
-          this.selectedSecurityQuestions = res;
-          this.username = username;
-          console.log(this.selectedSecurityQuestions);
-        }, err => {
-          console.log(err)
-        }, () => {
-          // find selected security questions by id and populate from array
-          this.http.post('/api/security-questions/find-by-ids', {
-            question1: this.selectedSecurityQuestions[0].id,
-            question2: this.selectedSecurityQuestions[1].id,
-            question3: this.selectedSecurityQuestions[2].id,
-          }).subscribe(res => {
-            this.question1 = res[0].text;
-            this.question2 = res[1].text;
-            this.question3 = res[2].text;
+    this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
+      this.selectedSecurityQuestions = res;
+      this.username = username;
+      console.log(this.selectedSecurityQuestions);
+    }, err => {
+      console.log(err)
+    }, () => {
+      // find selected security questions by id and populate from array
+      this.http.post('/api/security-questions/find-by-ids', {
+        question1: this.selectedSecurityQuestions[0].id,
+        question2: this.selectedSecurityQuestions[1].id,
+        question3: this.selectedSecurityQuestions[2].id,
+      }).subscribe(res => {
+        this.question1 = res[0].text;
+        this.question2 = res[1].text;
+        this.question3 = res[2].text;
 
-            console.log(this.question1);
-            console.log(this.question2);
-            console.log(this.question3);
-          });
-        });
+        console.log(this.question1);
+        console.log(this.question2);
+        console.log(this.question3);
+      });
+    });
   }
 
   /*
