@@ -10,7 +10,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MatStepper } from '@angular/material';
 import { environment } from 'src/environments/environment';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { map } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   errorMessage: string;
   username: string;
   isCompleted = false;
-  questionsVerified = false;
+  questionsVerified = true;
 
 
   /*
@@ -110,7 +110,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
     ));
   }
 
-  verifySecurityQuestions() {
+  verifySecurityQuestions(stepper: MatStepper) {
     const answer1 = this.securityQuestionForm.controls.answerToSecurityQuestion1.value;
     const answer2 = this.securityQuestionForm.controls.answerToSecurityQuestion2.value;
     const answer3 = this.securityQuestionForm.controls.answerToSecurityQuestion3.value;
@@ -123,12 +123,13 @@ export class ForgotPasswordDialogComponent implements OnInit {
       if (res.auth
         && res.auth === true) {
         console.log(res);
-        this.questionsVerified = true;
+        stepper.next();
       } else {
         console.log('Unable to verify security questions');
         this.securityQuestionForm.controls.answerToSecurityQuestion1.setValue(null);
         this.securityQuestionForm.controls.answerToSecurityQuestion2.setValue(null);
         this.securityQuestionForm.controls.answerToSecurityQuestion3.setValue(null);
+        this.questionsVerified = false;
 
       }
     });
