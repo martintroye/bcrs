@@ -3,11 +3,15 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { environment } from 'src/environments/environment';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-forgot-password-dialog',
   templateUrl: './forgot-password-dialog.component.html',
-  styleUrls: ['./forgot-password-dialog.component.css']
+  styleUrls: ['./forgot-password-dialog.component.css'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}
+  }]
 })
 export class ForgotPasswordDialogComponent implements OnInit {
   // declare the variables
@@ -22,6 +26,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   question3: string;
   errorMessage: string;
   username: string;
+  isCompleted: boolean;
 
 
   /*
@@ -38,13 +43,13 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
   ngOnInit() {
     this.userNameForm = this.fb.group({
-      username: [null, Validators.required]
+      username: [null, [Validators.required]]
     });
 
     this.securityQuestionForm = this.fb.group({
-      answerToSecurityQuestion1: [null, Validators.required],
-      answerToSecurityQuestion2: [null, Validators.required],
-      answerToSecurityQuestion3: [null, Validators.required]
+      answerToSecurityQuestion1: [null, [Validators.required]],
+      answerToSecurityQuestion2: [null, [Validators.required]],
+      answerToSecurityQuestion3: [null, [Validators.required]]
     });
     
 
@@ -97,7 +102,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
     });
   }
 
-
+  
 
 
   /**
@@ -111,6 +116,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
     this.http.get('/api/sessions/verify/users/' + username).subscribe(res => {
       // if true pull selected security questions.
       if (res) {
+        this.isCompleted = true;
         console.log(res);
         this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
           this.selectedSecurityQuestions = res;
@@ -136,6 +142,9 @@ export class ForgotPasswordDialogComponent implements OnInit {
         });
       } else {
         this.errorMessage = 'Invalid username';
+        this.username = null;
+        this.isCompleted = false;
+
       }
     }, err => {
       console.log(err);
