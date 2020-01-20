@@ -49,6 +49,7 @@ export class UserRegistrationDialogComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {
+    // get the security questions to display in the dropdowns
     this.http.get<SecurityQuestion[]>(`${this.apiBaseUrl}/security-questions`)
       .subscribe((questions) => {
         this.questions = questions;
@@ -118,6 +119,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       this.user.password = this.accountForm.controls.password.value;
     });
 
+    // declare the security question form
     this.securityQuestionsForm = this.fb.group({
       questionId1: [null, [Validators.required]],
       answer1: [null, [Validators.required]],
@@ -129,6 +131,11 @@ export class UserRegistrationDialogComponent implements OnInit {
     });
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Get the questions and answers from the form and put them on the user
+  */
   getQuestions() {
     this.user.questions = [];
     this.user.questions.push({
@@ -143,8 +150,6 @@ export class UserRegistrationDialogComponent implements OnInit {
       id: this.securityQuestionsForm.controls.questionId3.value,
       answer: this.securityQuestionsForm.controls.answer3.value
     });
-
-    console.log(this.user);
   }
 
   /*
@@ -205,8 +210,6 @@ export class UserRegistrationDialogComponent implements OnInit {
         );
     }
   }
-
-
 
   /*
   ; Params: message
