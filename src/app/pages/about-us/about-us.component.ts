@@ -11,21 +11,21 @@
 // Start Program
 
 // Import the Modules
-import {Copmonent, OnInIt} from '@angular/core';
-import { componentFactoryName } from '@angular/compiler';
-
+import {Component, OnInit} from '@angular/core';
 
 // Component details
-@componentFactoryName({
+@Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.css']
 })
 
-constructor() { }
+export class AboutUsComponent implements OnInit{
 
-ngOnInit() {
+  constructor() { }
 
+  ngOnInit() {
+  }
 }
 
 // End the Program
