@@ -35,7 +35,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   question3: string;
   errorMessage: string;
   username: string;
-  isCompleted: boolean;
+  isCompleted = false;
 
 
   /*
@@ -51,6 +51,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isCompleted = false;
     this.userNameForm = this.fb.group({
       username: [null, [Validators.required]]
     });
@@ -124,8 +125,9 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
     this.http.get('/api/sessions/verify/users/' + username).subscribe(res => {
       // if true pull selected security questions.
+      this.isCompleted = false;
       if (res) {
-        this.isCompleted = true;
+        this.isCompleted = false;
         console.log(res);
         this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
           this.selectedSecurityQuestions = res;
@@ -149,14 +151,12 @@ export class ForgotPasswordDialogComponent implements OnInit {
             console.log(this.question3);
           });
         });
-      } else {
-        this.errorMessage = 'Invalid username';
-        this.username = null;
-        this.isCompleted = false;
-
       }
     }, err => {
       console.log(err);
+      this.errorMessage = 'Invalid username'; 
+      this.isCompleted = false;
+      console.log(this.isCompleted)
     })
   }
 
