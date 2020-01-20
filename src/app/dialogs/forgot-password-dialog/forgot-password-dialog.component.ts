@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { environment } from 'src/environments/environment';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-forgot-password-dialog',
@@ -53,7 +54,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   ngOnInit() {
     this.isCompleted = false;
     this.userNameForm = this.fb.group({
-      username: [null, [Validators.required]]
+      username: [null, [Validators.required], [this.hasValidUserNameValidator.bind(this)]]
     });
 
     this.securityQuestionForm = this.fb.group({
@@ -94,6 +95,20 @@ export class ForgotPasswordDialogComponent implements OnInit {
     return null;
   }
 
+  hasValidUserNameValidator(control: FormControl) {
+    // get the user by user name
+    return this.http.get('api/sessions/verify/users/' + control.value).pipe(map((u: any) => {
+      if (u) {
+        // if the username exists set it on the component
+        this.username = u.username;
+      }
+
+      // validation statement
+      return u ? null : { invalidUserName: true };
+    }
+    ));
+  }
+
   verifySecurityQuestions() {
     const answerToSecurityQuestion1 = this.securityQuestionForm.controls['answerToSecurityQuestion1'].value;
     const answerToSecurityQuestion2 = this.securityQuestionForm.controls['answerToSecurityQuestion2'].value;
@@ -122,13 +137,6 @@ export class ForgotPasswordDialogComponent implements OnInit {
    */
   validUserName() {
     const username = this.userNameForm.controls.username.value;
-
-    this.http.get('/api/sessions/verify/users/' + username).subscribe(res => {
-      // if true pull selected security questions.
-      this.isCompleted = false;
-      if (res) {
-        this.isCompleted = false;
-        console.log(res);
         this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
           this.selectedSecurityQuestions = res;
           this.username = username;
@@ -151,13 +159,6 @@ export class ForgotPasswordDialogComponent implements OnInit {
             console.log(this.question3);
           });
         });
-      }
-    }, err => {
-      console.log(err);
-      this.errorMessage = 'Invalid username'; 
-      this.isCompleted = false;
-      console.log(this.isCompleted)
-    })
   }
 
   /*
