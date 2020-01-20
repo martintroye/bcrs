@@ -162,13 +162,60 @@
     </mat-step>
 
     <mat-step>
-      <ng-template matStepLabel>Security questions</ng-template>
-      This is the form for security questions
-      <div fxLayoutAlign="end" fxLayoutGap="10px">
-        <button mat-raised-button (click)="cancel()">Cancel</button>
-        <button mat-raised-button matStepperPrevious>Back</button>
-        <button mat-raised-button matStepperNext>Next</button>
-      </div>
+      <form [formGroup]="securityQuestionsForm">
+        <ng-template matStepLabel>Security Questions</ng-template>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%">
+            <select matNativeControl formControlName="questionId1" placeHolder="Select a question">
+              <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
+            </select>
+          </mat-form-field>
+          <mat-form-field fxFlex="50%">
+            <input
+              type="text"
+              matInput
+              formControlName="answer1"
+              placeholder="Answer"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%">
+            <select matNativeControl formControlName="questionId2" placeHolder="Select a question">
+              <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
+            </select>
+          </mat-form-field>
+          <mat-form-field fxFlex="50%">
+            <input
+              type="text"
+              matInput
+              formControlName="answer2"
+              placeholder="Answer"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%">
+            <select matNativeControl formControlName="questionId3" placeHolder="Select a question">
+              <option *ngFor="let q of questions" [value]="q._id">{{q.text}}</option>
+            </select>
+          </mat-form-field>
+          <mat-form-field fxFlex="50%">
+            <input
+              type="text"
+              matInput
+              formControlName="answer3"
+              placeholder="Answer"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayoutAlign="end" fxLayoutGap="10px">
+          <button mat-raised-button (click)="cancel()">Cancel</button>
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button matStepperNext (click)="getQuestions()" [disabled]="!securityQuestionsForm.valid">Next</button>
+        </div>
+      </form>
+
     </mat-step>
 
     <mat-step>

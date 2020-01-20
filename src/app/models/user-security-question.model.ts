@@ -8,7 +8,7 @@
 ;===========================================
 */
 export class UserSecurityQuestion {
+  _id?: string;
   id: string;
-  questionId: string;
   answer: string;
 }
