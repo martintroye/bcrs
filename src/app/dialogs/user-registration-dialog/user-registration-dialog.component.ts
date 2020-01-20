@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { SecurityQuestion } from 'src/app/models/security-question.model';
 
 // declare the component
 @Component({
@@ -33,7 +34,9 @@ export class UserRegistrationDialogComponent implements OnInit {
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
   accountForm: FormGroup;
+  securityQuestionsForm: FormGroup;
   username: string;
+  questions: SecurityQuestion[];
 
   /*
   ; Params: none
@@ -45,7 +48,15 @@ export class UserRegistrationDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<UserRegistrationDialogComponent>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+    // get the security questions to display in the dropdowns
+    this.http.get<SecurityQuestion[]>(`${this.apiBaseUrl}/security-questions`)
+      .subscribe((questions) => {
+        this.questions = questions;
+      }, (err) => {
+        console.log(err);
+      });
+  }
 
   /*
   ; Params: none
@@ -107,6 +118,38 @@ export class UserRegistrationDialogComponent implements OnInit {
       this.user.username = this.accountForm.controls.username.value;
       this.user.password = this.accountForm.controls.password.value;
     });
+
+    // declare the security question form
+    this.securityQuestionsForm = this.fb.group({
+      questionId1: [null, [Validators.required]],
+      answer1: [null, [Validators.required]],
+      questionId2: [null, [Validators.required]],
+      answer2: [null, [Validators.required]],
+      questionId3: [null, [Validators.required]],
+      answer3: [null, [Validators.required]],
+
+    });
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Get the questions and answers from the form and put them on the user
+  */
+  getQuestions() {
+    this.user.questions = [];
+    this.user.questions.push({
+      id: this.securityQuestionsForm.controls.questionId1.value,
+      answer: this.securityQuestionsForm.controls.answer1.value
+    });
+    this.user.questions.push({
+      id: this.securityQuestionsForm.controls.questionId2.value,
+      answer: this.securityQuestionsForm.controls.answer2.value
+    });
+    this.user.questions.push({
+      id: this.securityQuestionsForm.controls.questionId3.value,
+      answer: this.securityQuestionsForm.controls.answer3.value
+    });
   }
 
   /*
@@ -139,7 +182,8 @@ export class UserRegistrationDialogComponent implements OnInit {
   */
   signIn() {
     // todo also validate that we have three security questions for the user
-    if (this.accountForm.valid) {
+    if (this.accountForm.valid
+      && this.securityQuestionsForm.valid) {
       this.http
         .post(`${this.apiBaseUrl}/sessions/register`, this.user)
         .subscribe(

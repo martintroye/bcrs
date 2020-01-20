@@ -25,5 +25,5 @@ export class User {
   role: string;
   dateCreated: string;
   dateModified: string;
-  securityQuestion: UserSecurityQuestion[];
+  questions: UserSecurityQuestion[];
 }

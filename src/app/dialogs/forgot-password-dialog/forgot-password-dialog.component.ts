@@ -1,3 +1,12 @@
+/*
+============================================
+; Title: forgot-password-dialog.component
+; Author: Adam Donner
+; Date: 01/16/2020
+; Modified By: Adam Donner
+; Description: Forgot Password
+;===========================================
+*/
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -166,12 +175,14 @@ export class ForgotPasswordDialogComponent implements OnInit {
   ; Description: Change the users password if the form is valid and we have a username
   */
   changePassword() {
+    // if the password form is valid and we have the user name change the password
     if (this.newPasswordForm.valid
       && this.username) {
       this.http.put(`${this.apiBaseUrl}/sessions/users/${this.username}/reset-password`,
         { password: this.newPasswordForm.controls.password.value })
         .subscribe((result) => {
           if (result) {
+            // we changed the password close the dialog
             this.dialogRef.close(true);
           } else {
             this.errorMessage = 'There was an error updating your password';
