@@ -35,6 +35,7 @@ import {
   MatButtonModule,
   MatToolbarModule
 } from '@angular/material';
+import {MatListModule} from '@angular/material/list';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -106,7 +107,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatDialogModule,
     MatStepperModule,
     MatSnackBarModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
   ],
   providers: [
     SessionGuard,
