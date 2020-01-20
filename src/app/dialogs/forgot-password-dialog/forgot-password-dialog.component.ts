@@ -38,8 +38,15 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
   ngOnInit() {
     this.userNameForm = this.fb.group({
-      username: [null]
+      username: [null, Validators.required]
     });
+
+    this.securityQuestionForm = this.fb.group({
+      answerToSecurityQuestion1: [null, Validators.required],
+      answerToSecurityQuestion2: [null, Validators.required],
+      answerToSecurityQuestion3: [null, Validators.required]
+    });
+    
 
     // declare the new password form
     this.newPasswordForm = this.fb.group({
@@ -53,9 +60,6 @@ export class ForgotPasswordDialogComponent implements OnInit {
       confirmationPassword: [null, [Validators.required, this.matchingPassword.bind(this)]]
     });
 
-    this.securityQuestionForm = this.fb.group({
-      question1: [null]
-    });
   }
 
   /*
@@ -74,6 +78,27 @@ export class ForgotPasswordDialogComponent implements OnInit {
     // since the control is not defined yet return null
     return null;
   }
+
+  verifySecurityQuestions() {
+    const answerToSecurityQuestion1 = this.securityQuestionForm.controls['answerToSecurityQuestion1'].value;
+    const answerToSecurityQuestion2 = this.securityQuestionForm.controls['answerToSecurityQuestion2'].value;
+    const answerToSecurityQuestion3 = this.securityQuestionForm.controls['answerToSecurityQuestion3'].value;
+
+    this.http.post('/api/sessions/verify/users/' + this.username + '/security-questions', {
+      answerToSecurityQuestion1: answerToSecurityQuestion1,
+      answerToSecurityQuestion2: answerToSecurityQuestion2,
+      answerToSecurityQuestion3: answerToSecurityQuestion3,
+    }).subscribe(res => {
+      if(res['auth']) {
+       console.log('Sucess') 
+      } else {
+        console.log('Unable to verify security questions');
+      }
+    });
+  }
+
+
+
 
   /**
    * Params: Username
@@ -110,7 +135,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
           });
         });
       } else {
-        this.errorMessage = 'Invalid username.';
+        this.errorMessage = 'Invalid username';
       }
     }, err => {
       console.log(err);
