@@ -5,3 +5,8 @@ html, body {
 .container {
   background-position: center center;
 }
+
+.mat-raised-button {
+  background-color: #81d4fa;
+  color: black;
+}
