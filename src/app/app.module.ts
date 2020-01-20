@@ -54,6 +54,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -76,7 +77,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ServerErrorComponent,
     FooterComponent,
     NotFoundComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AboutUsComponent
   ],
   imports: [
     NgxMaskModule.forRoot(options),
