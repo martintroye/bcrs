@@ -102,7 +102,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
     const answer2 = this.securityQuestionForm.controls.answerToSecurityQuestion2.value;
     const answer3 = this.securityQuestionForm.controls.answerToSecurityQuestion3.value;
 
-    this.http.post('/api/sessions/verify/users/' + this.username + '/security-questions', {
+    this.http.post(`${this.apiBaseUrl}/sessions/verify/users/${this.username}/security-questions`, {
       answerToSecurityQuestion1: answer1,
       answerToSecurityQuestion2: answer2,
       answerToSecurityQuestion3: answer3,
@@ -133,11 +133,11 @@ export class ForgotPasswordDialogComponent implements OnInit {
   validUserName(stepper: MatStepper) {
     const username = this.userNameForm.controls.username.value;
 
-    this.http.get('/api/sessions/verify/users/' + username).subscribe(res => {
+    this.http.get(`${this.apiBaseUrl}/sessions/verify/users/${username}`).subscribe(res => {
       // if true pull selected security questions.
       if (res) {
         console.log(res);
-        this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
+        this.http.get(`${this.apiBaseUrl}/users/${username}/security-questions`).subscribe(res => {
           this.selectedSecurityQuestions = res;
           this.username = username;
           console.log(this.selectedSecurityQuestions);
@@ -145,7 +145,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
           console.log(err)
         }, () => {
           // find selected security questions by id and populate from array
-          this.http.post('/api/security-questions/find-by-ids', {
+          this.http.post(`${this.apiBaseUrl}/security-questions/find-by-ids`, {
             question1: this.selectedSecurityQuestions[0].id,
             question2: this.selectedSecurityQuestions[1].id,
             question3: this.selectedSecurityQuestions[2].id,
