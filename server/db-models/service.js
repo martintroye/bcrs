@@ -10,16 +10,15 @@
 const mongoose = require('mongoose');
 
 /**
- * Declare user database schema
+ * Declare service schema
  */
 let serviceSchema = mongoose.Schema({
-    description:    {type: String, required: true, unique: true, dropDups: true},
-    price:          {type: String, required: true},
-    isDisabled:     {type: Boolean, default: false},
-    date_created:   {type: Date, default: new Date()}
+  description:    {type: String, required: true, unique: true, dropDups: true},
+  price:          {type: String, required: true},
+  isDisabled:     {type: Boolean, default: false},
+  date_created:   {type: Date, default: new Date()}
 });
 
 // Export mongoose model
 module.exports = mongoose.model('Service', serviceSchema, 'services');
-
 // end program
