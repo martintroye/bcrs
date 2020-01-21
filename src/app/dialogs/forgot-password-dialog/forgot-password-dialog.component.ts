@@ -162,11 +162,14 @@ export class ForgotPasswordDialogComponent implements OnInit {
         stepper.next();
       } else {
         this.errorMessage = 'Invalid username.';
-        
+        this.userNameForm.controls.username.setValue(null);
+
       }
     }, err => {
       console.log(err);
       this.errorMessage = 'Invalid username.';
+      this.userNameForm.controls.username.setValue(null);
+
     })
   }
 
