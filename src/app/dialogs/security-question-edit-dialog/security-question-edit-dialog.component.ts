@@ -12,9 +12,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ConfirmationDialogData } from 'src/app/models/confirmation-dialog-data.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-security-question-edit-dialog',
@@ -23,15 +22,16 @@ import { ConfirmationDialogData } from 'src/app/models/confirmation-dialog-data.
 })
 
 export class SecurityQuestionEditDialogComponent implements OnInit {
+  apiBaseUrl = `${environment.baseUrl}/api`;
   question: any;
   questionId: string;
   form: FormGroup;
 
-  constructor(private route: ActivatedRoute,
-    private http: HttpClient, 
-    private fb: FormBuilder, 
-    private router: Router,
-    private dialogRef: MatDialogRef<SecurityQuestionEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: SecurityQuestionEditDialogComponent) {
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<SecurityQuestionEditDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: SecurityQuestionEditDialogComponent) {
       this.questionId = data.questionId;
       this.question = data.question;
     }
@@ -47,7 +47,7 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
   saveQuestion() {
     const updatedQuestion = this.form.controls.text.value;
     // write to the API
-    this.http.put('/api/security-questions/' + this.questionId, { text: updatedQuestion })
+    this.http.put(`${this.apiBaseUrl}/security-questions/${this.questionId}`, { text: updatedQuestion })
     .subscribe( res => {
       // routes back to the security question page
       this.dialogRef.close({_id: this.questionId, text: updatedQuestion, message: null, updated: true});

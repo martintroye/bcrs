@@ -18,6 +18,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { registerLocaleData } from '@angular/common';
 import { UserRegistrationDialogComponent } from 'src/app/dialogs/user-registration-dialog/user-registration-dialog.component';
 import { ForgotPasswordDialogComponent } from 'src/app/dialogs/forgot-password-dialog/forgot-password-dialog.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signin',
@@ -25,6 +26,8 @@ import { ForgotPasswordDialogComponent } from 'src/app/dialogs/forgot-password-d
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
+  apiBaseUrl = `${environment.baseUrl}/api`;
+
   form: FormGroup;
   errorMessage: string;
 
@@ -54,7 +57,7 @@ export class SigninComponent implements OnInit {
     const password = this.form.controls.password.value;
 
     // Call API
-    this.http.post('/api/sessions/signin', {
+    this.http.post(`${this.apiBaseUrl}/sessions/signin`, {
       username,
       password
     }).subscribe(res => {
@@ -104,7 +107,7 @@ export class SigninComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.displayMessage('Your password was updated sigin with your username and new password.')
+        this.displayMessage('Your password was updated login with your username and new password.')
       }
       // else they canceled nothing to do here
     });

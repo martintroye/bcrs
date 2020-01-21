@@ -15,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-security-question-create-dialog',
@@ -22,6 +23,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./security-question-create-dialog.component.css']
 })
 export class SecurityQuestionCreateDialogComponent implements OnInit {
+  apiBaseUrl = `${environment.baseUrl}/api`;
   form: FormGroup;
 
   constructor(private http: HttpClient,
@@ -41,7 +43,7 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
   create() {
     const newQuestion = this.form.controls.text.value;
     // write to the API
-    this.http.post('api/security-questions', {
+    this.http.post(`${this.apiBaseUrl}/security-questions`, {
       text: newQuestion
     }).subscribe( res => {
       this.dialogRef.close({text: newQuestion}); // routes back to the secutiy question page
