@@ -1,3 +1,4 @@
+
 /*
 ============================================
 ; Title: forgot-password-dialog.component
@@ -55,7 +56,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   ngOnInit() {
     this.isCompleted = false;
     this.userNameForm = this.fb.group({
-      username: [null, [Validators.required], [this.hasValidUserNameValidator.bind(this)]]
+      username: [null, [Validators.required]]
     });
 
     this.securityQuestionForm = this.fb.group({
@@ -96,20 +97,6 @@ export class ForgotPasswordDialogComponent implements OnInit {
     return null;
   }
 
-  hasValidUserNameValidator(control: FormControl) {
-    // get the user by user name
-    return this.http.get('api/sessions/verify/users/' + control.value).pipe(map((u: any) => {
-      if (u) {
-        // if the username exists set it on the component
-        this.username = u.username;
-      }
-
-      // validation statement
-      return u ? null : { invalidUserName: true };
-    }
-    ));
-  }
-
   verifySecurityQuestions(stepper: MatStepper) {
     const answer1 = this.securityQuestionForm.controls.answerToSecurityQuestion1.value;
     const answer2 = this.securityQuestionForm.controls.answerToSecurityQuestion2.value;
@@ -143,30 +130,47 @@ export class ForgotPasswordDialogComponent implements OnInit {
    * Response: boolean, security questions for username.
    * description: Test if there is a valid username in the system.
    */
-  validUserName() {
+  validUserName(stepper: MatStepper) {
     const username = this.userNameForm.controls.username.value;
-    this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
-      this.selectedSecurityQuestions = res;
-      this.username = username;
-      console.log(this.selectedSecurityQuestions);
-    }, err => {
-      console.log(err)
-    }, () => {
-      // find selected security questions by id and populate from array
-      this.http.post('/api/security-questions/find-by-ids', {
-        question1: this.selectedSecurityQuestions[0].id,
-        question2: this.selectedSecurityQuestions[1].id,
-        question3: this.selectedSecurityQuestions[2].id,
-      }).subscribe(res => {
-        this.question1 = res[0].text;
-        this.question2 = res[1].text;
-        this.question3 = res[2].text;
 
-        console.log(this.question1);
-        console.log(this.question2);
-        console.log(this.question3);
-      });
-    });
+    this.http.get('/api/sessions/verify/users/' + username).subscribe(res => {
+      // if true pull selected security questions.
+      if (res) {
+        console.log(res);
+        this.http.get('/api/users/' + username + '/security-questions').subscribe(res => {
+          this.selectedSecurityQuestions = res;
+          this.username = username;
+          console.log(this.selectedSecurityQuestions);
+        }, err => {
+          console.log(err)
+        }, () => {
+          // find selected security questions by id and populate from array
+          this.http.post('/api/security-questions/find-by-ids', {
+            question1: this.selectedSecurityQuestions[0].id,
+            question2: this.selectedSecurityQuestions[1].id,
+            question3: this.selectedSecurityQuestions[2].id,
+          }).subscribe(res => {
+            this.question1 = res[0].text;
+            this.question2 = res[1].text;
+            this.question3 = res[2].text;
+
+            console.log(this.question1);
+            console.log(this.question2);
+            console.log(this.question3);
+          });
+        });
+        stepper.next();
+      } else {
+        this.errorMessage = 'Invalid username.';
+        this.userNameForm.controls.username.setValue(null);
+
+      }
+    }, err => {
+      console.log(err);
+      this.errorMessage = 'Invalid username.';
+      this.userNameForm.controls.username.setValue(null);
+
+    })
   }
 
   /*
@@ -207,3 +211,20 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
