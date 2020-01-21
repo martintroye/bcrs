@@ -23,6 +23,7 @@ const mongoose = require('mongoose');
 const securityQuestionRouter = require('./routes/security-question-api');
 const userRouter = require('./routes/user-api');
 const sessionRouter = require('./routes/session-api');
+const serviceRouter = require('./routes/service-api');
 const config = require('./config');
 const cors = require('cors');
 
@@ -70,6 +71,8 @@ app.use('/api/security-questions', securityQuestionRouter);
 app.use('/api/users', userRouter);
 // use the sessions router
 app.use('/api/sessions', sessionRouter);
+// use the service router
+app.use('/api/services', serviceRouter);
 
 
 /**

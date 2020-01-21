@@ -56,6 +56,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
+import { ServiceDetailDialogComponent } from './dialogs/service-detail-dialog/service-detail-dialog.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -79,7 +81,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     FooterComponent,
     NotFoundComponent,
     ContactUsComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    ServiceListComponent,
+    ServiceDetailDialogComponent
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -127,7 +131,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ConfirmationDialogComponent,
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
-    ForgotPasswordDialogComponent
+    ForgotPasswordDialogComponent,
+    ServiceDetailDialogComponent
   ],
   bootstrap: [AppComponent]
 })
