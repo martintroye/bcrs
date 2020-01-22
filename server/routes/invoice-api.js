@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.get('/purchases-graph', (request, response) => {
 
-}
+};
 
 
 // export the router
