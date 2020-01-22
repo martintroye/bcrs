@@ -22,7 +22,7 @@ const router = express.Router();
 router.get('/', (request, response) => {
 
   // Using the find method of the role model return all questions that are not disabled
-  Role.find({ isDisabled: false }, (err, res) => {
+  Roles.find({ isDisabled: false }, (err, res) => {
     // if there is an error
     if (err) {
       // log the error to the console
@@ -37,6 +37,37 @@ router.get('/', (request, response) => {
 });
 
 /*
+; Params: id: Role id
+; Response: Role by id
+; Description: FindById - finds a rold by id
+*/
+router.get('/:id', (request, response, next) => {
+  // Declare the id and get the value off the url if it exists
+  var id = request.params && request.params.id ? request.params.id : null;
+
+  // if the id was not defined then return a bad request response
+  if (!id) {
+    // set the status code to 400, bad request and send a message
+    response.status(400).send('Request is invalid or missing the id.');
+  } else {
+    // Using the findOne method of the role model return a role based on provided id
+    Roles.findOne({ '_id': id }, (err, role) => {
+      // if there is an error
+      if (err) {
+        // log the error to the console
+        console.log('An error occurred finding that role', err);
+        // return an http status code 500, server error and the error
+        response.status(500).send(err);
+      } else {
+        // return role
+        console.log(role);
+        response.status(200).json(role).send();
+      }
+    });
+  }
+});
+
+/*
 ; Params: none
 ; Response: updated role
 ; Description: UpdateRole - updates role
@@ -44,7 +75,7 @@ router.get('/', (request, response) => {
 router.get('/update/:id', (request, response, next) => {
 
   // Using the find one method of the role model return one role
-  Role.findOne({'_id': request.params.id}, (err, role) => {
+  Role.findOne({ '_id': request.params.id }, (err, role) => {
     // if there is an error
     if (err) {
       // log the error to the console

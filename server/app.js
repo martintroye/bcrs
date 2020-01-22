@@ -76,7 +76,7 @@ app.use('/api/sessions', sessionRouter);
 // use the service router
 app.use('/api/services', serviceRouter);
 // use the role router
-//app.user('/api/roles', rolesRouter)
+//app.use('/api/roles', rolesRouter)
 // use the invoices router
 app.use('/api/invoices', invoicesRouter)
 
