@@ -1,0 +1,29 @@
+<!--
+============================================
+; Title: purchases-graph.component.html
+; Author: Troy Martin
+; Date: 01/21/2020
+; Modified By: Troy Martin
+; Description: Purchases Graph
+;===========================================
+-->
+<div fxLayout="column" fxLayoutAlign="center space-around" fxFlex="1 1 60%">
+  <mat-card fxLayout="column">
+    <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex>
+          <h3>Purchases Graph</h3>
+        </div>
+        <div fxFlex></div>
+        <div>
+          <mat-button-toggle-group  #group="matButtonToggleGroup" [value]="selectedChart" (change)="onChartChange(group.value)">
+            <mat-button-toggle value="bar">Bar</mat-button-toggle>
+            <mat-button-toggle value="pie">Pie</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+    </mat-card-header>
+    <mat-card-content fxLayout="row" fxLayoutAlign="start center">
+      <p-chart [type]="selectedChart" [data]="data" [options]="options" fxFlex></p-chart>
+    </mat-card-content>
+  </mat-card>
+</div>
+

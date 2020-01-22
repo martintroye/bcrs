@@ -16,8 +16,28 @@ const Invoice = require('../db-models/invoice');
 const router = express.Router();
 
 router.get('/purchases-graph', (request, response) => {
-
-};
+  Invoice.aggregate([
+    {
+      '$unwind': {
+        'path': '$items'
+      }
+    }, {
+      '$group': {
+        '_id': '$items.service.description',
+        'quantity': {
+          '$sum': '$items.quantity'
+        }
+      }
+    }
+  ]).exec((err, result) => {
+    if (err) {
+      console.log(err);
+      response.status(500).send();
+    } else {
+      response.json(result).status(200).send();
+    }
+  });
+});
 
 
 // export the router
