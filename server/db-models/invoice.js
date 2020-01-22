@@ -54,6 +54,9 @@ let invoiceAccountSchema = mongoose.Schema({
 let invoiceSchema = mongoose.Schema({
   user: invoiceUserSchema,
   account: invoiceAccountSchema,
+  laborHours: { type: String, default: '0'},
+  laborTotal: { type: String },
+  partsTotal: { type: String },
   invoiceTotal: { type: String, required: true },
   items: [invoiceItemSchema],
   isDisabled: { type: Boolean, default: false },

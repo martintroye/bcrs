@@ -21,7 +21,6 @@ export class PurchasesGraphComponent implements OnInit {
         display: true,
         ticks: {
           beginAtZero: true,
-          max: 5,
           min: 0,
           stepSize: 1,
         }
@@ -35,15 +34,22 @@ export class PurchasesGraphComponent implements OnInit {
     this.http.get(`${this.apiBaseUrl}/purchases-graph`)
       .pipe(map((res) => {
         if (res && Array.isArray(res)) {
+          const labels = [];
+          const data = [];
+          // convert to the chart format
+          res.forEach((x) => {
+            labels.push(x._id);
+            data.push(x.quantity);
+          });
 
           return {
-            labels: ['Keyboard Cleaning', 'Software Installation', 'RAM Upgrade'],
+            labels,
             datasets: [
               {
                 label: 'Services Purchased',
                 backgroundColor: '#42A5F5',
                 borderColor: '#1E88E5',
-                data: [3, 1, 1]
+                data
               }
             ]
           };
