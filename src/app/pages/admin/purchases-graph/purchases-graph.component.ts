@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 export class PurchasesGraphComponent implements OnInit {
   // declare and set the default base url for the http service calls
   apiBaseUrl = `${environment.baseUrl}/api/invoices`;
+  selectedChart = 'bar';
   data: any;
   options = {
     responsive: true,
@@ -58,6 +59,11 @@ export class PurchasesGraphComponent implements OnInit {
       })).subscribe((results) => {
         this.data = results;
       });
+  }
+
+  onChartChange(chart: string) {
+    console.log(chart);
+
   }
 
 }

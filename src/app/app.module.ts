@@ -33,7 +33,8 @@ import {
   MatIconModule,
   MatTableModule,
   MatButtonModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatButtonToggleModule
 } from '@angular/material';
 import {MatListModule} from '@angular/material/list';
 import { SessionGuard } from './shared/guards/session.guard';
@@ -116,7 +117,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatSnackBarModule,
     MatChipsModule,
     MatListModule,
-    ChartModule
+    ChartModule,
+    MatButtonToggleModule
   ],
   providers: [
     SessionGuard,
