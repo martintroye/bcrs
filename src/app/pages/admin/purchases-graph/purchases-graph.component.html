@@ -1,0 +1,26 @@
+<!--
+============================================
+; Title: purchases-graph.component.html
+; Author: Troy Martin
+; Date: 01/21/2020
+; Modified By: Troy Martin
+; Description: Purchases Graph
+;===========================================
+-->
+<div fxLayout="column" fxLayoutAlign="center space-around" fxFlex="1 1 60%">
+  <mat-card fxLayout="column">
+    <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex>
+          <h3>Purchases Graph</h3>
+        </div>
+        <div fxFlex></div>
+        <div>
+          <p>selector</p>
+        </div>
+    </mat-card-header>
+    <mat-card-content fxLayout="row" fxLayoutAlign="start center">
+      <p-chart type="bar" [data]="data" [options]="options" fxFlex></p-chart>
+    </mat-card-content>
+  </mat-card>
+</div>
+

@@ -20,6 +20,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
+import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
 
 export const AppRoutes: Routes = [
   {
@@ -41,6 +42,10 @@ export const AppRoutes: Routes = [
       {
         path: 'admin/services',
         component: ServiceListComponent
+      },
+      {
+        path: 'admin/purchases-graph',
+        component: PurchasesGraphComponent
       },
       {
         path: 'contactus',

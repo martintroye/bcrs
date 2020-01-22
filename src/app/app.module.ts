@@ -58,6 +58,8 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
 import { ServiceDetailDialogComponent } from './dialogs/service-detail-dialog/service-detail-dialog.component';
+import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
+import { ChartModule } from 'primeng/chart';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -83,7 +85,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ContactUsComponent,
     AboutUsComponent,
     ServiceListComponent,
-    ServiceDetailDialogComponent
+    ServiceDetailDialogComponent,
+    PurchasesGraphComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -112,7 +115,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatStepperModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    ChartModule
   ],
   providers: [
     SessionGuard,
