@@ -38,6 +38,7 @@ export class UserDetailDialogComponent implements OnInit {
   user: User;
   id: string;
   title: string;
+  roles: [];
 
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
@@ -65,6 +66,13 @@ export class UserDetailDialogComponent implements OnInit {
       this.user = new User();
       this.title = 'Create user';
     }
+
+    this.http.get(`${this.apiBaseUrl}/roles`).subscribe((roles: []) => {
+      console.log(roles);
+      this.roles = roles;
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   ngOnInit() {
@@ -98,7 +106,8 @@ export class UserDetailDialogComponent implements OnInit {
           Validators.pattern(/[A-Z]/),
           Validators.pattern(/[0-9]/)
         ])
-      ]
+      ],
+      role: [null, [Validators.required]]
     });
 
     if (!this.id) {
@@ -155,6 +164,7 @@ export class UserDetailDialogComponent implements OnInit {
     this.accountSubscription = this.accountForm.valueChanges.subscribe(() => {
       this.user.username = this.accountForm.controls.username.value;
       this.user.password = this.accountForm.controls.password.value;
+      this.user.role = this.accountForm.controls.role.value;
     });
 
     // subscribe to form changes and populate the user variable for the component
@@ -243,6 +253,7 @@ export class UserDetailDialogComponent implements OnInit {
     user.city = result.city;
     user.state = result.state;
     user.postalCode = result.postalCode;
+    user.role = result.role;
     return user;
   }
 
@@ -252,6 +263,7 @@ export class UserDetailDialogComponent implements OnInit {
 
       this.accountForm.controls.username.setValue(this.user.username);
       this.accountForm.controls.password.setValue(this.user.password);
+      this.accountForm.controls.role.setValue(this.user.role);
 
       this.personalInfoForm.controls.firstName.setValue(this.user.firstName);
       this.personalInfoForm.controls.lastName.setValue(this.user.lastName);

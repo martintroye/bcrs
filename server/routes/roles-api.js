@@ -21,16 +21,16 @@ const router = express.Router();
 */
 router.get('/', (request, response) => {
 
-  // Using the find method of the role model return all questions that are not disabled
+  // Using the find method of the role model return all roles that are not disabled
   Roles.find({ isDisabled: false }, (err, roles) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that role', err);
+      console.log('An error occurred finding the roles', err);
       return next(err);
     } else {
       console.log(roles);
-      res.json(roles);
+      response.json(roles);
     }
   });
 });
@@ -38,7 +38,7 @@ router.get('/', (request, response) => {
 /*
 ; Params: id: Role id
 ; Response: Role by id
-; Description: FindById - finds a rold by id
+; Description: FindById - finds a role by id
 */
 router.get('/:id', (request, response, next) => {
   // Declare the id and get the value off the url if it exists
@@ -71,7 +71,7 @@ router.get('/:id', (request, response, next) => {
 ; Response: updated role
 ; Description: UpdateRole - updates role
 */
-router.get('/update/:id', (request, response, next) => {
+router.put('/:id', (request, response, next) => {
 
   // Using the find one method of the role model return one role
   Role.findOne({ '_id': request.params.id }, (err, role) => {
@@ -99,28 +99,6 @@ router.get('/update/:id', (request, response, next) => {
     }
   });
 });
-
-/*
-; Params: none
-; Response: all roles
-; Description: FindAll - finds all roles that are not disabled
-*/
-router.get('/', (request, response) => {
-
-  // Using the find method of the role model return all questions that are not disabled
-  Roles.find({ isDisabled: false }, (err, roles) => {
-    // if there is an error
-    if (err) {
-      // log the error to the console
-      console.log('An error occurred finding that role', err);
-      return next(err);
-    } else {
-      console.log(roles);
-      res.json(roles);
-    }
-  });
-});
-
 
 /*
 ; Params: id: role ID

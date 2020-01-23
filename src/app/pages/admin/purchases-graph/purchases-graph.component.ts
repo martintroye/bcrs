@@ -111,7 +111,7 @@ export class PurchasesGraphComponent implements OnInit {
             const backgroundColor = [];
             data.forEach((x, index) => {
               backgroundColor.push(this.pieChartColorOptions[index]);
-            })
+            });
 
             return {
               labels,

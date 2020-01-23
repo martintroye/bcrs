@@ -36,6 +36,14 @@
             <mat-error *ngIf="accountForm.controls['password'].hasError('pattern')">Requires one uppercase, one lowercase, and one number.</mat-error>
           </mat-form-field>
         </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%">
+            <mat-label>Role</mat-label>
+            <select matNativeControl formControlName="role">
+              <option *ngFor="let r of roles" [value]="r.name">{{r.name}}</option>
+            </select>
+          </mat-form-field>
+        </div>
       </form>
     </mat-step>
 
