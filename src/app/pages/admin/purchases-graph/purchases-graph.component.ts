@@ -87,7 +87,7 @@ export class PurchasesGraphComponent implements OnInit {
           const data = [];
           // convert to the chart format
           res.forEach((x) => {
-            labels.push(x._id);
+            labels.push(x._id.service);
             data.push(x.quantity);
           });
 

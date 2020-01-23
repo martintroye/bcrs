@@ -61,10 +61,17 @@ router.get('/purchases-graph', (request, response) => {
       }
     }, {
       '$group': {
-        '_id': '$items.service.description',
+        '_id': {
+          'service': '$items.service.description',
+          'price': '$items.service.price'
+        },
         'quantity': {
           '$sum': '$items.quantity'
         }
+      }
+    }, {
+      '$sort': {
+        '_id': 1
       }
     }
   ],(err, items) => {
