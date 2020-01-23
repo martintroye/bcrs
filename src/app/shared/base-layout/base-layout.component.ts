@@ -12,6 +12,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-base-layout',
@@ -20,9 +21,18 @@ import { Router } from '@angular/router';
 })
 export class BaseLayoutComponent implements OnInit {
   year: number = Date.now();
+  hasAdmin = false;
 
-  constructor(private cookieService: CookieService, private router: Router) {
-
+  constructor(
+    private sessionService: SessionService,
+    private router: Router) {
+      this.sessionService
+      .getUserRole()
+      .subscribe((res) => {
+        this.hasAdmin = res.toLowerCase().trim() === 'admin';
+      }, (err) => {
+        console.log(err);
+      });
   }
 
   ngOnInit() {
@@ -32,12 +42,8 @@ export class BaseLayoutComponent implements OnInit {
    * Delete cookie and redirect to signin page.
    */
   logout() {
-
-    this.cookieService.delete('sessionuser');
+    this.sessionService.logOut();
     this.router.navigate(['/session/signin']);
-
-
-
   }
 
 }

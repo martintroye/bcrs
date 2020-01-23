@@ -21,6 +21,7 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
 import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
+import { RoleGuard } from './shared/guards/role.guard';
 
 export const AppRoutes: Routes = [
   {
@@ -33,19 +34,23 @@ export const AppRoutes: Routes = [
       },
       {
         path: 'admin/security-questions',
-        component: SecurityQuestionsListComponent
+        component: SecurityQuestionsListComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'admin/users',
-        component: UserListComponent
+        component: UserListComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'admin/services',
-        component: ServiceListComponent
+        component: ServiceListComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'admin/purchases-graph',
-        component: PurchasesGraphComponent
+        component: PurchasesGraphComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'contactus',

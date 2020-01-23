@@ -61,6 +61,7 @@ import { ServiceListComponent } from './pages/admin/service-list/service-list.co
 import { ServiceDetailDialogComponent } from './dialogs/service-detail-dialog/service-detail-dialog.component';
 import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
 import { ChartModule } from 'primeng/chart';
+import { RoleGuard } from './shared/guards/role.guard';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -129,7 +130,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
-    }
+    },
+    RoleGuard
   ],
   entryComponents: [
     SecurityQuestionCreateDialogComponent,

@@ -12,7 +12,9 @@ import { Injectable } from '@angular/core';
 // imports from the ngx-cookie-service module
 import { CookieService } from 'ngx-cookie-service';
 // imports from rxjs
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 // declare the injectable
 @Injectable({
@@ -22,13 +24,32 @@ import { BehaviorSubject } from 'rxjs';
 export class SessionService {
   // declare the cookie name and set the default value
   cookieName = 'sessionuser';
+  // declare and set the default base url for the http service calls
+  apiBaseUrl = `${environment.baseUrl}/api/users`;
+
 
   /*
   ; Params: cookieService
   ; Response: none
   ; Description: default constructor
   */
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService, private http: HttpClient) { }
+
+  getUser(): string {
+    // retrieve the cookie by name
+    const user = this.cookieService.get(this.cookieName);
+
+    // if truthy
+    if (user) {
+      return user;
+    } else {
+      return null;
+    }
+  }
+
+  getUserRole(): Observable<string> {
+    return this.http.get<string>(`${this.apiBaseUrl}/${this.cookieService.get(this.cookieName)}/role`);
+  }
 
   /*
   ; Params: none
@@ -45,5 +66,9 @@ export class SessionService {
     } else {
       return false;
     }
+  }
+
+  logOut() {
+    this.cookieService.delete(this.cookieName);
   }
 }

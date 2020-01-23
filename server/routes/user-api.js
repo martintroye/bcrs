@@ -159,6 +159,38 @@ router.get('/:username/security-questions', (request, response, next) => {
   })
 });
 
+/*
+; Params: username
+; Response: string role name
+; Description: Returns the role for the user
+*/
+router.get('/:username/role', (request, response) => {
+  // Declare the username and get the value off the url if it exists
+  var username = request.params && request.params.username ? request.params.username : null;
+
+  // if the username was not defined then return a bad request response
+  if (!username) {
+    // set the status code to 400, bad request and send a message
+    response.status(400).send('Request is invalid or missing the username.');
+  } else {
+    // Using the findOne method of the user model return a role based on provided username
+    User.findOne({ 'username': username }, (err, user) => {
+      // if there is an error
+      if (err) {
+        // log the error to the console
+        console.log('An error occurred finding that username', err);
+        // return an http status code 500, server error and the error
+        response.status(500).send(err);
+      } else {
+        // return user role
+        console.log(user);
+        response.status(200).json(user.role);
+      }
+    });
+  }
+
+});
+
 // export the router
 module.exports = router;
 // end program

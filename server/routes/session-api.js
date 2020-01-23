@@ -107,7 +107,7 @@ router.post('/signin', (request, response, next) => {
       }
 
       // return the status code and the result
-      response.json(result).status(statusCode).send();
+      response.status(statusCode).json(result);
 
     });
   }
