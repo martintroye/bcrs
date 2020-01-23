@@ -22,7 +22,9 @@
         </div>
     </mat-card-header>
     <mat-card-content fxLayout="row" fxLayoutAlign="start center">
-      <p-chart [type]="selectedChart" [data]="data" [options]="options" fxFlex></p-chart>
+      <div fxLayout="column" fxFlexFill>
+        <p-chart [type]="selectedChart" [data]="data" [options]="options" responsive="true"></p-chart>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
