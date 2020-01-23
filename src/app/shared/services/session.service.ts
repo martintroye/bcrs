@@ -68,7 +68,21 @@ export class SessionService {
     }
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Delete the seesionuser cookie, logging the user out
+  */
   logOut() {
     this.cookieService.delete(this.cookieName);
+  }
+
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: gets the username from the cookie
+  */
+  getUsername(): string {
+    return this.cookieService.get(this.cookieName);
   }
 }
