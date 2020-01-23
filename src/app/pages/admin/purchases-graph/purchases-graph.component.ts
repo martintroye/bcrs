@@ -98,8 +98,8 @@ export class PurchasesGraphComponent implements OnInit {
               datasets: [
                 {
                   label: 'Services Purchased',
-                  backgroundColor: '#42A5F5',
-                  borderColor: '#1E88E5',
+                  backgroundColor: '#d95000',
+                  borderColor: '#e5671e',
                   data
                 }
               ]

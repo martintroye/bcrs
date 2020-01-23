@@ -27,13 +27,14 @@ router.post('/:username'), (request, response, next) => {
   // create invoice object for MongoDB
 
   let invoice = {
-    lineItems: req.body.lineItems,
-    partsAmount: req.body.partsAmount,
-    laborAmount: req.body.laborAmount,
+    items: req.body.lineItems,
+    account: req.body.account,
+    partsTotal: req.body.partsAmount,
+    laborTotal: req.body.laborAmount,
     lineItemTotal: req.body.lineItemTotal,
-    total: req.body.total,
+    invoiceTotal: req.body.total,
     username: username,
-    orderData: req.body.orderDate
+    dateOrdered: req.body.orderDate
   };
   // console.log invoice object
   console.log(invoice);
@@ -53,6 +54,11 @@ router.post('/:username'), (request, response, next) => {
   })
 }
 
+/*
+; Params: none
+; Response: [{_id: {service, price}, count: 1}]
+; Description: Return a data set representing the services and the number sold
+*/
 router.get('/purchases-graph', (request, response) => {
   Invoice.aggregate([
     {

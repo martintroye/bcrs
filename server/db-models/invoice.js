@@ -28,17 +28,6 @@ let invoiceItemSchema = mongoose.Schema({
 });
 
 /*
-; Declare invoice user schema
-*/
-let invoiceUserSchema = mongoose.Schema({
-  username: { type: String, required: true },
-  firstName: { type: String },
-  lastName: { type: String },
-  phoneNumber: { type: String },
-  email: { type: String },
-});
-
-/*
 ; Declare invoice account schema
 */
 let invoiceAccountSchema = mongoose.Schema({
@@ -52,7 +41,7 @@ let invoiceAccountSchema = mongoose.Schema({
  * Declare invoice database schema
  */
 let invoiceSchema = mongoose.Schema({
-  user: invoiceUserSchema,
+  username: { type: String, required: true },
   account: invoiceAccountSchema,
   laborTotal: { type: String, default: '0.00'},
   partsTotal: { type: String, default: '0.00' },
@@ -60,8 +49,7 @@ let invoiceSchema = mongoose.Schema({
   invoiceTotal: { type: String, required: true, default: '0.00' },
   items: [invoiceItemSchema],
   isDisabled: { type: Boolean, default: false },
-  dateOrdered: { type: Date, default: new Date() },
-  datePaid: { type: Date }
+  dateOrdered: { type: Date, default: new Date() }
 });
 
 // Export mongoose model
