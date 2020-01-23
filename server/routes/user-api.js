@@ -125,7 +125,8 @@ router.put('/:id', function (req, res, next) {
         addressLine2: req.body.addressLine2,
         city: req.body.city,
         state: req.body.state,
-        postalCode: req.body.postalCode
+        postalCode: req.body.postalCode,
+        role: req.body.role
       });
 
       user.save(function (err, savedUser) {
