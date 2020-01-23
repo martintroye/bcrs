@@ -22,6 +22,7 @@ import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
 import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
 import { RoleGuard } from './shared/guards/role.guard';
+import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
 
 export const AppRoutes: Routes = [
   {
@@ -59,6 +60,10 @@ export const AppRoutes: Routes = [
       {
         path: 'aboutus',
         component: AboutUsComponent
+      },
+      {
+        path: 'services',
+        component: ServiceRepairComponent
       }
     ],
     // use the can activate child to secure the routes

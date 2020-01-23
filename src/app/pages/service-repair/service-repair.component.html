@@ -1,0 +1,13 @@
+
+
+  <!-- define the form -->
+<form [formGroup]="form" fxLayout="column wrap">
+    <!-- using an ngFor output the products -->
+    <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let service of services" style="padding-top:1rem;">
+      <!-- define the checkbox -->
+      <mat-checkbox name="{{service._id}}"color="primary">
+        {{ services.description}} {{ services.price | currency: "USD" }}
+      </mat-checkbox>
+      <!-- define the chip displaying the price -->
+    </div>
+  </form>

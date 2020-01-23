@@ -36,6 +36,7 @@ import {
   MatToolbarModule,
   MatButtonToggleModule
 } from '@angular/material';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatListModule} from '@angular/material/list';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -62,6 +63,7 @@ import { ServiceDetailDialogComponent } from './dialogs/service-detail-dialog/se
 import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
 import { ChartModule } from 'primeng/chart';
 import { RoleGuard } from './shared/guards/role.guard';
+import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -89,6 +91,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ServiceListComponent,
     ServiceDetailDialogComponent,
     PurchasesGraphComponent,
+    ServiceRepairComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -119,7 +122,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatChipsModule,
     MatListModule,
     ChartModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatCheckboxModule
   ],
   providers: [
     SessionGuard,
