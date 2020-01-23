@@ -29,13 +29,14 @@ router.get('/purchases-graph', (request, response) => {
         }
       }
     }
-  ]).exec((err, result) => {
+  ],(err, items) => {
     if (err) {
       console.log(err);
       response.status(500).send();
     } else {
-      response.json(result).status(200).send();
+      response.status(200).json(items);
     }
+
   });
 });
 

@@ -9,7 +9,7 @@
 */
 // start program
 const express = require('express');
-const Roles = require('../db-models/roles')
+const Roles = require('../db-models/role')
 
 // declare the express router object
 const router = express.Router();
@@ -61,7 +61,7 @@ router.get('/:id', (request, response, next) => {
       } else {
         // return role
         console.log(role);
-        response.status(200).json(role).send();
+        response.status(200).json(role);
       }
     });
   }

@@ -17,7 +17,7 @@
           <a routerLink="/" style="text-decoration: none;"><img src="/assets/bobslogo.png" width="150px" height="120px"></a>
           <div fxFlex></div>
 
-          <button class="navbar-link" mat-button [matMenuTriggerFor]="menu">Administration</button>
+          <button class="navbar-link" mat-button [matMenuTriggerFor]="menu" *ngIf="hasAdmin">Administration</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="/admin/users">Users</button>
             <button mat-menu-item routerLink="/admin/security-questions">Security Questions</button>

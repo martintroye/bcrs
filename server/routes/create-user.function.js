@@ -67,7 +67,7 @@ createUser = function (request, response) {
             } else {
               //console.log(u);
               // return the created status code and the new user
-              response.json(u).status(201).send();
+              response.status(201).json(u);
             }
           });
         }

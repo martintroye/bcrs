@@ -24,7 +24,7 @@ const securityQuestionRouter = require('./routes/security-question-api');
 const userRouter = require('./routes/user-api');
 const sessionRouter = require('./routes/session-api');
 const serviceRouter = require('./routes/service-api');
-//const rolesRouter = require('./routes/roles-api');
+const rolesRouter = require('./routes/roles-api');
 const invoicesRouter = require('./routes/invoice-api');
 const config = require('./config');
 const cors = require('cors');
@@ -76,7 +76,7 @@ app.use('/api/sessions', sessionRouter);
 // use the service router
 app.use('/api/services', serviceRouter);
 // use the role router
-//app.use('/api/roles', rolesRouter)
+app.use('/api/roles', rolesRouter)
 // use the invoices router
 app.use('/api/invoices', invoicesRouter)
 
