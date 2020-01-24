@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Service } from 'src/app/models/service.model';
 
 @Component({
   selector: 'app-service-repair',
@@ -15,78 +16,90 @@ export class ServiceRepairComponent implements OnInit {
   username: string;
   email: string;
   phoneNumber: string;
-  services: any;
-  constructor(private http: HttpClient, 
-            private cookieService: CookieService, 
-            private fb: FormBuilder, 
-            private dialog: MatDialog, 
-            private router: Router) {
+  serviceOfferings: Service[];
+  get serviceControls() {
+    return this.form.controls.services as FormArray;
+  }
 
-              // get the username
-              this.username = this.cookieService.get('sessionuser')
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private router: Router) {
 
-              this.http.get(`/api/services/`).subscribe((services: []) => {
-                this.services = services;
-              }, (err) => {
-                console.log(err);
-              });
-             }
+    // get the username
+    this.username = this.cookieService.get('sessionuser');
+  }
 
 
   ngOnInit() {
+
     this.form = this.fb.group({
       parts: [null, Validators.compose([Validators.required])],
       labor: [null, Validators.compose([Validators.required])],
-      alternator: [null, null]
+      alternator: [null, null],
+      services: new FormArray([])
     });
+
+    this.http.get<Service[]>(`/api/services/`).subscribe((services) => {
+      this.serviceOfferings = services;
+      console.log(this.serviceOfferings);
+      this.initForm();
+    }, (err) => {
+      console.log(err);
+    }, () => {
+      // create the form controls mapping the product into a control
+      const formArray = this.form.controls.services as FormArray;
+      this.serviceOfferings.forEach((x) => formArray.push(new FormControl(false)));
+      console.log(this.form);
+
+    });
+
+
     console.log(this.username);
+  }
+
+  initForm() {
+
   }
 
   submit(form) {
     console.log(form);
-    const selectedServiceIds = [];
-  for (const [key, value] of Object.entries(form.checkGroup)) {
-    if (value) {
-      selectedServiceIds.push({
-        id: key
-      });
-    }
-  }  
 
-  console.log(selectedServiceIds);
-  
-  const lineItems = []
-
-  for (const savedService of this.services) {
-    for (const selectedService of selectedServiceIds) {
-      if (savedService._id === selectedService.id) {
+    const lineItems = [];
+    this.serviceControls.controls.forEach((x, i) => {
+      if (x.value) {
+        const service = this.serviceOfferings[i];
         lineItems.push({
-          description: savedService.description,
-          price: savedService.price
-        });
+          service: {
+            description: service.description,
+            price: service.price
+          },
+          itemTotal: service.price,
+          quantity: 1});
       }
-    }
+    });
+    console.log(lineItems);
+
+    const partsAmount = parseFloat(this.form.controls.parts.value);
+    const laborAmount = this.form.controls.labor.value * 50;
+    const lineItemTotal = lineItems.reduce((prev, cur) => prev + cur.price, 0);
+    const total = partsAmount + laborAmount + lineItemTotal;
+
+    const invoice = {
+      lineItems,
+      partsAmount,
+      laborAmount,
+      lineItemTotal,
+      total,
+      username: this.username,
+      orderDate: new Date()
+    };
+
+    console.log(invoice);
+
+
   }
-  console.log(lineItems);
-
-  const partsAmount = parseFloat(form.parts);
-  const laborAmount = form.labor * 50;
-  const lineItemTotal = lineItems.reduce((prev, cur) => prev + cur.price, 0);
-  const total = partsAmount + laborAmount + lineItemTotal;
-  
-  const invoice = {
-    lineItems: lineItems,
-    partsAmount: partsAmount,
-    laborAmount: laborAmount,
-    lineItemTotal: lineItemTotal,
-    total: total,
-    username: this.username,
-    orderDate: new Date()
-  };
-
-  console.log(invoice);
-
-
-}
 
 }
