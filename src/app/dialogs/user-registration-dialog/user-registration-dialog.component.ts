@@ -137,16 +137,16 @@ export class UserRegistrationDialogComponent implements OnInit {
   ; Description: Get the questions and answers from the form and put them on the user
   */
   getQuestions() {
-    this.user.questions = [];
-    this.user.questions.push({
+    this.user.SecurityQuestions = [];
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId1.value,
       answer: this.securityQuestionsForm.controls.answer1.value
     });
-    this.user.questions.push({
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId2.value,
       answer: this.securityQuestionsForm.controls.answer2.value
     });
-    this.user.questions.push({
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId3.value,
       answer: this.securityQuestionsForm.controls.answer3.value
     });
