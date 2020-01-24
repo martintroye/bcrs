@@ -135,18 +135,22 @@ export class UserProfileComponent implements OnInit {
   ; Description: Update the users personal information
   */
   savePersonalInfo() {
-    this.http.put(`${this.apiBaseUrl}/users/${this.user.id}`, this.user)
-      .pipe(
-        map((result: any) => {
-          return this.mapUser(result);
-        })
-      ).subscribe((u) => {
-        this.user = u;
-      }, (err) => {
-        console.log('user-profile.component / savePersonalInfo', err);
-      }, () => {
-        this.displayMessage('Your personal information has been updated.');
-      });
+    if (this.personalInfoForm.valid) {
+      this.getFormValues();
+      this.http.put(`${this.apiBaseUrl}/users/${this.user.id}`, this.user)
+        .pipe(
+          map((result: any) => {
+            return this.mapUser(result);
+          })
+        ).subscribe((u) => {
+          this.user = u;
+        }, (err) => {
+          console.log('user-profile.component / savePersonalInfo', err);
+        }, () => {
+          this.displayMessage('Your personal information has been updated.');
+        });
+    }
+
   }
 
   /*
@@ -155,18 +159,36 @@ export class UserProfileComponent implements OnInit {
   ; Description: Change the users password
   */
   changePassword() {
-    this.http.put(`${this.apiBaseUrl}/users/${this.username}/reset-password`,
-      { password: this.newPasswordForm.controls.password.value })
-      .subscribe((result) => {
-        if (result) {
-          this.displayMessage('Your password has been changed.');
-        } else {
-          this.displayMessage('There was an error updating your password');
-        }
+    if (this.newPasswordForm.valid) {
+      // test the current password
+      this.http.post(`${this.apiBaseUrl}/sessions/signin`, {
+        username: this.username,
+        password: this.newPasswordForm.controls.currentPassword.value
+      }).pipe(map((result: any) => {
+        return result.isAuthenticated;
       }, (err) => {
         console.log(err);
-        this.displayMessage('There was an error trying to reset your password please try again.');
+      })).subscribe((auth) => {
+        if (auth) {
+          this.http.put(`${this.apiBaseUrl}/sessions/users/${this.username}/reset-password`,
+            { password: this.newPasswordForm.controls.password.value })
+            .subscribe((hasUpdatedPassword) => {
+              if (hasUpdatedPassword) {
+                this.displayMessage('Your password has been changed.');
+                this.newPasswordForm.reset();
+                this.newPasswordForm.controls.currentPassword.markAsPristine();
+                this.newPasswordForm.controls.password.markAsPristine();
+                this.newPasswordForm.controls.confirmationPassword.markAsPristine();
+              } else {
+                this.displayMessage('There was an error updating your password');
+              }
+            }, (err) => {
+              console.log(err);
+              this.displayMessage('There was an error trying to reset your password please try again.');
+            });
+        }
       });
+    }
   }
 
   /*
@@ -259,6 +281,18 @@ export class UserProfileComponent implements OnInit {
     user.postalCode = result.postalCode;
     user.role = result.role;
     return user;
+  }
+
+  private getFormValues() {
+    this.user.firstName = this.personalInfoForm.controls.firstName.value;
+    this.user.lastName = this.personalInfoForm.controls.lastName.value;
+    this.user.phoneNumber = this.personalInfoForm.controls.phoneNumber.value;
+    this.user.email = this.personalInfoForm.controls.email.value;
+    this.user.addressLine1 = this.personalInfoForm.controls.addressLine1.value;
+    this.user.addressLine2 = this.personalInfoForm.controls.addressLine2.value;
+    this.user.city = this.personalInfoForm.controls.city.value;
+    this.user.state = this.personalInfoForm.controls.state.value;
+    this.user.postalCode = this.personalInfoForm.controls.postalCode.value;
   }
 
   /*
