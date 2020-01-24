@@ -17,13 +17,16 @@
                 <!-- using an ngFor output the products -->
                 <div fxLayout="row" fxLayoutAlign="space-between center" formArrayName="services" *ngFor="let service of serviceControls.controls;let i = index;" style="padding-top:1rem;">
                   <mat-checkbox color="primary" id="{{i}}" [formControl]="serviceControls.controls[i]">
-                    {{ serviceOfferings[i].description }} {{serviceOfferings[i].price | currency: "USD"}}
+                    <h3>{{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}</h3>
                   </mat-checkbox>
                 </div>
 
                 <div fxLayout="column">
                     <h2>Standard Fees</h2>
-                    <mat-form-field fxFlex>
+                </div>
+                
+                <div fxLayout="row" fxLayoutGap="20px">
+                    <mat-form-field style="width: 150px !important">
                         <input matInput
                         name="parts"
                         formControlName="parts"
@@ -32,7 +35,7 @@
                         placeholder="Additional Parts"/>
                     </mat-form-field>
 
-                    <mat-form-field fxFlex>
+                    <mat-form-field style="width: 150px !important">
                         <input matInput
                         type="number"
                         value="0"
@@ -40,7 +43,6 @@
                         placeholder="Labor at $50.00 per hour"/>
                     </mat-form-field>
                 </div>
-
                 <mat-card-actions>
                     <button mat-raised-button type="reset">Cancel</button>
                     <button mat-raised-button (click)="submit()">Submit</button>

@@ -66,6 +66,7 @@ import { ChartModule } from 'primeng/chart';
 import { RoleGuard } from './shared/guards/role.guard';
 import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { InvoiceSummaryDialogComponent } from './dialogs/invoice-summary-dialog/invoice-summary-dialog.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -95,6 +96,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     PurchasesGraphComponent,
     ServiceRepairComponent,
     UserProfileComponent,
+    InvoiceSummaryDialogComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),

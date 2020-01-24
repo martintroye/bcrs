@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Service } from 'src/app/models/service.model';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { InvoiceSummaryDialogComponent } from 'src/app/shared/invoice-summary-dialog/invoice-summary-dialog';
 
 @Component({
   selector: 'app-service-repair',
@@ -15,8 +16,6 @@ import { SessionService } from 'src/app/shared/services/session.service';
 export class ServiceRepairComponent implements OnInit {
   form: FormGroup;
   username: string;
-  email: string;
-  phoneNumber: string;
   serviceOfferings: Service[];
   get serviceControls() {
     return this.form.controls.services as FormArray;
@@ -100,7 +99,32 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log(invoice);
 
+    const dialogRef = this.dialog.open( InvoiceSummaryDialogComponent, {
+      data: {
+        invoice: invoice
+      },
+      disableClose: true,
+      width: '800px'
+    });
 
-  }
+  dialogRef.afterClosed().subscribe(result => {
+    if(result === 'confirm') {
+      console.log('Invoice Saved');
 
+      this.http.post('/api/invoices/' + invoice.username, {
+        lineItems: invoice.lineItems,
+        partsAmount: invoice.partsAmount,
+        laborAmount: invoice.laborAmount,
+        lineItemTotal: invoice.lineItemTotal,
+        total: invoice.total,
+        orderDate: invoice.orderDate
+      }).subscribe(res => {
+        this.router.navigate(['/']);
+      }, err => {
+        console.log(err);
+      });
+    }
+  });
+
+}
 }
