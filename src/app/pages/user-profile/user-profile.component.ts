@@ -16,6 +16,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { matchingPassword } from '../../shared/validators/matching-password.validator';
 import { SecurityQuestion } from 'src/app/models/security-question.model';
 import { MatSnackBar } from '@angular/material';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './user-profile.component.html',
@@ -30,6 +31,7 @@ export class UserProfileComponent implements OnInit {
   personalInfoForm: FormGroup;
   newPasswordForm: FormGroup;
   securityQuestionsForm: FormGroup;
+  errorMessage: string;
 
   /*
   ; Params: none
@@ -102,13 +104,16 @@ export class UserProfileComponent implements OnInit {
     });
 
     // get the logged in users information
-    this.http.get<User>(`${this.apiBaseUrl}/sessions/verify/users/${this.username}`)
-      .subscribe((u) => {
-        console.log(u);
-        // set the user on the component
+    this.http.get(`${this.apiBaseUrl}/sessions/verify/users/${this.username}`)
+      .pipe(
+        map((res: any) => {
+          console.log(res);
+          return this.mapUser(res);
+        })
+      ).subscribe((u) => {
         this.user = u;
       }, (err) => {
-        console.log(err);
+        console.log('user-profile', err);
       }, () => {
         // on completion set the form values
         this.setFormValues();
@@ -130,8 +135,18 @@ export class UserProfileComponent implements OnInit {
   ; Description: Update the users personal information
   */
   savePersonalInfo() {
-
-    this.displayMessage('Your personal information has been updated.')
+    this.http.put(`${this.apiBaseUrl}/users/${this.user.id}`, this.user)
+      .pipe(
+        map((result: any) => {
+          return this.mapUser(result);
+        })
+      ).subscribe((u) => {
+        this.user = u;
+      }, (err) => {
+        console.log('user-profile.component / savePersonalInfo', err);
+      }, () => {
+        this.displayMessage('Your personal information has been updated.');
+      });
   }
 
   /*
@@ -140,8 +155,18 @@ export class UserProfileComponent implements OnInit {
   ; Description: Change the users password
   */
   changePassword() {
-    this.displayMessage('Your password has been changed.')
-
+    this.http.put(`${this.apiBaseUrl}/users/${this.username}/reset-password`,
+      { password: this.newPasswordForm.controls.password.value })
+      .subscribe((result) => {
+        if (result) {
+          this.displayMessage('Your password has been changed.');
+        } else {
+          this.displayMessage('There was an error updating your password');
+        }
+      }, (err) => {
+        console.log(err);
+        this.displayMessage('There was an error trying to reset your password please try again.');
+      });
   }
 
   /*
@@ -211,6 +236,29 @@ export class UserProfileComponent implements OnInit {
       this.securityQuestionsForm.controls.answer3.setValue(this.user.SecurityQuestions[2].answer);
 
     }
+  }
+
+  /*
+  ; Params: message
+  ; Response: none
+  ; Description: map the user to the object
+  */
+  private mapUser(result: any): User {
+    const user = new User();
+    user.id = result._id;
+    user.username = result.username;
+    user.password = result.password;
+    user.firstName = result.firstName;
+    user.lastName = result.lastName;
+    user.phoneNumber = result.phoneNumber;
+    user.email = result.email;
+    user.addressLine1 = result.addressLine1;
+    user.addressLine2 = result.addressLine2;
+    user.city = result.city;
+    user.state = result.state;
+    user.postalCode = result.postalCode;
+    user.role = result.role;
+    return user;
   }
 
   /*
