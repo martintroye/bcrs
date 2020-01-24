@@ -141,6 +141,25 @@ router.delete('/:id', (request, response, next) => {
   });
 });
 
+/**
+ * CreateRole
+ */
+router.post('/', function(req, res, next) {
+  const r = {
+    text: req.body.text
+  };
+
+  Role.create(r, function(err, role) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(role);
+      res.json(role);
+    }
+  })
+});
+
 // export the router
 module.exports = router;
 
