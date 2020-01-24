@@ -67,7 +67,7 @@ router.get('/:id', (request, response, next) => {
 });
 
 /*
-; Params: roleId
+; Params: none
 ; Response: updated role
 ; Description: UpdateRole - updates role
 */
@@ -83,7 +83,7 @@ router.put('/:id', (request, response, next) => {
       response.status(500).send(err);
     } else {
       role.set({
-        name: request.body.text
+        text: request.body.text
       })
 
       role.save((err, role) => {
@@ -146,7 +146,7 @@ router.delete('/:id', (request, response, next) => {
  */
 router.post('/', function(req, res, next) {
   const r = {
-    name: req.body.text
+    text: req.body.text
   };
 
   Role.create(r, function(err, role) {
