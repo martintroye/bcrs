@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Service } from 'src/app/models/service.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
   selector: 'app-service-repair',
@@ -23,13 +24,13 @@ export class ServiceRepairComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private cookieService: CookieService,
+    private sessionService: SessionService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private router: Router) {
 
     // get the username
-    this.username = this.cookieService.get('sessionuser');
+    this.username = this.sessionService.getUsername();
   }
 
 

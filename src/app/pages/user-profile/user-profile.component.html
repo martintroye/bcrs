@@ -1,0 +1,29 @@
+<!--
+============================================
+; Title: user-profile.component
+; Author: Troy Martin
+; Date: 01/23/2020
+; Modified By: Troy Martin
+; Description: User profile
+;===========================================
+-->
+
+<div fxLayout="column" fxLayoutAlign="center space-around" fxFlex="1 1 50%">
+  <mat-card>
+    <mat-card-header fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex>
+          <h3>User profile {{username}}</h3>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutAlign="start">
+      <mat-tab-group>
+        <mat-tab label="Personal Info"> Content 1 </mat-tab>
+        <mat-tab label="Change Password"> Content 2 </mat-tab>
+        <mat-tab label="Change Security Questions"> Content 3 </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+</div>

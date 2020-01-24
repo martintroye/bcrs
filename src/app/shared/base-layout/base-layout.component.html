@@ -17,6 +17,7 @@
           <a routerLink="/" style="text-decoration: none;"><img src="/assets/bobslogo.png" width="150px" height="120px"></a>
           <div fxFlex></div>
 
+          <button class="navbar-link" routerLink="/" mat-button>Home</button>
           <button class="navbar-link" mat-button [matMenuTriggerFor]="menu" *ngIf="hasAdmin">Administration</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="/admin/users">Users</button>
@@ -26,7 +27,14 @@
           </mat-menu>
           <button class="navbar-link" routerLink="/aboutus" mat-button>About Us</button>
           <button class="navbar-link" routerLink="/contactus" mat-button>Contact Us</button>
-          <button class="navbar-link" mat-button (click)="logout()">Logout</button>
+          <button class="navbar-link" mat-raised-button [matMenuTriggerFor]="profile">
+            <mat-icon>perm_identity</mat-icon>
+          </button>
+          <mat-menu #profile="matMenu">
+            <button class="navbar-link" mat-menu-item routerLink="/profile">Profile</button>
+            <button class="navbar-link" mat-menu-item (click)="logout()">Logout</button>
+
+          </mat-menu>
         </mat-toolbar-row>
       </mat-toolbar>
     </nav>

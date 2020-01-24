@@ -23,6 +23,7 @@ import { ServiceListComponent } from './pages/admin/service-list/service-list.co
 import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
 import { RoleGuard } from './shared/guards/role.guard';
 import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 export const AppRoutes: Routes = [
   {
@@ -64,6 +65,10 @@ export const AppRoutes: Routes = [
       {
         path: 'services',
         component: ServiceRepairComponent
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent
       }
     ],
     // use the can activate child to secure the routes
