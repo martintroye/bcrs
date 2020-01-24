@@ -81,11 +81,11 @@ export class ServiceRepairComponent implements OnInit {
           quantity: 1});
       }
     });
-    console.log(lineItems);
 
     const partsAmount = parseFloat(this.form.controls.parts.value);
     const laborAmount = this.form.controls.labor.value * 50;
-    const lineItemTotal = lineItems.reduce((prev, cur) => prev + cur.price, 0);
+    const lineItemTotal = lineItems.reduce((prev, cur) => prev + cur.itemTotal, 0);
+    console.log(lineItemTotal);
     const total = partsAmount + laborAmount + lineItemTotal;
 
     const invoice = {
