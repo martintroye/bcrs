@@ -74,7 +74,7 @@ router.get('/:id', (request, response, next) => {
 router.put('/:id', (request, response, next) => {
 
   // Using the find one method of the role model return one role
-  Role.findOne({ '_id': request.params.id }, (err, role) => {
+  Roles.findOne({ '_id': request.params.id }, (err, role) => {
     // if there is an error
     if (err) {
       // log the error to the console
@@ -84,16 +84,17 @@ router.put('/:id', (request, response, next) => {
     } else {
       role.set({
         text: request.body.text
-      })
+      });
 
       role.save((err, role) => {
         if (err) {
           // log the error to the console
           console.log(err);
+          return next(err);
         } else {
           // console.log role and respond with role JSON data
           console.log(role);
-          res.json(role);
+          response.json(role);
         }
       })
     }

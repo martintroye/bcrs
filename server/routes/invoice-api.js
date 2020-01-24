@@ -22,19 +22,18 @@ const router = express.Router();
 */
 router.post('/:username'), (request, response, next) => {
   // get the username
-  const username = req.params.username;
+  const username = request.params.username;
 
   // create invoice object for MongoDB
 
   let invoice = {
-    items: req.body.lineItems,
-    account: req.body.account,
-    partsTotal: req.body.partsAmount,
-    laborTotal: req.body.laborAmount,
-    lineItemTotal: req.body.lineItemTotal,
-    invoiceTotal: req.body.total,
+    lineItems: request.body.lineItems,
+    partsAmount: request.body.partsAmount,
+    laborAmount: request.body.laborAmount,
+    lineItemTotal: request.body.lineItemTotal,
+    invoiceTotal: request.body.total,
     username: username,
-    dateOrdered: req.body.orderDate
+    dateOrdered: request.body.orderDate
   };
   // console.log invoice object
   console.log(invoice);
