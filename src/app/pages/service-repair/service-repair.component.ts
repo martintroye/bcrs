@@ -27,7 +27,6 @@ export class ServiceRepairComponent implements OnInit {
 
               this.http.get(`/api/services/`).subscribe((services: []) => {
                 this.services = services;
-                console.log(this.services);
               }, (err) => {
                 console.log(err);
               });
@@ -53,11 +52,14 @@ export class ServiceRepairComponent implements OnInit {
       });
     }
   }  
+
+  console.log(selectedServiceIds);
+  
   const lineItems = []
 
   for (const savedService of this.services) {
     for (const selectedService of selectedServiceIds) {
-      if (savedService.id === selectedService.id) {
+      if (savedService._id === selectedService.id) {
         lineItems.push({
           description: savedService.description,
           price: savedService.price

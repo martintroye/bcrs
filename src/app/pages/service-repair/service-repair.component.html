@@ -17,8 +17,8 @@
                 <!-- using an ngFor output the products -->
                 <div fxLayout="row" ngModelGroup="checkGroup" fxLayoutAlign="space-between center" *ngFor="let service of services" style="padding-top:1rem;">
                   <!-- define the checkbox -->
-                  <mat-checkbox name="{{service._id}}" color="primary">
-                    {{ service.description}} {{ service.price | currency: "USD" }}
+                  <mat-checkbox name="{{service._id}}">
+                    {{ service.description}} {{ service.price | currency }}
                   </mat-checkbox>
                 </div>
 
