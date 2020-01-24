@@ -24,13 +24,16 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 // Export the class
 export class UserDeleteDialogComponent implements OnInit {
   username: string;
+
   constructor(private dialogRef: MatDialogRef<UserDeleteDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
     this.username = data.username;
   }
 
   ngOnInit() {
-
   }
+
 }
+
+
 
 // End Program
