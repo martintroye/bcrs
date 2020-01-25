@@ -54,7 +54,7 @@ export class ServiceRepairComponent implements OnInit {
     });
   }
 
-  submit(form) {
+  submit() {
     console.log('service-repair.component/submit', this.form);
     let lineItemTotal = 0;
 
