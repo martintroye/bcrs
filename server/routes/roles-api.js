@@ -150,13 +150,15 @@ router.post('/', function(req, res, next) {
     name: req.body.name
   };
 
-  Role.create(r, function(err, role) {
+  const role = new Roles(r);
+
+  role.save(r, function(err, role) {
     if (err) {
       console.log('roles api', err);
       return next(err);
     } else {
       console.log('roles api', role);
-      res.json(role);
+      res.status(201).json(role);
     }
   })
 });
