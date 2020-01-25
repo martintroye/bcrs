@@ -67,6 +67,8 @@ import { RoleGuard } from './shared/guards/role.guard';
 import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { InvoiceSummaryDialogComponent } from './dialogs/invoice-summary-dialog/invoice-summary-dialog.component';
+import { RoleListComponent } from './pages/admin/role-list/role-list.component';
+import { RoleDetailDialogComponent } from './dialogs/role-detail-dialog/role-detail-dialog.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -97,6 +99,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ServiceRepairComponent,
     UserProfileComponent,
     InvoiceSummaryDialogComponent,
+    RoleListComponent,
+    RoleDetailDialogComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -151,7 +155,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     UserRegistrationDialogComponent,
     ForgotPasswordDialogComponent,
     ServiceDetailDialogComponent,
-    InvoiceSummaryDialogComponent
+    InvoiceSummaryDialogComponent,
+    RoleDetailDialogComponent
   ],
   bootstrap: [AppComponent]
 })

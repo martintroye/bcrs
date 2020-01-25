@@ -148,7 +148,7 @@ router.put('/:id', function (req, res, next) {
 ; Description: FindSelectedSecurityQuestions - returns an array of security questions based on user
 */
 router.get('/:username/security-questions', (request, response, next) => {
-  User.findOne({ 'username': request.params.username }, (err, user) => {
+  User.findOne({ 'username': { $regex : new RegExp(request.params.username, "i") } }, (err, user) => {
     if (err) {
       console.log(err);
       return next(err);
@@ -165,7 +165,7 @@ router.get('/:username/security-questions', (request, response, next) => {
 ; Description: Update the users security questions
 */
 router.put('/:username/security-questions', (request, response, next) => {
-  User.findOne({ 'username': request.params.username }, (err, user) => {
+  User.findOne({ 'username': { $regex : new RegExp(request.params.username, "i") } }, (err, user) => {
     if (err) {
       console.log(err);
       return next(err);
@@ -214,7 +214,7 @@ router.get('/:username/role', (request, response) => {
     response.status(400).send('Request is invalid or missing the username.');
   } else {
     // Using the findOne method of the user model return a role based on provided username
-    User.findOne({ 'username': username }, (err, user) => {
+    User.findOne({ 'username': { $regex : new RegExp(username, "i") } }, (err, user) => {
       // if there is an error
       if (err) {
         // log the error to the console

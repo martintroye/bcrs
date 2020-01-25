@@ -30,10 +30,10 @@ export class ServiceListComponent implements OnInit {
   }
 
   /*
-; Params: none
-; Response: none
-; Description: add a new user
-*/
+  ; Params: none
+  ; Response: none
+  ; Description: add a new user
+  */
   addService(): void {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(ServiceDetailDialogComponent, {

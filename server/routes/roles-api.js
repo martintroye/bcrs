@@ -30,7 +30,7 @@ router.get('/', (request, response) => {
       return next(err);
     } else {
       console.log(roles);
-      response.json(roles);
+      response.status(200).json(roles);
     }
   });
 });
@@ -83,7 +83,7 @@ router.put('/:id', (request, response, next) => {
       response.status(500).send(err);
     } else {
       role.set({
-        text: request.body.text
+        name: request.body.name
       });
 
       role.save((err, role) => {
@@ -147,7 +147,7 @@ router.delete('/:id', (request, response, next) => {
  */
 router.post('/', function(req, res, next) {
   const r = {
-    text: req.body.text
+    name: req.body.name
   };
 
   Role.create(r, function(err, role) {

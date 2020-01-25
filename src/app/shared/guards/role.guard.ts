@@ -33,7 +33,6 @@ export class RoleGuard implements CanActivate {
     return this.sessionService
       .getUserRole()
       .pipe(map((role) => {
-        console.log(role);
         if (role
           && role.toLowerCase().trim() === 'admin') {
           return true;
