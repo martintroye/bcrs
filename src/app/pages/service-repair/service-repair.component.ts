@@ -66,25 +66,30 @@ export class ServiceRepairComponent implements OnInit {
 
   submit(form) {
     console.log(form);
+    let lineItemTotal = 0;
 
     const lineItems = [];
     this.serviceControls.controls.forEach((x, i) => {
       if (x.value) {
         const service = this.serviceOfferings[i];
+        const price = Number(service.price);
+        console.log(price);
+
+        lineItemTotal += price;
+
         lineItems.push({
           service: {
             description: service.description,
             price: service.price
           },
           itemTotal: service.price,
-          quantity: 1});
+          quantity: 1
+        });
       }
     });
 
-    const partsAmount = parseFloat(this.form.controls.parts.value);
-    const laborAmount = this.form.controls.labor.value * 50;
-    const lineItemTotal = lineItems.reduce((prev, cur) => prev + cur.itemTotal, 0);
-    console.log(lineItemTotal);
+    const partsAmount = Number(this.form.controls.parts.value as string);
+    const laborAmount = Number(this.form.controls.labor.value as string) * 50;
     const total = partsAmount + laborAmount + lineItemTotal;
 
     const invoice = {
@@ -99,32 +104,32 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log(invoice);
 
-    const dialogRef = this.dialog.open( InvoiceSummaryDialogComponent, {
-      data: {
-        invoice: invoice
-      },
-      disableClose: true,
-      width: '800px'
-    });
+    // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
+    //   data: {
+    //     invoice: invoice
+    //   },
+    //   disableClose: true,
+    //   width: '800px'
+    // });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if(result === 'confirm') {
-      console.log('Invoice Saved');
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'confirm') {
+    //     console.log('Invoice Saved');
 
-      this.http.post('/api/invoices/' + invoice.username, {
-        lineItems: invoice.lineItems,
-        partsAmount: invoice.partsAmount,
-        laborAmount: invoice.laborAmount,
-        lineItemTotal: invoice.lineItemTotal,
-        total: invoice.total,
-        orderDate: invoice.orderDate
-      }).subscribe(res => {
-        this.router.navigate(['/']);
-      }, err => {
-        console.log(err);
-      });
-    }
-  });
+    //     this.http.post('/api/invoices/' + invoice.username, {
+    //       lineItems: invoice.lineItems,
+    //       partsAmount: invoice.partsAmount,
+    //       laborAmount: invoice.laborAmount,
+    //       lineItemTotal: invoice.lineItemTotal,
+    //       total: invoice.total,
+    //       orderDate: invoice.orderDate
+    //     }).subscribe(res => {
+    //       this.router.navigate(['/']);
+    //     }, err => {
+    //       console.log(err);
+    //     });
+    //   }
+    // });
 
-}
+  }
 }

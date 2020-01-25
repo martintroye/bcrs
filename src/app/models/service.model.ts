@@ -10,5 +10,5 @@
 export class Service {
   _id: string;
   description: string;
-  price: number;
+  price: string;
 }

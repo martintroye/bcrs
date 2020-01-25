@@ -17,20 +17,14 @@
                 <!-- using an ngFor output the products -->
                 <div fxLayout="row" fxLayoutAlign="space-between center" formArrayName="services" *ngFor="let service of serviceControls.controls;let i = index;" style="padding-top:1rem;">
                   <mat-checkbox color="primary" id="{{i}}" [formControl]="serviceControls.controls[i]">
-                    <h3>{{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}</h3>
+                    {{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}
                   </mat-checkbox>
-                  <mat-selection-list  *ngFor="let service of serviceControls.controls;let i = index;">
-                    <mat-list-option id="{{i}}" [formControl]="serviceControls.controls[i]">
-                      {{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}
-                    </mat-list-option>
-                  </mat-selection-list>
-                  
                 </div>
 
                 <div fxLayout="column">
                     <h2>Standard Fees</h2>
                 </div>
-                
+
                 <div fxLayout="row" fxLayoutGap="20px">
                     <mat-form-field style="width: 150px !important">
                         <input matInput
@@ -40,7 +34,7 @@
                         value="0"
                         placeholder="Additional Parts"/>
                     </mat-form-field>
-
+ 
                     <mat-form-field style="width: 150px !important">
                         <input matInput
                         type="number"

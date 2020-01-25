@@ -150,7 +150,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
     ForgotPasswordDialogComponent,
-    ServiceDetailDialogComponent
+    ServiceDetailDialogComponent,
+    InvoiceSummaryDialogComponent
   ],
   bootstrap: [AppComponent]
 })
