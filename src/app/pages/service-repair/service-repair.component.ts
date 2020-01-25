@@ -6,7 +6,8 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Service } from 'src/app/models/service.model';
 import { SessionService } from 'src/app/shared/services/session.service';
-import { InvoiceSummaryDialogComponent } from 'src/app/shared/invoice-summary-dialog/invoice-summary-dialog';
+import { InvoiceSummaryDialogComponent } from 'src/app/dialogs/invoice-summary-dialog/invoice-summary-dialog.component';
+
 
 @Component({
   selector: 'app-service-repair',
@@ -104,13 +105,13 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log(invoice);
 
-    // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
-    //   data: {
-    //     invoice: invoice
-    //   },
-    //   disableClose: true,
-    //   width: '800px'
-    // });
+     const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
+       data: {
+         invoice: invoice
+       },
+       disableClose: false,
+       width: '800px'
+     });
 
     // dialogRef.afterClosed().subscribe(result => {
     //   if (result === 'confirm') {

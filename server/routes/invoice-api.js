@@ -20,7 +20,7 @@ const router = express.Router();
 ; Response: Invoice JSON data
 ; Description: CreateInvoice - Creates an invoice in MongoDB
 */
-router.post('/:username'), (request, response, next) => {
+router.post('/:username', (request, response, next) => {
   // get the username
   const username = request.params.username;
 
@@ -51,7 +51,7 @@ router.post('/:username'), (request, response, next) => {
       response.json(newInvoice);
     }
   })
-}
+});
 
 /*
 ; Params: none
