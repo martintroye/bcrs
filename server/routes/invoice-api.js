@@ -31,9 +31,9 @@ router.post('/:username'), (request, response, next) => {
     partsAmount: request.body.partsAmount,
     laborAmount: request.body.laborAmount,
     lineItemTotal: request.body.lineItemTotal,
-    invoiceTotal: request.body.total,
+    total: request.body.total,
     username: username,
-    dateOrdered: request.body.orderDate
+    orderDate: request.body.orderDate
   };
   // console.log invoice object
   console.log(invoice);
