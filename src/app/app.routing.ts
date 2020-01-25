@@ -19,6 +19,12 @@ import { ServerErrorComponent } from './pages/server-error/server-error.componen
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
+import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
+import { RoleGuard } from './shared/guards/role.guard';
+import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { RoleListComponent } from './pages/admin/role-list/role-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -31,11 +37,28 @@ export const AppRoutes: Routes = [
       },
       {
         path: 'admin/security-questions',
-        component: SecurityQuestionsListComponent
+        component: SecurityQuestionsListComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'admin/users',
-        component: UserListComponent
+        component: UserListComponent,
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'admin/services',
+        component: ServiceListComponent,
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'admin/purchases-graph',
+        component: PurchasesGraphComponent,
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'admin/roles',
+        component: RoleListComponent,
+        canActivate: [RoleGuard]
       },
       {
         path: 'contactus',
@@ -44,6 +67,14 @@ export const AppRoutes: Routes = [
       {
         path: 'aboutus',
         component: AboutUsComponent
+      },
+      {
+        path: 'services',
+        component: ServiceRepairComponent
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent
       }
     ],
     // use the can activate child to secure the routes

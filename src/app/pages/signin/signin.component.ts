@@ -71,7 +71,7 @@ export class SigninComponent implements OnInit {
         this.errorMessage = res['message'];
       }
     }, (err) => {
-      console.log(err);
+      console.log('signin.component/signin', err);
       this.errorMessage = err.error.message;
     });
   }

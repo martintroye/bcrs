@@ -54,7 +54,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       .subscribe((questions) => {
         this.questions = questions;
       }, (err) => {
-        console.log(err);
+        console.log('user-registration-dialog.component/constructor', err);
       });
   }
 
@@ -137,16 +137,16 @@ export class UserRegistrationDialogComponent implements OnInit {
   ; Description: Get the questions and answers from the form and put them on the user
   */
   getQuestions() {
-    this.user.questions = [];
-    this.user.questions.push({
+    this.user.SecurityQuestions = [];
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId1.value,
       answer: this.securityQuestionsForm.controls.answer1.value
     });
-    this.user.questions.push({
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId2.value,
       answer: this.securityQuestionsForm.controls.answer2.value
     });
-    this.user.questions.push({
+    this.user.SecurityQuestions.push({
       id: this.securityQuestionsForm.controls.questionId3.value,
       answer: this.securityQuestionsForm.controls.answer3.value
     });
@@ -192,13 +192,13 @@ export class UserRegistrationDialogComponent implements OnInit {
             if (res
               && res._id) {
               // log the response
-              console.log('user-registration-dialog / signIn', 'success', res);
+              console.log('user-registration-dialog.component/signIn', 'success', res);
               this.username = res.username;
             }
           },
           (err) => {
             // log the error and display a message to the user
-            console.log('user-registration-dialog / signIn', 'error', err);
+            console.log('user-registration-dialog.component/signIn', 'error', err);
             this.displayMessage('There was an error creating your account.');
           },
           () => {

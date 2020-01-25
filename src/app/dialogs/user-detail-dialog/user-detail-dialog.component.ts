@@ -38,6 +38,7 @@ export class UserDetailDialogComponent implements OnInit {
   user: User;
   id: string;
   title: string;
+  roles: [];
 
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
@@ -55,16 +56,23 @@ export class UserDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (data && data.id) {
-      console.log('user-detail-dialog.component', data, 'edit');
+      console.log('user-detail-dialog.component/constructor', data, 'edit');
       this.title = 'Edit user';
       this.id = data.id;
     } else {
-      console.log('user-detail-dialog.component', 'add');
+      console.log('user-detail-dialog.component/constructor', 'add');
 
       this.id = null;
       this.user = new User();
       this.title = 'Create user';
     }
+
+    this.http.get(`${this.apiBaseUrl}/roles`).subscribe((roles: []) => {
+      console.log('user-detail-dialog.component/constructor', roles);
+      this.roles = roles;
+    }, (err) => {
+      console.log('user-detail-dialog.component/constructor', err);
+    });
   }
 
   ngOnInit() {
@@ -98,7 +106,8 @@ export class UserDetailDialogComponent implements OnInit {
           Validators.pattern(/[A-Z]/),
           Validators.pattern(/[0-9]/)
         ])
-      ]
+      ],
+      role: [null, [Validators.required]]
     });
 
     if (!this.id) {
@@ -108,14 +117,14 @@ export class UserDetailDialogComponent implements OnInit {
       this.http.get(`${this.apiBaseUrl}/users/${this.id}`)
         .pipe(
           map((res: any) => {
-            console.log(res);
+            console.log('user-detail-dialog.component/ngOnInit', res);
 
             return this.mapUser(res);
           })
         ).subscribe((u) => {
           this.user = u;
         }, (err) => {
-          console.log('user-detail-dialog', err);
+          console.log('user-detail-dialog.component/ngOnInit',  err);
         }, () => {
           this.populateForm();
 
@@ -155,6 +164,7 @@ export class UserDetailDialogComponent implements OnInit {
     this.accountSubscription = this.accountForm.valueChanges.subscribe(() => {
       this.user.username = this.accountForm.controls.username.value;
       this.user.password = this.accountForm.controls.password.value;
+      this.user.role = this.accountForm.controls.role.value;
     });
 
     // subscribe to form changes and populate the user variable for the component
@@ -189,7 +199,7 @@ export class UserDetailDialogComponent implements OnInit {
     if (this.accountForm.valid) {
 
       this.user.id = this.id;
-      console.log(this.user);
+      console.log('user-detail-dialog.component/updateUser', this.user);
       this.http.put(`${this.apiBaseUrl}/users/${this.id}`, this.user)
         .pipe(
           map((result: any) => {
@@ -199,7 +209,7 @@ export class UserDetailDialogComponent implements OnInit {
         ).subscribe((u) => {
           this.dialogRef.close(u);
         }, (err) => {
-          console.log('user-detail-dialog / updateUser', err);
+          console.log('user-detail-dialog.component/updateUser', err);
         });
     }
   }
@@ -208,7 +218,6 @@ export class UserDetailDialogComponent implements OnInit {
   createUser() {
 
     if (this.accountForm.valid) {
-      console.log(this.user);
       this.http.post(`${this.apiBaseUrl}/users`, this.user)
         .pipe(
           map((result: any) => {
@@ -218,7 +227,7 @@ export class UserDetailDialogComponent implements OnInit {
         ).subscribe((u) => {
           this.dialogRef.close(u);
         }, (err) => {
-          console.log('user-detail-dialog / createUser', err);
+          console.log('user-detail-dialog.component/createUser', err);
         });
     }
 
@@ -243,6 +252,7 @@ export class UserDetailDialogComponent implements OnInit {
     user.city = result.city;
     user.state = result.state;
     user.postalCode = result.postalCode;
+    user.role = result.role;
     return user;
   }
 
@@ -252,6 +262,7 @@ export class UserDetailDialogComponent implements OnInit {
 
       this.accountForm.controls.username.setValue(this.user.username);
       this.accountForm.controls.password.setValue(this.user.password);
+      this.accountForm.controls.role.setValue(this.user.role);
 
       this.personalInfoForm.controls.firstName.setValue(this.user.firstName);
       this.personalInfoForm.controls.lastName.setValue(this.user.lastName);

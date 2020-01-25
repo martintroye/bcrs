@@ -60,11 +60,11 @@ router.post('/signin', (request, response, next) => {
 
   } else {
     // Using the findOne method of the user find the matching user by username
-    User.findOne({ 'username': request.body.username }, (err, user) => {
+    User.findOne({ 'username': { $regex : new RegExp(request.body.username, "i") } }, (err, user) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding the user to sign in', err);
+        console.log('session api', 'An error occurred finding the user to sign in', err);
         // user was not authenticated
         isAuthenticated = false;
         // return a server error code
@@ -78,7 +78,7 @@ router.post('/signin', (request, response, next) => {
         // return a server error code
         statusCode = 401;
         // log the error to the console
-        console.log(`User ${request.body.username} not found`);
+        console.log('session api', `User ${request.body.username} not found`);
 
       } else {
         // compare the password with the users encrypted value if it does not match return unauthorized
@@ -91,7 +91,7 @@ router.post('/signin', (request, response, next) => {
           message = defaultMessage;
 
           // log the issue to the console for troubleshooting
-          console.log(`Password does not match ${user.username}`);
+          console.log('session api', `Password does not match ${user.username}`);
         } else {
           userId = user._id;
         }
@@ -107,7 +107,7 @@ router.post('/signin', (request, response, next) => {
       }
 
       // return the status code and the result
-      response.json(result).status(statusCode).send();
+      response.status(statusCode).json(result);
 
     });
   }
@@ -141,11 +141,11 @@ router.put('/users/:username/reset-password', (request, response) => {
       response.status(400).send('Request is missing the new password.');
     } else {
       // Using the findOne method of the user model search for a matching user do not return a disabled user
-      User.findOne({ 'username': username, isDisabled: false }, (err, res) => {
+      User.findOne({ 'username': { $regex : new RegExp(username, "i") }, isDisabled: false }, (err, res) => {
         // if there is an error
         if (err) {
           // log the error to the console
-          console.log('An error occurred finding the user', err);
+          console.log('session api', 'An error occurred finding the user', err);
           // return an http status code 500, server error and the error
           response.status(500).send(err);
         } else {
@@ -168,7 +168,7 @@ router.put('/users/:username/reset-password', (request, response) => {
               // if there is an error
               if (err) {
                 // log the error to the console
-                console.log('An error occurred updating users password', err);
+                console.log('session api', 'An error occurred updating users password', err);
                 // set the status code to 400, bad request and send the error message
                 response.status(400).send(err.message);
               } else {
@@ -187,12 +187,12 @@ router.put('/users/:username/reset-password', (request, response) => {
  * VerifyUser
  */
 router.get('/verify/users/:username', function (req, res, next) {
-  User.findOne({ 'username': req.params.username }, function (err, user) {
+  User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
     if (err) {
-      console.log(err);
+      console.log('session api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('session api', user);
       res.json(user);
     }
   })
@@ -203,28 +203,23 @@ router.get('/verify/users/:username', function (req, res, next) {
  */
 
 router.post('/verify/users/:username/security-questions', function (req, res, next) {
-  const answerToSecurityQuestion1 = req.body.answerToSecurityQuestion1;
-  console.log(answerToSecurityQuestion1);
-  const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2;
-  console.log(answerToSecurityQuestion2);
-  const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3;
-  console.log(answerToSecurityQuestion3);
+  // trim and tolower the answers supplied by the user
+  const answerToSecurityQuestion1 = req.body.answerToSecurityQuestion1.trim().toLowerCase();
+  const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2.trim().toLowerCase();
+  const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3.trim().toLowerCase();
 
-  User.findOne({ 'username': req.params.username }, function (err, user) {
+  User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
     if (err) {
-      console.log(err);
+      console.log('session api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('session api', user);
+      // trim and tolower the answers in the array before checking against the answers supplied by the user
+      let answer1IsValid = answerToSecurityQuestion1 === user.SecurityQuestions[0].answer.trim().toLowerCase();
 
-      let answer1IsValid = answerToSecurityQuestion1 === user.SecurityQuestions[0].answer;
-      console.log(answer1IsValid);
+      let answer2IsValid = answerToSecurityQuestion2 === user.SecurityQuestions[1].answer.trim().toLowerCase();
 
-      let answer2IsValid = answerToSecurityQuestion2 === user.SecurityQuestions[1].answer;
-      console.log(answer2IsValid);
-
-      let answer3IsValid = answerToSecurityQuestion3 === user.SecurityQuestions[2].answer;
-      console.log(answer3IsValid);
+      let answer3IsValid = answerToSecurityQuestion3 === user.SecurityQuestions[2].answer.trim().toLowerCase();
 
       if (answer1IsValid && answer2IsValid && answer3IsValid) {
         res.status(200).send({

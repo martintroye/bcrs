@@ -33,8 +33,11 @@ import {
   MatIconModule,
   MatTableModule,
   MatButtonModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatButtonToggleModule,
+  MatTabsModule
 } from '@angular/material';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatListModule} from '@angular/material/list';
 import { SessionGuard } from './shared/guards/session.guard';
 import { SessionService } from './shared/services/session.service';
@@ -56,6 +59,16 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { ServiceListComponent } from './pages/admin/service-list/service-list.component';
+import { ServiceDetailDialogComponent } from './dialogs/service-detail-dialog/service-detail-dialog.component';
+import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases-graph.component';
+import { ChartModule } from 'primeng/chart';
+import { RoleGuard } from './shared/guards/role.guard';
+import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { InvoiceSummaryDialogComponent } from './dialogs/invoice-summary-dialog/invoice-summary-dialog.component';
+import { RoleListComponent } from './pages/admin/role-list/role-list.component';
+import { RoleDetailDialogComponent } from './dialogs/role-detail-dialog/role-detail-dialog.component';
 
 // options required by ngx-mask
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -79,7 +92,15 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     FooterComponent,
     NotFoundComponent,
     ContactUsComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    ServiceListComponent,
+    ServiceDetailDialogComponent,
+    PurchasesGraphComponent,
+    ServiceRepairComponent,
+    UserProfileComponent,
+    InvoiceSummaryDialogComponent,
+    RoleListComponent,
+    RoleDetailDialogComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -108,7 +129,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatStepperModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    ChartModule,
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    MatTabsModule
   ],
   providers: [
     SessionGuard,
@@ -119,7 +144,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
-    }
+    },
+    RoleGuard
   ],
   entryComponents: [
     SecurityQuestionCreateDialogComponent,
@@ -127,7 +153,10 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ConfirmationDialogComponent,
     UserDetailDialogComponent,
     UserRegistrationDialogComponent,
-    ForgotPasswordDialogComponent
+    ForgotPasswordDialogComponent,
+    ServiceDetailDialogComponent,
+    InvoiceSummaryDialogComponent,
+    RoleDetailDialogComponent
   ],
   bootstrap: [AppComponent]
 })

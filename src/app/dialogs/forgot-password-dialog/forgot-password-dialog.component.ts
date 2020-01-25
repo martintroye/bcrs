@@ -87,8 +87,6 @@ export class ForgotPasswordDialogComponent implements OnInit {
   */
   matchingPassword(control: FormControl) {
     if (control && this.newPasswordForm && this.newPasswordForm.controls) {
-      console.log(control.value === this.newPasswordForm.controls.password.value ? null
-        : { passwordsDoNotMatch: true });
       return control.value === this.newPasswordForm.controls.password.value ? null
         : { passwordsDoNotMatch: true };
     }
@@ -109,10 +107,10 @@ export class ForgotPasswordDialogComponent implements OnInit {
     }).subscribe((res: any) => {
       if (res.auth
         && res.auth === true) {
-        console.log(res);
+        console.log('forgot-password-dialog.component/verifySecurityQuestions', res);
         stepper.next();
       } else {
-        console.log('Unable to verify security questions');
+        console.log('forgot-password-dialog.component/verifySecurityQuestions', 'Unable to verify security questions');
         this.securityQuestionForm.controls.answerToSecurityQuestion1.setValue(null);
         this.securityQuestionForm.controls.answerToSecurityQuestion2.setValue(null);
         this.securityQuestionForm.controls.answerToSecurityQuestion3.setValue(null);
@@ -136,27 +134,23 @@ export class ForgotPasswordDialogComponent implements OnInit {
     this.http.get(`${this.apiBaseUrl}/sessions/verify/users/${username}`).subscribe(res => {
       // if true pull selected security questions.
       if (res) {
-        console.log(res);
-        this.http.get(`${this.apiBaseUrl}/users/${username}/security-questions`).subscribe(res => {
-          this.selectedSecurityQuestions = res;
+        console.log('forgot-password-dialog.component/validUserName', res);
+        this.http.get(`${this.apiBaseUrl}/users/${username}/security-questions`).subscribe(q => {
+          this.selectedSecurityQuestions = q;
           this.username = username;
-          console.log(this.selectedSecurityQuestions);
+          console.log('forgot-password-dialog.component/validUserName', this.selectedSecurityQuestions);
         }, err => {
-          console.log(err)
+          console.log('forgot-password-dialog.component/validUserName', err);
         }, () => {
           // find selected security questions by id and populate from array
           this.http.post(`${this.apiBaseUrl}/security-questions/find-by-ids`, {
             question1: this.selectedSecurityQuestions[0].id,
             question2: this.selectedSecurityQuestions[1].id,
             question3: this.selectedSecurityQuestions[2].id,
-          }).subscribe(res => {
-            this.question1 = res[0].text;
-            this.question2 = res[1].text;
-            this.question3 = res[2].text;
-
-            console.log(this.question1);
-            console.log(this.question2);
-            console.log(this.question3);
+          }).subscribe(a => {
+            this.question1 = a[0].text;
+            this.question2 = a[1].text;
+            this.question3 = a[2].text;
           });
         });
         stepper.next();
@@ -166,7 +160,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
 
       }
     }, err => {
-      console.log(err);
+      console.log('forgot-password-dialog.component/validUserName', err);
       this.errorMessage = 'Invalid username.';
       this.userNameForm.controls.username.setValue(null);
 
@@ -201,7 +195,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
             this.errorMessage = 'There was an error updating your password';
           }
         }, (err) => {
-          console.log('forgot-password-dialog.component', err);
+          console.log('forgot-password-dialog.component/changePassword', err);
           this.errorMessage = 'There was an error updating your password';
         });
     } else {
