@@ -113,24 +113,23 @@ export class ServiceRepairComponent implements OnInit {
        width: '800px'
      });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === 'confirm') {
-    //     console.log('Invoice Saved');
-
-    //     this.http.post('/api/invoices/' + invoice.username, {
-    //       lineItems: invoice.lineItems,
-    //       partsAmount: invoice.partsAmount,
-    //       laborAmount: invoice.laborAmount,
-    //       lineItemTotal: invoice.lineItemTotal,
-    //       total: invoice.total,
-    //       orderDate: invoice.orderDate
-    //     }).subscribe(res => {
-    //       this.router.navigate(['/']);
-    //     }, err => {
-    //       console.log(err);
-    //     });
-    //   }
-    // });
+     dialogRef.afterClosed().subscribe(result => {
+       if (result === 'confirm') {
+         console.log('Invoice Saved');
+         this.http.post('/api/invoices/' + invoice.username, {
+           lineItems: invoice.lineItems,
+           partsAmount: invoice.partsAmount,
+           laborAmount: invoice.laborAmount,
+           lineItemTotal: invoice.lineItemTotal,
+           total: invoice.total,
+           orderDate: invoice.orderDate
+         }).subscribe(res => {
+           this.router.navigate(['/']);
+         }, err => {
+           console.log(err);
+         });
+       }
+     });
 
   }
 }
