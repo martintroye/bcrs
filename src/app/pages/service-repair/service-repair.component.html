@@ -19,6 +19,11 @@
                   <mat-checkbox color="primary" id="{{i}}" [formControl]="serviceControls.controls[i]">
                     <h3>{{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}</h3>
                   </mat-checkbox>
+                  <mat-selection-list  *ngFor="let service of serviceControls.controls;let i = index;">
+                    <mat-list-option id="{{i}}" [formControl]="serviceControls.controls[i]">
+                      {{ serviceOfferings[i].description }} -- {{serviceOfferings[i].price | currency: "USD"}}
+                    </mat-list-option>
+                  </mat-selection-list>
                   
                 </div>
 
