@@ -148,13 +148,53 @@ router.put('/:id', function (req, res, next) {
 ; Description: FindSelectedSecurityQuestions - returns an array of security questions based on user
 */
 router.get('/:username/security-questions', (request, response, next) => {
-  User.findOne({'username': request.params.username}, (err, user) => {
+  User.findOne({ 'username': request.params.username }, (err, user) => {
     if (err) {
       console.log(err);
       return next(err);
     } else {
       console.log(user);
       response.json(user.SecurityQuestions);
+    }
+  })
+});
+
+/*
+; Params: none
+; Response: none
+; Description: Update the users security questions
+*/
+router.put('/:username/security-questions', (request, response, next) => {
+  User.findOne({ 'username': request.params.username }, (err, user) => {
+    if (err) {
+      console.log(err);
+      return next(err);
+    } else {
+      console.log(user);
+
+      // if there are selected security questions add them
+      if (request.body.SecurityQuestions
+        && Array.isArray(request.body.SecurityQuestions)) {
+        console.log(request.body.SecurityQuestions);
+        user.SecurityQuestions = [];
+        request.body.SecurityQuestions.forEach((q) => {
+          user.SecurityQuestions.push(q);
+        });
+      }
+
+      // call the save method to store the new user in the db
+      user.save((err, u) => {
+        // if there is an error
+        if (err) {
+          // log the error
+          console.log(err);
+          // return a server error and the message
+          response.status(500).json(err.message);
+        } else {
+          // return the ok status code and the user
+          response.status(200).json(u);
+        }
+      });
     }
   })
 });

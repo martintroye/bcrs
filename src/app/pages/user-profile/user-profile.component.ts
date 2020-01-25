@@ -148,6 +148,7 @@ export class UserProfileComponent implements OnInit {
           console.log('user-profile.component / savePersonalInfo', err);
         }, () => {
           this.displayMessage('Your personal information has been updated.');
+          this.setFormValues();
         });
     }
 
@@ -206,6 +207,41 @@ export class UserProfileComponent implements OnInit {
   ; Description: Update the users security question choices
   */
   setQuestions() {
+    if (this.securityQuestionsForm.valid) {
+      this.user.SecurityQuestions = [];
+
+      this.user.SecurityQuestions.push({
+        id: this.securityQuestionsForm.controls.questionId1.value,
+        answer: this.securityQuestionsForm.controls.answer1.value
+      });
+
+      this.user.SecurityQuestions.push({
+        id: this.securityQuestionsForm.controls.questionId2.value,
+        answer: this.securityQuestionsForm.controls.answer2.value
+      });
+
+      this.user.SecurityQuestions.push({
+        id: this.securityQuestionsForm.controls.questionId3.value,
+        answer: this.securityQuestionsForm.controls.answer3.value
+      });
+
+      this.http.put(`${this.apiBaseUrl}/users/${this.username}/security-questions`, this.user)
+      .pipe(map((u) => {
+        if (u) {
+          return this.mapUser(u);
+        }
+      }, (err) => {
+        console.log(err);
+      })).subscribe((u) => {
+        this.user = u;
+      }, (err) => {
+        console.log(err);
+      }, () => {
+        this.setFormValues();
+      });
+
+    }
+
     this.displayMessage('Your security questions and answers have been updated.')
   }
 
@@ -256,7 +292,7 @@ export class UserProfileComponent implements OnInit {
 
       this.securityQuestionsForm.controls.questionId3.setValue(this.user.SecurityQuestions[2].id);
       this.securityQuestionsForm.controls.answer3.setValue(this.user.SecurityQuestions[2].answer);
-
+      console.log(this.securityQuestionsForm);
     }
   }
 
@@ -280,9 +316,15 @@ export class UserProfileComponent implements OnInit {
     user.state = result.state;
     user.postalCode = result.postalCode;
     user.role = result.role;
+    user.SecurityQuestions = result.SecurityQuestions;
     return user;
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: Set the user to the corresponding form value
+  */
   private getFormValues() {
     this.user.firstName = this.personalInfoForm.controls.firstName.value;
     this.user.lastName = this.personalInfoForm.controls.lastName.value;
