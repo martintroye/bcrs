@@ -20,20 +20,22 @@
           <button class="navbar-link" routerLink="/" mat-button>Home</button>
           <button class="navbar-link" mat-button [matMenuTriggerFor]="menu" *ngIf="hasAdmin">Administration</button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/admin/users">Users</button>
-            <button mat-menu-item routerLink="/admin/security-questions">Security Questions</button>
             <button mat-menu-item routerLink="/admin/services">Services</button>
             <button mat-menu-item routerLink="/admin/purchases-graph">Purchases by service</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/admin/users">Users</button>
+            <button mat-menu-item routerLink="/admin/roles">Roles</button>
+            <button mat-menu-item routerLink="/admin/security-questions">Security Questions</button>
           </mat-menu>
           <button class="navbar-link" routerLink="/aboutus" mat-button>About Us</button>
           <button class="navbar-link" routerLink="/contactus" mat-button>Contact Us</button>
           <button class="navbar-link" mat-raised-button [matMenuTriggerFor]="profile">
-            <mat-icon>perm_identity</mat-icon>
+            <mat-icon>person_outline</mat-icon>
           </button>
           <mat-menu #profile="matMenu">
-            <button class="navbar-link" mat-menu-item routerLink="/profile">Profile</button>
-            <button class="navbar-link" mat-menu-item (click)="logout()">Logout</button>
-
+            <button mat-menu-item routerLink="/profile">Profile</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
           </mat-menu>
         </mat-toolbar-row>
       </mat-toolbar>

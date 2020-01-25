@@ -27,28 +27,29 @@ router.post('/:username', (request, response, next) => {
   // create invoice object for MongoDB
 
   let invoice = {
-    lineItems: request.body.lineItems,
-    partsAmount: request.body.partsAmount,
-    laborAmount: request.body.laborAmount,
+    items: request.body.lineItems,
+    partsTotal: request.body.partsAmount,
+    laborTotal: request.body.laborAmount,
     lineItemTotal: request.body.lineItemTotal,
-    total: request.body.total,
+    invoiceTotal: request.body.total,
     username: username,
-    orderDate: request.body.orderDate
+    dateOrdered: request.body.orderDate
   };
-  // console.log invoice object
-  console.log(invoice);
+
+  console.log('invoice api', 'create invoice', invoice);
+
+  const n = new Invoice(invoice);
 
   // Creates the invoice document
-  Invoice.create(invoice, (err, newInvoice) => {
+  n.save((err, newInvoice) => {
     // If error return the error
     if (err) {
-      console.log(err);
+      console.log('invoice api', 'create invoice', err);
       return next(err);
     } else {
-      // console.log invoice
-      console.log(newInvoice);
+      console.log('invoice api', 'create invoice', newInvoice);
       // return JSON results
-      response.json(newInvoice);
+      response.status(201).json(newInvoice);
     }
   })
 });
@@ -81,7 +82,7 @@ router.get('/purchases-graph', (request, response) => {
     }
   ],(err, items) => {
     if (err) {
-      console.log(err);
+      console.log('invoice api', 'purchases by service', err);
       response.status(500).send();
     } else {
       response.status(200).json(items);

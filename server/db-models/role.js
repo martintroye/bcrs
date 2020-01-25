@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
  * Declare role schema
  */
 let roleSchema = mongoose.Schema({
-    text: {type: String, unique: true, dropDups: true},
+    name: {type: String, unique: true, dropDups: true},
     isDisabled: {type: Boolean, default: false}
 });
 

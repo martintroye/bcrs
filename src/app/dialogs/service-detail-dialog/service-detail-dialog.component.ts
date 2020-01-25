@@ -48,7 +48,7 @@ export class ServiceDetailDialogComponent implements OnInit {
           this.service = service;
         }
       }, (err) => {
-        console.log(err);
+        console.log('service-detail-dialog.component/ngOninit', err);
       }, () => {
         if (!this.service) {
           this.service = new Service();
@@ -83,7 +83,7 @@ export class ServiceDetailDialogComponent implements OnInit {
               this.dialogRef.close(res);
             }
           }, (err) => {
-            console.log(err);
+            console.log('service-detail-dialog.component/save', err);
           });
       } else {
         this.http.post<Service>(`${this.apiBaseUrl}/`, {
@@ -95,7 +95,7 @@ export class ServiceDetailDialogComponent implements OnInit {
               this.dialogRef.close(res);
             }
           }, (err) => {
-            console.log(err);
+            console.log('service-detail-dialog.component/save', err);
           });
 
       }

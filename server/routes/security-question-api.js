@@ -26,7 +26,7 @@ router.get('/', (request, response) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding the security questions', err);
+      console.log('security-questions api', 'An error occurred finding the security questions', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
@@ -48,12 +48,12 @@ router.get('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that security question', err);
+      console.log('security-questions api', 'An error occurred finding that security question', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return security question
-      console.log(securityQuestion);
+      console.log('security-questions api', securityQuestion);
       response.json(securityQuestion);
     }
   });
@@ -81,7 +81,7 @@ router.put('/:id', (request, response) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding the security question', err);
+        console.log('security-questions api', 'An error occurred finding the security question', err);
         // return an http status code 500, server error and the error
         response.status(500).send(err);
       } else {
@@ -98,7 +98,7 @@ router.put('/:id', (request, response) => {
             // if there is an error
             if (err) {
               // log the error to the console
-              console.log('An error occurred updating security question', err);
+              console.log('security-questions api', 'An error occurred updating security question', err);
               // set the status code to 400, bad request and send the error message
               response.status(500).send(err.message);
             } else {
@@ -125,12 +125,12 @@ router.delete('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that security question', err);
+      console.log('security-questions api', 'An error occurred finding that security question', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return security question
-      console.log(securityQuestion);
+      console.log('security-questions api', securityQuestion);
 
       if (securityQuestion) {
         securityQuestion.set({
@@ -140,11 +140,11 @@ router.delete('/:id', (request, response, next) => {
         securityQuestion.save((err, savedSecurityQuestion) => {
           if (err) {
             // log the error to the console
-            console.log('An error occurred finding that security question', err);
+            console.log('security-questions api', 'An error occurred finding that security question', err);
             // return an http status code 500, server error and the error
             response.status(500).send(err);
           } else {
-            console.log(savedSecurityQuestion);
+            console.log('security-questions api', savedSecurityQuestion);
             // return saved security question
             response.json(savedSecurityQuestion);
           }
@@ -164,10 +164,10 @@ router.post('/', function(req, res, next) {
 
   SecurityQuestion.create(sq, function (err, securityQuestion) {
     if (err) {
-      console.log(err);
+      console.log('security-questions api', err);
       return next(err);
     } else {
-      console.log(securityQuestion);
+      console.log('security-questions api', securityQuestion);
       res.json(securityQuestion);
     }
   })
@@ -189,10 +189,10 @@ router.post('/find-by-ids', function(req, res, next) {
     ]
   }).exec(function (err, securityQuestions) {
     if (err) {
-      console.log(err);
+      console.log('security-questions api', err);
       return next(err);
     } else {
-      console.log(securityQuestions);
+      console.log('security-questions api', securityQuestions);
       res.json(securityQuestions);
     }
   })

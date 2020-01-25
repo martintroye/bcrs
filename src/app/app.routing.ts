@@ -24,6 +24,7 @@ import { PurchasesGraphComponent } from './pages/admin/purchases-graph/purchases
 import { RoleGuard } from './shared/guards/role.guard';
 import { ServiceRepairComponent } from './pages/service-repair/service-repair.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { RoleListComponent } from './pages/admin/role-list/role-list.component';
 
 export const AppRoutes: Routes = [
   {
@@ -52,6 +53,11 @@ export const AppRoutes: Routes = [
       {
         path: 'admin/purchases-graph',
         component: PurchasesGraphComponent,
+        canActivate: [RoleGuard]
+      },
+      {
+        path: 'admin/roles',
+        component: RoleListComponent,
         canActivate: [RoleGuard]
       },
       {

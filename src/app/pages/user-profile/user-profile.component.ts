@@ -45,14 +45,13 @@ export class UserProfileComponent implements OnInit {
     private snackBar: MatSnackBar) {
     // get the logged in user name
     this.username = this.sessionService.getUsername();
-    console.log(this.username);
 
     // get the security questions to display in the drop downs
     this.http.get<SecurityQuestion[]>(`${this.apiBaseUrl}/security-questions`)
       .subscribe((questions) => {
         this.questions = questions;
       }, (err) => {
-        console.log(err);
+        console.log('user-profile.component/constructor', err);
       });
   }
 
@@ -107,13 +106,12 @@ export class UserProfileComponent implements OnInit {
     this.http.get(`${this.apiBaseUrl}/sessions/verify/users/${this.username}`)
       .pipe(
         map((res: any) => {
-          console.log(res);
           return this.mapUser(res);
         })
       ).subscribe((u) => {
         this.user = u;
       }, (err) => {
-        console.log('user-profile', err);
+        console.log('user-profile.component/ngOnInit', err);
       }, () => {
         // on completion set the form values
         this.setFormValues();
@@ -145,7 +143,7 @@ export class UserProfileComponent implements OnInit {
         ).subscribe((u) => {
           this.user = u;
         }, (err) => {
-          console.log('user-profile.component / savePersonalInfo', err);
+          console.log('user-profile.component/savePersonalInfo', err);
         }, () => {
           this.displayMessage('Your personal information has been updated.');
           this.setFormValues();
@@ -168,7 +166,7 @@ export class UserProfileComponent implements OnInit {
       }).pipe(map((result: any) => {
         return result.isAuthenticated;
       }, (err) => {
-        console.log(err);
+        console.log('user-profile.component/changePassword', err);
       })).subscribe((auth) => {
         if (auth) {
           this.http.put(`${this.apiBaseUrl}/sessions/users/${this.username}/reset-password`,
@@ -184,7 +182,7 @@ export class UserProfileComponent implements OnInit {
                 this.displayMessage('There was an error updating your password');
               }
             }, (err) => {
-              console.log(err);
+              console.log('user-profile.component/changePassword', err);
               this.displayMessage('There was an error trying to reset your password please try again.');
             });
         }
@@ -231,11 +229,11 @@ export class UserProfileComponent implements OnInit {
           return this.mapUser(u);
         }
       }, (err) => {
-        console.log(err);
+        console.log('user-profile.component/setQuestions', err);
       })).subscribe((u) => {
         this.user = u;
       }, (err) => {
-        console.log(err);
+        console.log('user-profile.component/setQuestions', err);
       }, () => {
         this.setFormValues();
       });
@@ -292,7 +290,6 @@ export class UserProfileComponent implements OnInit {
 
       this.securityQuestionsForm.controls.questionId3.setValue(this.user.SecurityQuestions[2].id);
       this.securityQuestionsForm.controls.answer3.setValue(this.user.SecurityQuestions[2].answer);
-      console.log(this.securityQuestionsForm);
     }
   }
 

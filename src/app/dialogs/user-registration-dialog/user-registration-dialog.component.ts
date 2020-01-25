@@ -54,7 +54,7 @@ export class UserRegistrationDialogComponent implements OnInit {
       .subscribe((questions) => {
         this.questions = questions;
       }, (err) => {
-        console.log(err);
+        console.log('user-registration-dialog.component/constructor', err);
       });
   }
 
@@ -192,13 +192,13 @@ export class UserRegistrationDialogComponent implements OnInit {
             if (res
               && res._id) {
               // log the response
-              console.log('user-registration-dialog / signIn', 'success', res);
+              console.log('user-registration-dialog.component/signIn', 'success', res);
               this.username = res.username;
             }
           },
           (err) => {
             // log the error and display a message to the user
-            console.log('user-registration-dialog / signIn', 'error', err);
+            console.log('user-registration-dialog.component/signIn', 'error', err);
             this.displayMessage('There was an error creating your account.');
           },
           () => {

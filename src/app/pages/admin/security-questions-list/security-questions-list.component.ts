@@ -151,11 +151,11 @@ export class SecurityQuestionsListComponent implements OnInit {
           },
           err => {
             // log the error to the console
-            console.log(err);
+            console.log('security-questions-list.component/deleteQuestion', err);
           },
           () => {
             // log complete to the console
-            console.log('delete security question complete');
+            console.log('security-questions-list.component/deleteQuestion', 'delete security question complete');
           }
         );
       }

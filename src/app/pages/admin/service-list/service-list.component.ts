@@ -30,10 +30,10 @@ export class ServiceListComponent implements OnInit {
   }
 
   /*
-; Params: none
-; Response: none
-; Description: add a new user
-*/
+  ; Params: none
+  ; Response: none
+  ; Description: add a new user
+  */
   addService(): void {
     // declare and create the material dialog
     const dialogRef = this.dialog.open(ServiceDetailDialogComponent, {
@@ -120,11 +120,11 @@ export class ServiceListComponent implements OnInit {
           },
           err => {
             // log the error to the console
-            console.log(err);
+            console.log('service-list.component/deleteService', err);
           },
           () => {
             // log complete to the console
-            console.log('delete service is complete');
+            console.log('service-list.component/deleteService', 'delete service is complete');
           }
         );
       }
@@ -145,7 +145,7 @@ export class ServiceListComponent implements OnInit {
       }
 
     }, (err) => {
-      console.log('service-list.component', err);
+      console.log('service-list.component/getServiceList', err);
     });
 
   }

@@ -22,7 +22,7 @@ let invoiceServiceSchema = mongoose.Schema({
  * Declare invoice item schema
  */
 let invoiceItemSchema = mongoose.Schema({
-  quantity: { type: String, required: true },
+  quantity: { type: Number, required: true, default: 1 },
   itemTotal: { type: String, required: true },
   service: invoiceServiceSchema
 });
