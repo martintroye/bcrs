@@ -126,11 +126,11 @@ export class RoleListComponent implements OnInit {
           },
           err => {
             // log the error to the console
-            console.log('role-list.component', err);
+            console.log('purchases-graph.component/deleteRole', err);
           },
           () => {
             // log complete to the console
-            console.log('role-list.component', 'delete role is complete');
+            console.log('purchases-graph.component/deleteRole', 'delete role is complete');
           }
         );
       }
@@ -151,7 +151,7 @@ export class RoleListComponent implements OnInit {
       }
 
     }, (err) => {
-      console.log('role-list.component', 'role-list.component', err);
+      console.log('purchases-graph.component/getRoleList', err);
     });
 
   }

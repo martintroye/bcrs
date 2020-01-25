@@ -26,10 +26,10 @@ router.get('/', (request, response) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding the roles', err);
+      console.log('roles api', 'An error occurred finding the roles', err);
       return next(err);
     } else {
-      console.log(roles);
+      console.log('roles api', roles);
       response.status(200).json(roles);
     }
   });
@@ -54,12 +54,12 @@ router.get('/:id', (request, response, next) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding that role', err);
+        console.log('roles api', 'An error occurred finding that role', err);
         // return an http status code 500, server error and the error
         response.status(500).send(err);
       } else {
         // return role
-        console.log(role);
+        console.log('roles api', role);
         response.status(200).json(role);
       }
     });
@@ -78,7 +78,7 @@ router.put('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that role', err);
+      console.log('roles api', 'An error occurred finding that role', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
@@ -89,11 +89,11 @@ router.put('/:id', (request, response, next) => {
       role.save((err, role) => {
         if (err) {
           // log the error to the console
-          console.log(err);
+          console.log('roles api', err);
           return next(err);
         } else {
           // console.log role and respond with role JSON data
-          console.log(role);
+          console.log('roles api', role);
           response.json(role);
         }
       })
@@ -113,12 +113,12 @@ router.delete('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that role', err);
+      console.log('roles api', 'An error occurred finding that role', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return role
-      console.log(role);
+      console.log('roles api', role);
 
       if (role) {
         role.set({
@@ -128,11 +128,11 @@ router.delete('/:id', (request, response, next) => {
         role.save((err, savedRole) => {
           if (err) {
             // log the error to the console
-            console.log('An error occurred finding that role', err);
+            console.log('roles api', 'An error occurred finding that role', err);
             // return an http status code 500, server error and the error
             response.status(500).send(err);
           } else {
-            console.log(savedRole);
+            console.log('roles api', savedRole);
             // return saved role
             response.json(savedRole);
           }
@@ -152,10 +152,10 @@ router.post('/', function(req, res, next) {
 
   Role.create(r, function(err, role) {
     if (err) {
-      console.log(err);
+      console.log('roles api', err);
       return next(err);
     } else {
-      console.log(role);
+      console.log('roles api', role);
       res.json(role);
     }
   })

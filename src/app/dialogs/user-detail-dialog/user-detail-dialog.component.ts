@@ -56,11 +56,11 @@ export class UserDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (data && data.id) {
-      console.log('user-detail-dialog.component', data, 'edit');
+      console.log('user-detail-dialog.component/constructor', data, 'edit');
       this.title = 'Edit user';
       this.id = data.id;
     } else {
-      console.log('user-detail-dialog.component', 'add');
+      console.log('user-detail-dialog.component/constructor', 'add');
 
       this.id = null;
       this.user = new User();
@@ -68,10 +68,10 @@ export class UserDetailDialogComponent implements OnInit {
     }
 
     this.http.get(`${this.apiBaseUrl}/roles`).subscribe((roles: []) => {
-      console.log(roles);
+      console.log('user-detail-dialog.component/constructor', roles);
       this.roles = roles;
     }, (err) => {
-      console.log(err);
+      console.log('user-detail-dialog.component/constructor', err);
     });
   }
 
@@ -117,14 +117,14 @@ export class UserDetailDialogComponent implements OnInit {
       this.http.get(`${this.apiBaseUrl}/users/${this.id}`)
         .pipe(
           map((res: any) => {
-            console.log(res);
+            console.log('user-detail-dialog.component/ngOnInit', res);
 
             return this.mapUser(res);
           })
         ).subscribe((u) => {
           this.user = u;
         }, (err) => {
-          console.log('user-detail-dialog', err);
+          console.log('user-detail-dialog.component/ngOnInit',  err);
         }, () => {
           this.populateForm();
 
@@ -199,7 +199,7 @@ export class UserDetailDialogComponent implements OnInit {
     if (this.accountForm.valid) {
 
       this.user.id = this.id;
-      console.log(this.user);
+      console.log('user-detail-dialog.component/updateUser', this.user);
       this.http.put(`${this.apiBaseUrl}/users/${this.id}`, this.user)
         .pipe(
           map((result: any) => {
@@ -209,7 +209,7 @@ export class UserDetailDialogComponent implements OnInit {
         ).subscribe((u) => {
           this.dialogRef.close(u);
         }, (err) => {
-          console.log('user-detail-dialog / updateUser', err);
+          console.log('user-detail-dialog.component/updateUser', err);
         });
     }
   }
@@ -218,7 +218,6 @@ export class UserDetailDialogComponent implements OnInit {
   createUser() {
 
     if (this.accountForm.valid) {
-      console.log(this.user);
       this.http.post(`${this.apiBaseUrl}/users`, this.user)
         .pipe(
           map((result: any) => {
@@ -228,7 +227,7 @@ export class UserDetailDialogComponent implements OnInit {
         ).subscribe((u) => {
           this.dialogRef.close(u);
         }, (err) => {
-          console.log('user-detail-dialog / createUser', err);
+          console.log('user-detail-dialog.component/createUser', err);
         });
     }
 

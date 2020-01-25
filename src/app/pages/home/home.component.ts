@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     this.http.get(`${this.apiBaseUrl}/`).subscribe((services: []) => {
       this.services = services;
     }, (err) => {
-      console.log(err);
+      console.log('home.component/constructor', err);
     });
   }
 

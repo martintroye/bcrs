@@ -148,11 +148,11 @@ export class UserListComponent implements OnInit {
           },
           err => {
             // log the error to the console
-            console.log(err);
+            console.log('user-list.component/deleteUser', err);
           },
           () => {
             // log complete to the console
-            console.log('delete user is complete');
+            console.log('user-list.component/deleteUser', 'delete user is complete');
           }
         );
       }
@@ -163,14 +163,14 @@ export class UserListComponent implements OnInit {
     this.http.get(this.apiBaseUrl).subscribe(
       // if there are users set the users variable on the component
       (users: []) => {
-        console.log(users);
+        console.log('user-list.component/getUserList', users);
         this.users = users;
       }, err => {
         // display the error in the log
-        console.log(err);
+        console.log('user-list.component/getUserList', err);
       }, () => {
         // the subscription completed
-        console.log('complete');
+        console.log('user-list.component/getUserList', 'complete');
       });
   }
 }

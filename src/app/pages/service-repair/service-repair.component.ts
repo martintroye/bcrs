@@ -45,28 +45,17 @@ export class ServiceRepairComponent implements OnInit {
 
     this.http.get<Service[]>(`/api/services/`).subscribe((services) => {
       this.serviceOfferings = services;
-      console.log(this.serviceOfferings);
-      this.initForm();
     }, (err) => {
-      console.log(err);
+      console.log('service-repair.component/ngOnInit', err);
     }, () => {
       // create the form controls mapping the product into a control
       const formArray = this.form.controls.services as FormArray;
       this.serviceOfferings.forEach((x) => formArray.push(new FormControl(false)));
-      console.log(this.form);
-
     });
-
-
-    console.log(this.username);
-  }
-
-  initForm() {
-
   }
 
   submit(form) {
-    console.log(form);
+    console.log('service-repair.component/submit', this.form);
     let lineItemTotal = 0;
 
     const lineItems = [];
@@ -74,10 +63,7 @@ export class ServiceRepairComponent implements OnInit {
       if (x.value) {
         const service = this.serviceOfferings[i];
         const price = Number(service.price);
-        console.log(price);
-
         lineItemTotal += price;
-
         lineItems.push({
           service: {
             description: service.description,
@@ -103,13 +89,13 @@ export class ServiceRepairComponent implements OnInit {
       orderDate: new Date()
     };
 
-    console.log(invoice);
+    console.log('service-repair.component/submit', invoice);
 
     this.http.post('/api/invoices/' + invoice.username, invoice)
     .subscribe(res => {
       this.router.navigate(['/']);
     }, err => {
-      console.log(err);
+      console.log('service-repair.component/submit', err);
     });
 
     // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
@@ -122,13 +108,13 @@ export class ServiceRepairComponent implements OnInit {
 
     // dialogRef.afterClosed().subscribe(result => {
     //   if (result === 'confirm') {
-    //     console.log('Invoice Saved');
+    //     console.log('service-repair.component/submit', 'Invoice Saved');
 
     //     this.http.post('/api/invoices/' + invoice.username, invoice)
     //     .subscribe(res => {
     //       this.router.navigate(['/']);
     //     }, err => {
-    //       console.log(err);
+    //       console.log('service-repair.component/submit', err);
     //     });
     //   }
     // });

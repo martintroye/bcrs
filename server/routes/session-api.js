@@ -64,7 +64,7 @@ router.post('/signin', (request, response, next) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding the user to sign in', err);
+        console.log('session api', 'An error occurred finding the user to sign in', err);
         // user was not authenticated
         isAuthenticated = false;
         // return a server error code
@@ -78,7 +78,7 @@ router.post('/signin', (request, response, next) => {
         // return a server error code
         statusCode = 401;
         // log the error to the console
-        console.log(`User ${request.body.username} not found`);
+        console.log('session api', `User ${request.body.username} not found`);
 
       } else {
         // compare the password with the users encrypted value if it does not match return unauthorized
@@ -91,7 +91,7 @@ router.post('/signin', (request, response, next) => {
           message = defaultMessage;
 
           // log the issue to the console for troubleshooting
-          console.log(`Password does not match ${user.username}`);
+          console.log('session api', `Password does not match ${user.username}`);
         } else {
           userId = user._id;
         }
@@ -145,7 +145,7 @@ router.put('/users/:username/reset-password', (request, response) => {
         // if there is an error
         if (err) {
           // log the error to the console
-          console.log('An error occurred finding the user', err);
+          console.log('session api', 'An error occurred finding the user', err);
           // return an http status code 500, server error and the error
           response.status(500).send(err);
         } else {
@@ -168,7 +168,7 @@ router.put('/users/:username/reset-password', (request, response) => {
               // if there is an error
               if (err) {
                 // log the error to the console
-                console.log('An error occurred updating users password', err);
+                console.log('session api', 'An error occurred updating users password', err);
                 // set the status code to 400, bad request and send the error message
                 response.status(400).send(err.message);
               } else {
@@ -189,10 +189,10 @@ router.put('/users/:username/reset-password', (request, response) => {
 router.get('/verify/users/:username', function (req, res, next) {
   User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
     if (err) {
-      console.log(err);
+      console.log('session api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('session api', user);
       res.json(user);
     }
   })
@@ -205,27 +205,21 @@ router.get('/verify/users/:username', function (req, res, next) {
 router.post('/verify/users/:username/security-questions', function (req, res, next) {
   // trim and tolower the answers supplied by the user
   const answerToSecurityQuestion1 = req.body.answerToSecurityQuestion1.trim().toLowerCase();
-  console.log(answerToSecurityQuestion1);
   const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2.trim().toLowerCase();
-  console.log(answerToSecurityQuestion2);
   const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3.trim().toLowerCase();
-  console.log(answerToSecurityQuestion3);
 
   User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
     if (err) {
-      console.log(err);
+      console.log('session api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('session api', user);
       // trim and tolower the answers in the array before checking against the answers supplied by the user
       let answer1IsValid = answerToSecurityQuestion1 === user.SecurityQuestions[0].answer.trim().toLowerCase();
-      console.log(answer1IsValid);
 
       let answer2IsValid = answerToSecurityQuestion2 === user.SecurityQuestions[1].answer.trim().toLowerCase();
-      console.log(answer2IsValid);
 
       let answer3IsValid = answerToSecurityQuestion3 === user.SecurityQuestions[2].answer.trim().toLowerCase();
-      console.log(answer3IsValid);
 
       if (answer1IsValid && answer2IsValid && answer3IsValid) {
         res.status(200).send({

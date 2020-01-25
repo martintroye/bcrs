@@ -26,11 +26,11 @@ router.get('/', (request, response) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding the services', err);
+      console.log('services api', 'An error occurred finding the services', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
-      console.log(res);
+      console.log('services api', res);
       // set the status code to 200, OK and return the response
       response.status(200).send(res);
     }
@@ -49,12 +49,12 @@ router.get('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that service', err);
+      console.log('services api', 'An error occurred finding that service', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return service
-      console.log(service);
+      console.log('services api', service);
       response.json(service);
     }
   });
@@ -82,7 +82,7 @@ router.put('/:id', (request, response) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding the service', err);
+        console.log('services api', 'An error occurred finding the service', err);
         // return an http status code 500, server error and the error
         response.status(500).send(err);
       } else {
@@ -100,7 +100,7 @@ router.put('/:id', (request, response) => {
             // if there is an error
             if (err) {
               // log the error to the console
-              console.log('An error occurred updating service', err);
+              console.log('services api', 'An error occurred updating service', err);
               // set the status code to 500, server error and send the error message
               response.status(500).send(err.message);
             } else {
@@ -127,12 +127,12 @@ router.delete('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that service', err);
+      console.log('services api', 'An error occurred finding that service', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return service
-      console.log(service);
+      console.log('services api', service);
 
       if (service) {
         service.set({
@@ -142,11 +142,11 @@ router.delete('/:id', (request, response, next) => {
         service.save((err, res) => {
           if (err) {
             // log the error to the console
-            console.log('An error occurred finding that service', err);
+            console.log('services api', 'An error occurred finding that service', err);
             // return an http status code 500, server error and the error
             response.status(500).send(err);
           } else {
-            console.log(res);
+            console.log('services api', res);
             // return saved service
             response.json(res);
           }
@@ -160,7 +160,7 @@ router.delete('/:id', (request, response, next) => {
  * CreateService - Errors to Log
  */
 router.post('/', function(req, res, next) {
-  console.log(req.body);
+  console.log('services api', req.body);
   let service = {
     description: req.body.description,
     price: req.body.price
@@ -168,11 +168,11 @@ router.post('/', function(req, res, next) {
 
   Service.create(service, function (err, doc) {
     if (err) {
-      console.log(err);
+      console.log('services api', err);
       res.status(400).send();
       return next(err);
     } else {
-      console.log(doc);
+      console.log('services api', doc);
       res.status(201).json(doc).send();
     }
   })

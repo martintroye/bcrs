@@ -76,7 +76,6 @@ export class PurchasesGraphComponent implements OnInit {
   */
   ngOnInit() {
     this.getData();
-
   }
 
   getData() {
@@ -126,6 +125,8 @@ export class PurchasesGraphComponent implements OnInit {
 
 
         }
+      }, (err) => {
+        console.log('purchases-graph.component/getData', err);
       })).subscribe((results) => {
         // set the data set
         this.data = results;
@@ -138,7 +139,7 @@ export class PurchasesGraphComponent implements OnInit {
   ; Description: Change the type of chart displayed
   */
   onChartChange(chart: string) {
-    console.log(chart);
+    console.log('purchases-graph.component/onChartChange', chart);
     this.selectedChart = chart;
     this.getData();
   }

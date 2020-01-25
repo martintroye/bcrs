@@ -25,17 +25,17 @@ createUser = function (request, response) {
   } else {
 
     // Using the findOne method check for an existing user by username
-    User.findOne({ 'username': { $regex : new RegExp(request.body.username, "i") } }, (err, ex) => {
+    User.findOne({ 'username': { $regex : new RegExp(request.body.username, "i") } }, (err, existingUser) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred validating the user', err);
+        console.log('create-user','An error occurred validating the user', err);
         // return an http status code 500, server error and the error
         response.status(500).json('An error occurred validating the user', err);
         return;
       } else {
-        if (ex) {
-          console.log(ex);
+        if (existingUser) {
+          console.log('create-user', 'existing user found');
           response.status(400).json(`Username ${request.body.username} is not available`);
           return;
         } else {
@@ -49,7 +49,6 @@ createUser = function (request, response) {
           // if there are selected security questions add them
           if (request.body.questions
             && Array.isArray(request.body.questions)) {
-            console.log(request.body.questions);
             user.SecurityQuestions = [];
             request.body.questions.forEach((q) => {
               user.SecurityQuestions.push(q);
@@ -61,11 +60,10 @@ createUser = function (request, response) {
             // if there is an error
             if (err) {
               // log the error
-              console.log(err);
+              console.log('create-user', err);
               // return a server error and the message
               response.status(500).json(err.message);
             } else {
-              //console.log(u);
               // return the created status code and the new user
               response.status(201).json(u);
             }

@@ -36,12 +36,12 @@ router.get('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that user', err);
+      console.log('users api', 'An error occurred finding that user', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return user
-      console.log(user);
+      console.log('users api', user);
       response.json(user);
     }
   });
@@ -54,10 +54,10 @@ router.get('/:id', (request, response, next) => {
 router.get('/', function (req, res, next) {
   User.find({}).where('isDisabled').equals(false).exec(function (err, users) {
     if (err) {
-      console.log(err);
+      console.log('users api', err);
       return next(err);
     } else {
-      console.log(users);
+      console.log('users api', users);
       res.json(users);
     }
   });
@@ -75,12 +75,12 @@ router.delete('/:id', (request, response, next) => {
     // if there is an error
     if (err) {
       // log the error to the console
-      console.log('An error occurred finding that user', err);
+      console.log('users api', 'An error occurred finding that user', err);
       // return an http status code 500, server error and the error
       response.status(500).send(err);
     } else {
       // return user
-      console.log(user);
+      console.log('users api', user);
 
       if (user) {
         user.set({
@@ -90,11 +90,11 @@ router.delete('/:id', (request, response, next) => {
         user.save((err, savedUser) => {
           if (err) {
             // log the error to the console
-            console.log('An error occurred finding that user', err);
+            console.log('users api', 'An error occurred finding that user', err);
             // return an http status code 500, server error and the error
             response.status(500).send(err);
           } else {
-            console.log(savedUser);
+            console.log('users api', savedUser);
             // return saved user
             response.json(savedUser);
           }
@@ -110,11 +110,11 @@ router.delete('/:id', (request, response, next) => {
 router.put('/:id', function (req, res, next) {
   User.findOne({ '_id': req.params.id }, function (err, user) {
     if (err) {
-      console.log(err);
+      console.log('users api', err);
       return next(err);
     } else {
-      console.log(req.body);
-      console.log(user);
+      console.log('users api', req.body);
+      console.log('users api', user);
 
       user.set({
         firstName: req.body.firstName,
@@ -131,10 +131,10 @@ router.put('/:id', function (req, res, next) {
 
       user.save(function (err, savedUser) {
         if (err) {
-          console.log(err);
+          console.log('users api', err);
           return next(err);
         } else {
-          console.log(savedUser);
+          console.log('users api', savedUser);
           res.json(savedUser);
         }
       })
@@ -150,10 +150,10 @@ router.put('/:id', function (req, res, next) {
 router.get('/:username/security-questions', (request, response, next) => {
   User.findOne({ 'username': { $regex : new RegExp(request.params.username, "i") } }, (err, user) => {
     if (err) {
-      console.log(err);
+      console.log('users api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('users api', user);
       response.json(user.SecurityQuestions);
     }
   })
@@ -167,15 +167,14 @@ router.get('/:username/security-questions', (request, response, next) => {
 router.put('/:username/security-questions', (request, response, next) => {
   User.findOne({ 'username': { $regex : new RegExp(request.params.username, "i") } }, (err, user) => {
     if (err) {
-      console.log(err);
+      console.log('users api', err);
       return next(err);
     } else {
-      console.log(user);
+      console.log('users api', user);
 
       // if there are selected security questions add them
       if (request.body.SecurityQuestions
         && Array.isArray(request.body.SecurityQuestions)) {
-        console.log(request.body.SecurityQuestions);
         user.SecurityQuestions = [];
         request.body.SecurityQuestions.forEach((q) => {
           user.SecurityQuestions.push(q);
@@ -187,7 +186,7 @@ router.put('/:username/security-questions', (request, response, next) => {
         // if there is an error
         if (err) {
           // log the error
-          console.log(err);
+          console.log('users api', err);
           // return a server error and the message
           response.status(500).json(err.message);
         } else {
@@ -218,12 +217,12 @@ router.get('/:username/role', (request, response) => {
       // if there is an error
       if (err) {
         // log the error to the console
-        console.log('An error occurred finding that username', err);
+        console.log('users api', 'An error occurred finding that username', err);
         // return an http status code 500, server error and the error
         response.status(500).send(err);
       } else {
         // return user role
-        console.log(user);
+        console.log('users api', user);
         response.status(200).json(user.role);
       }
     });

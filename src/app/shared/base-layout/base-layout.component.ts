@@ -31,7 +31,7 @@ export class BaseLayoutComponent implements OnInit {
       .subscribe((res) => {
         this.hasAdmin = res.toLowerCase().trim() === 'admin';
       }, (err) => {
-        console.log(err);
+        console.log('base-layout.component/setQuestions', err);
       });
   }
 
