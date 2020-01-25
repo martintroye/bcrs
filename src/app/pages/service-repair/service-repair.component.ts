@@ -105,26 +105,27 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log(invoice);
 
-     const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
-       data: {
-         invoice: invoice
-       },
-       disableClose: false,
-       width: '800px'
-     });
+    this.http.post('/api/invoices/' + invoice.username, invoice)
+    .subscribe(res => {
+      this.router.navigate(['/']);
+    }, err => {
+      console.log(err);
+    });
+
+    // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
+    //   data: {
+    //     invoice
+    //   },
+    //   disableClose: false,
+    //   width: '800px'
+    // });
 
     // dialogRef.afterClosed().subscribe(result => {
     //   if (result === 'confirm') {
     //     console.log('Invoice Saved');
 
-    //     this.http.post('/api/invoices/' + invoice.username, {
-    //       lineItems: invoice.lineItems,
-    //       partsAmount: invoice.partsAmount,
-    //       laborAmount: invoice.laborAmount,
-    //       lineItemTotal: invoice.lineItemTotal,
-    //       total: invoice.total,
-    //       orderDate: invoice.orderDate
-    //     }).subscribe(res => {
+    //     this.http.post('/api/invoices/' + invoice.username, invoice)
+    //     .subscribe(res => {
     //       this.router.navigate(['/']);
     //     }, err => {
     //       console.log(err);
