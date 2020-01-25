@@ -1,3 +1,16 @@
+/*
+============================================
+; Title: invoice-summary-dialog.component
+; Author: Adam Donner
+; Date: 01/24/2020
+; Modified By: Adam Donner
+; Description: Invoice summary component
+;===========================================
+*/
+// Start Program
+
+// Import the Modules
+
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
 
@@ -19,3 +32,4 @@ export class InvoiceSummaryDialogComponent implements OnInit {
   }
 
 }
+// end program
