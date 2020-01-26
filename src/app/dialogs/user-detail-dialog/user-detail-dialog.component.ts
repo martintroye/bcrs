@@ -23,7 +23,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { map } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
 
 // Export the component
 @Component({
@@ -52,7 +51,6 @@ export class UserDetailDialogComponent implements OnInit {
     private http: HttpClient,
     private dialogRef: MatDialogRef<UserDetailDialogComponent>,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (data && data.id) {
@@ -278,18 +276,5 @@ export class UserDetailDialogComponent implements OnInit {
 
     this.subscribeFormChanges();
   }
-
-  /*
-  ; Params: message
-  ; Response: none
-  ; Description: display the snackbar message
-  */
-  private displayMessage(message: string) {
-    // display the snackbar message for 10sec
-    this.snackBar.open(message, 'OK', {
-      duration: 10000
-    });
-  }
-
 }
 // End Program
