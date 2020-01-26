@@ -192,8 +192,26 @@ router.post('/find-by-ids', function(req, res, next) {
       console.log('security-questions api', err);
       return next(err);
     } else {
-      console.log('security-questions api', securityQuestions);
-      res.json(securityQuestions);
+
+      // return the security questions in the proper order
+      const questions = [
+        {id:req.body.question1, text: '' },
+        {id:req.body.question2, text: '' },
+        {id:req.body.question3, text: '' }
+      ];
+
+      // we need to return the questions in the proper order
+      questions.forEach((q) => {
+        // find the question that matches the id
+        const mq = securityQuestions.find((sq) => {
+          return sq.id === q.id;
+        });
+        if(mq){
+          q.text = mq.text;
+        }
+      })
+
+      res.status(200).json(questions);
     }
   })
 });
