@@ -110,34 +110,25 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log('service-repair.component/submit', invoice);
 
-    this.http.post('/api/invoices/' + invoice.username, invoice)
-    .subscribe(res => {
-      this.router.navigate(['/']);
-    }, err => {
-      console.log('service-repair.component/submit', err);
+    const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
+      data: {
+        invoice
+      },
+      disableClose: true,
+      width: '800px'
     });
 
-    // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
-    //   data: {
-    //     invoice
-    //   },
-    //   disableClose: true,
-    //   width: '800px'
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === 'confirm') {
-    //     console.log('service-repair.component/submit', 'Invoice Saved');
-            // call create invoice API and pass in invoice data
-    //     this.http.post('/api/invoices/' + invoice.username, invoice)
-    //     .subscribe(res => {
-             // Route back home upon complete
-    //       this.router.navigate(['/']);
-    //     }, err => {
-    //       console.log('service-repair.component/submit', err);
-    //     });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        console.log('service-repair.component/submit', 'Invoice Saved');
+        this.http.post('/api/invoices/' + invoice.username, invoice)
+        .subscribe(res => {
+          this.router.navigate(['/']);
+        }, err => {
+          console.log('service-repair.component/submit', err);
+        });
+      }
+    });
 
   }
 }
