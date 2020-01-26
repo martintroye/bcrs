@@ -7,6 +7,7 @@
 ; Description: Role List
 ;===========================================
 */
+// import angular and our custom components
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Role } from 'src/app/models/role.model';
@@ -29,10 +30,20 @@ export class RoleListComponent implements OnInit {
     'functions'
   ];
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: default constructor
+  */
   constructor(private http: HttpClient, private dialog: MatDialog) {
     this.getRoleList();
    }
 
+   /*
+   ; Params: none
+   ; Response: none
+   ; Description: initialize the component
+   */
   ngOnInit() {
   }
 

@@ -23,6 +23,7 @@
     </mat-card-header>
     <mat-card-content fxLayout="row" fxLayoutAlign="start center">
       <div fxLayout="column" fxFlexFill>
+        <!-- define the chart as responsive and bind to data and options -->
         <p-chart [type]="selectedChart" [data]="data" [options]="options" responsive="true"></p-chart>
       </div>
     </mat-card-content>

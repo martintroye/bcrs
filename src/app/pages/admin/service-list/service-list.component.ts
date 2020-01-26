@@ -1,3 +1,13 @@
+/*
+============================================
+; Title: service-list.component
+; Author: Troy Martin
+; Date: 01/25/2020
+; Modified By: Troy Martin
+; Description: Service List
+;===========================================
+*/
+// imports from angular and our custom components
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -22,10 +32,20 @@ export class ServiceListComponent implements OnInit {
     'functions'
   ];
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: default constructor
+  */
   constructor(private http: HttpClient, private dialog: MatDialog) {
     this.getServiceList();
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: initialize the component
+  */
   ngOnInit() {
   }
 

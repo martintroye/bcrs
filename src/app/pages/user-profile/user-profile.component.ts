@@ -7,6 +7,7 @@
 ; Description: User profile
 ;===========================================
 */
+// import angular and our custom components
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { environment } from 'src/environments/environment';

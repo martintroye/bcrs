@@ -7,6 +7,7 @@
 ; Description: Service Detail Dialog
 ;===========================================
 */
+// import angular components and our custom components
 import { Component, OnInit, Inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Service } from 'src/app/models/service.model';
@@ -25,6 +26,11 @@ export class ServiceDetailDialogComponent implements OnInit {
   form: FormGroup;
   id: string;
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: default constructor
+  */
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -35,6 +41,11 @@ export class ServiceDetailDialogComponent implements OnInit {
     }
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: initialize the component
+  */
   ngOnInit() {
 
     this.form = this.fb.group({
@@ -62,17 +73,33 @@ export class ServiceDetailDialogComponent implements OnInit {
     }
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: initialize the form
+  */
   initForm() {
     this.form.controls.description.setValue(this.service.description);
     this.form.controls.price.setValue(this.service.price);
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: close the dialog box
+  */
   cancel() {
     this.dialogRef.close(null);
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: if the form is valid save the service
+  */
   save() {
     if (this.form.valid) {
+      // update
       if (this.service._id) {
         this.http.put<Service>(`${this.apiBaseUrl}/${this.service._id}`, {
           description: this.form.controls.description.value,
@@ -80,18 +107,21 @@ export class ServiceDetailDialogComponent implements OnInit {
         })
           .subscribe((res) => {
             if (res) {
+              // close the dialog and return the updated service
               this.dialogRef.close(res);
             }
           }, (err) => {
             console.log('service-detail-dialog.component/save', err);
           });
       } else {
+        // create
         this.http.post<Service>(`${this.apiBaseUrl}/`, {
           description: this.form.controls.description.value,
           price: this.form.controls.price.value
         })
           .subscribe((res) => {
             if (res) {
+              // close the dialog and return the new service
               this.dialogRef.close(res);
             }
           }, (err) => {
