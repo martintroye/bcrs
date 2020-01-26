@@ -1,29 +1,35 @@
-<div mat-dialog-content>
-    <h3>Order Date: {{invoice.orderDate | date}}</h3>
+<!--
+============================================
+; Title: invoice-summary-dialog
+; Author: Adam Donner
+; Date: 01/19/2020
+; Modified By: Reva Baumann
+; Description: User enrollment
+;===========================================
+-->
 
-    <h3>Services</h3>
+<div fxLayout="column" fxFlexFill style="padding: 10px;">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <h2 mat-dialog-title fxFlex>Invoice summary</h2>
+    <div fxFlex></div>
+    <h4 fxFlex>Order Date: {{invoice.orderDate | date}}</h4>
+  </div>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start">
+    <h4>Services</h4>
     <div *ngFor="let lineItem of invoice.lineItems">
-        <mat-list>
-            <mat-list-item>
-                {{lineItem.service.description}}   {{lineItem.service.price | currency}}
-            </mat-list-item>
-           
-        </mat-list>
+      <mat-list>
+        <mat-list-item>
+          {{lineItem.service.description}} {{lineItem.service.price | currency}}
+        </mat-list-item>
+      </mat-list>
     </div>
-
-<h3>Standard Fees</h3>
-    <mat-list>
-        <mat-list-item>
-            Parts: {{invoice.partsAmount | currency}}
-        </mat-list-item>
-        
-        <mat-list-item>
-            Labor: {{invoice.laborAmount | currency}}
-        </mat-list-item>
-    </mat-list>
-    <h3>Total Charges: {{invoice.total | currency}}</h3>
-<mat-dialog-actions>
+    <h4>Parts: {{invoice.partsAmount | currency}}</h4>
+    <h4>Labor: {{invoice.laborAmount | currency}}</h4>
+    <mat-divider></mat-divider>
+    <h4>Total Charges: {{invoice.total | currency}}</h4>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button matDialogClose="cancel">Cancel</button>
     <button mat-raised-button matDialogClose="confirm" cdkFocusInitial>Confirm Order</button>
-</mat-dialog-actions>
+  </mat-dialog-actions>
 </div>
