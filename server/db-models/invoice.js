@@ -27,22 +27,11 @@ let invoiceItemSchema = mongoose.Schema({
   service: invoiceServiceSchema
 });
 
-/*
-; Declare invoice account schema
-*/
-let invoiceAccountSchema = mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  phoneNumber: { type: String },
-  email: { type: String },
-});
-
 /**
  * Declare invoice database schema
  */
 let invoiceSchema = mongoose.Schema({
   username: { type: String, required: true },
-  account: invoiceAccountSchema,
   laborTotal: { type: String, default: '0.00'},
   partsTotal: { type: String, default: '0.00' },
   lineItemTotal: { type: String, default: '0.00' },

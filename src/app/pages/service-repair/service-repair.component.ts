@@ -1,3 +1,17 @@
+/*
+============================================
+; Title: service-repair.component
+; Author: Adam Donner
+; Date: 01/25/2020
+; Modified By: Adam Donner
+; Description: Service repair component
+;===========================================
+*/
+// Start Program
+
+// Import the Modules
+
+
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -43,6 +57,7 @@ export class ServiceRepairComponent implements OnInit {
       services: new FormArray([])
     });
 
+    // retrieve services from MongoDB
     this.http.get<Service[]>(`/api/services/`).subscribe((services) => {
       this.serviceOfferings = services;
     }, (err) => {
@@ -59,6 +74,7 @@ export class ServiceRepairComponent implements OnInit {
     let lineItemTotal = 0;
 
     const lineItems = [];
+    // Determine and calculate selected services
     this.serviceControls.controls.forEach((x, i) => {
       if (x.value) {
         const service = this.serviceOfferings[i];
@@ -74,11 +90,14 @@ export class ServiceRepairComponent implements OnInit {
         });
       }
     });
-
+    // declare and compute the parts amount
     const partsAmount = Number(this.form.controls.parts.value as string);
+    // declare and computer the labor amount
     const laborAmount = Number(this.form.controls.labor.value as string) * 50;
+    // declare and compute the invoice total
     const total = partsAmount + laborAmount + lineItemTotal;
 
+    // declare invoice object
     const invoice = {
       lineItems,
       partsAmount,
@@ -91,33 +110,26 @@ export class ServiceRepairComponent implements OnInit {
 
     console.log('service-repair.component/submit', invoice);
 
-    this.http.post('/api/invoices/' + invoice.username, invoice)
-    .subscribe(res => {
-      this.router.navigate(['/']);
-    }, err => {
-      console.log('service-repair.component/submit', err);
+    const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
+      data: {
+        invoice
+      },
+      disableClose: true,
+      width: '800px'
     });
 
-    // const dialogRef = this.dialog.open(InvoiceSummaryDialogComponent, {
-    //   data: {
-    //     invoice
-    //   },
-    //   disableClose: false,
-    //   width: '800px'
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === 'confirm') {
-    //     console.log('service-repair.component/submit', 'Invoice Saved');
-
-    //     this.http.post('/api/invoices/' + invoice.username, invoice)
-    //     .subscribe(res => {
-    //       this.router.navigate(['/']);
-    //     }, err => {
-    //       console.log('service-repair.component/submit', err);
-    //     });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        console.log('service-repair.component/submit', 'Invoice Saved');
+        this.http.post('/api/invoices/' + invoice.username, invoice)
+        .subscribe(res => {
+          this.router.navigate(['/']);
+        }, err => {
+          console.log('service-repair.component/submit', err);
+        });
+      }
+    });
 
   }
 }
+// end program

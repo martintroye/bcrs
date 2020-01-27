@@ -78,6 +78,11 @@ export class PurchasesGraphComponent implements OnInit {
     this.getData();
   }
 
+  /*
+  ; Params: none
+  ; Response: none
+  ; Description: gets the data for the chart and formats for the selected chart type
+  */
   getData() {
     this.http.get(`${this.apiBaseUrl}/purchases-graph`)
       .pipe(map((res) => {

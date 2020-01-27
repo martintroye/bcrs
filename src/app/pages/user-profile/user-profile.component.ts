@@ -7,13 +7,13 @@
 ; Description: User profile
 ;===========================================
 */
+// import angular and our custom components
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/user.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { matchingPassword } from '../../shared/validators/matching-password.validator';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { SecurityQuestion } from 'src/app/models/security-question.model';
 import { MatSnackBar } from '@angular/material';
 import { map } from 'rxjs/operators';
@@ -85,12 +85,8 @@ export class UserProfileComponent implements OnInit {
         Validators.pattern(/[A-Z]/),
         Validators.pattern(/[0-9]/)
       ])],
-      confirmationPassword: [null, [Validators.required]]
-    },
-      // FormGroup validators
-      [
-        matchingPassword('password', 'confirmationPassword')
-      ]);
+      confirmationPassword: [null, [Validators.required, this.matchingPassword.bind(this)]]
+    });
 
     // declare the security question form
     this.securityQuestionsForm = this.fb.group({
@@ -345,4 +341,19 @@ export class UserProfileComponent implements OnInit {
       duration: 10000
     });
   }
+
+    /*
+  ; Params: control: FormControl
+  ; Response: null = no errors, { passwordsDoNotMatch: true} = errors
+  ; Description: Validator function to compare the passwords
+  */
+ matchingPassword(control: FormControl) {
+  if (control && this.newPasswordForm && this.newPasswordForm.controls) {
+    return control.value === this.newPasswordForm.controls.password.value ? null
+      : { passwordsDoNotMatch: true };
+  }
+
+  // since the control is not defined yet return null
+  return null;
+}
 }

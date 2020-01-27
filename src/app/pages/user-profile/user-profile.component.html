@@ -141,7 +141,7 @@
               </mat-form-field>
               <mat-form-field style="padding-top: 3rem !important;">
                 <input type="password" matInput formControlName="confirmationPassword" placeholder="Confirm password" />
-                <mat-error *ngIf="newPasswordForm.hasError('passwordsDoNotMatch')">
+                <mat-error *ngIf="newPasswordForm.controls['confirmationPassword'].hasError('passwordsDoNotMatch')">
                   Passwords do not match</mat-error>
               </mat-form-field>
             </div>

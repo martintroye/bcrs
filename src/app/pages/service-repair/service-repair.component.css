@@ -2,3 +2,11 @@
     background-color: #81d4fa;
     color: black;
 }
+
+/deep/ .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: #81d4fa !important;
+}
+
+/deep/ .mat-checkbox-checkmark-path {
+  stroke: #000000!important;
+}

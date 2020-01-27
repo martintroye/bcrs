@@ -216,10 +216,10 @@ router.post('/verify/users/:username/security-questions', function (req, res, ne
       console.log('session api', user);
       // trim and tolower the answers in the array before checking against the answers supplied by the user
       let answer1IsValid = answerToSecurityQuestion1 === user.SecurityQuestions[0].answer.trim().toLowerCase();
-
       let answer2IsValid = answerToSecurityQuestion2 === user.SecurityQuestions[1].answer.trim().toLowerCase();
-
       let answer3IsValid = answerToSecurityQuestion3 === user.SecurityQuestions[2].answer.trim().toLowerCase();
+
+      console.log('session api', answer1IsValid, answer2IsValid, answer3IsValid)
 
       if (answer1IsValid && answer2IsValid && answer3IsValid) {
         res.status(200).send({
