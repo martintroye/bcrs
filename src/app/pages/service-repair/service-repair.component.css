@@ -10,3 +10,10 @@
 /deep/ .mat-checkbox-checkmark-path {
   stroke: #000000!important;
 }
+
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
