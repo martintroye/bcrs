@@ -181,6 +181,8 @@ export class UserProfileComponent implements OnInit {
               console.log('user-profile.component/changePassword', err);
               this.displayMessage('There was an error trying to reset your password please try again.');
             });
+        } else {
+          this.displayMessage('Invalid current password.');
         }
       });
     }

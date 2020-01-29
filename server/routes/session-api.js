@@ -23,9 +23,6 @@ const router = express.Router();
 ; Post body {username: string, password: string}
 */
 router.post('/signin', (request, response, next) => {
-
-  // declare status code for result
-  let statusCode = 200;
   // declare authentication flag for result
   let isAuthenticated = true;
   // declare message for result
@@ -44,8 +41,6 @@ router.post('/signin', (request, response, next) => {
     isAuthenticated = false;
     // return the default message
     message = defaultMessage;
-    // return unauthorized status code
-    statusCode = 401;
 
     const result = {
       isAuthenticated,
@@ -67,24 +62,18 @@ router.post('/signin', (request, response, next) => {
         console.log('session api', 'An error occurred finding the user to sign in', err);
         // user was not authenticated
         isAuthenticated = false;
-        // return a server error code
-        statusCode = 500;
         // inform the user they should try again
         message = 'An error occurred signing in please try again';
 
       } else if (!user) {
         // user was not authenticated
         isAuthenticated = false;
-        // return a server error code
-        statusCode = 401;
         // log the error to the console
         console.log('session api', `User ${request.body.username} not found`);
 
       } else {
         // compare the password with the users encrypted value if it does not match return unauthorized
         if (!encryption.compare(request.body.password, user.password)) {
-          // return unauthorized error code
-          statusCode = 401;
           // user was not authenticated
           isAuthenticated = false;
           // return a message
@@ -107,7 +96,7 @@ router.post('/signin', (request, response, next) => {
       }
 
       // return the status code and the result
-      response.status(statusCode).json(result);
+      response.json(result);
 
     });
   }
