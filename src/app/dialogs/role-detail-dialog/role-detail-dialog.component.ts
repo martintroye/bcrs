@@ -65,9 +65,11 @@ export class RoleDetailDialogComponent implements OnInit {
 
   // Save component
   save() {
-    if (this.form.valid) {
+    const roleName = this.form.controls.name.value;
+    if (this.form.valid
+      && roleName) {
       if (this.id){
-        this.http.put(this.apiBaseUrl + '/roles/' + this.id, { name: this.form.controls.name.value}).subscribe((role) => {
+        this.http.put(this.apiBaseUrl + '/roles/' + this.id, { name: roleName}).subscribe((role) => {
           if (role) {
             this.dialogRef.close(role);
           }
@@ -76,7 +78,7 @@ export class RoleDetailDialogComponent implements OnInit {
           console.log('role-detail-dialog.component/save', err);
         });
       } else {
-        this.http.post(this.apiBaseUrl + '/roles', {name: this.form.controls.name.value}).subscribe((role) => {
+        this.http.post(this.apiBaseUrl + '/roles', {name: roleName}).subscribe((role) => {
           if (role) {
             this.dialogRef.close(role);
           }
