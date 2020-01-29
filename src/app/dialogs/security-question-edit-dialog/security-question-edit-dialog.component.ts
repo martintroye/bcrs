@@ -45,8 +45,10 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
    * Puts new value of security question using text from the form field
    */
   saveQuestion() {
-    if (this.form.valid) {
-      const updatedQuestion = this.form.controls.text.value;
+    const updatedQuestion = this.form.controls.text.value;
+
+    if (this.form.valid
+      && updatedQuestion) {
       // write to the API
       this.http.put(`${this.apiBaseUrl}/security-questions/${this.questionId}`, { text: updatedQuestion })
       .subscribe( res => {

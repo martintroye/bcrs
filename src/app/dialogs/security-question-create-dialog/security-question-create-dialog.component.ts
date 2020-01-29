@@ -41,8 +41,10 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
    * Creates a new security question using text from the form field
    */
   create() {
-    if (this.form.valid) {
-      const newQuestion = this.form.controls.text.value;
+    const newQuestion = this.form.controls.text.value;
+
+    if (this.form.valid
+      && newQuestion) {
       // write to the API
       this.http.post(`${this.apiBaseUrl}/security-questions`, {
         text: newQuestion
