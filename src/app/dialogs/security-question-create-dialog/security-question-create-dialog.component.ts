@@ -41,14 +41,15 @@ export class SecurityQuestionCreateDialogComponent implements OnInit {
    * Creates a new security question using text from the form field
    */
   create() {
-    const newQuestion = this.form.controls.text.value;
-    // write to the API
-    this.http.post(`${this.apiBaseUrl}/security-questions`, {
-      text: newQuestion
-    }).subscribe( res => {
-      this.dialogRef.close({text: newQuestion}); // routes back to the secutiy question page
-    });
-
+    if (this.form.valid) {
+      const newQuestion = this.form.controls.text.value;
+      // write to the API
+      this.http.post(`${this.apiBaseUrl}/security-questions`, {
+        text: newQuestion
+      }).subscribe( res => {
+        this.dialogRef.close({text: newQuestion}); // routes back to the secutiy question page
+      });
+    }
   }
 
   /**

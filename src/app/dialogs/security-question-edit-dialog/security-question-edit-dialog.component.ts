@@ -45,15 +45,18 @@ export class SecurityQuestionEditDialogComponent implements OnInit {
    * Puts new value of security question using text from the form field
    */
   saveQuestion() {
-    const updatedQuestion = this.form.controls.text.value;
-    // write to the API
-    this.http.put(`${this.apiBaseUrl}/security-questions/${this.questionId}`, { text: updatedQuestion })
-    .subscribe( res => {
-      // routes back to the security question page
-      this.dialogRef.close({_id: this.questionId, text: updatedQuestion, message: null, updated: true});
-    }, (err) => {
-      this.dialogRef.close({_id: this.questionId, text: this.question, message: err, updated: false});
-    });
+    if (this.form.valid) {
+      const updatedQuestion = this.form.controls.text.value;
+      // write to the API
+      this.http.put(`${this.apiBaseUrl}/security-questions/${this.questionId}`, { text: updatedQuestion })
+      .subscribe( res => {
+        // routes back to the security question page
+        this.dialogRef.close({_id: this.questionId, text: updatedQuestion, message: null, updated: true});
+      }, (err) => {
+        this.dialogRef.close({_id: this.questionId, text: this.question, message: err, updated: false});
+      });
+    }
+
   }
 
 
