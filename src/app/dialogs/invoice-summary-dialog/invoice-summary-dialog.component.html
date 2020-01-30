@@ -29,6 +29,8 @@
     <h4>Total Charges: {{invoice.total | currency}}</h4>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <h4>Order taken by: {{invoice.username}}</h4>
+    <div fxFlex></div>
     <button mat-raised-button matDialogClose="cancel">Cancel</button>
     <button mat-raised-button matDialogClose="confirm" cdkFocusInitial>Confirm Order</button>
   </mat-dialog-actions>
