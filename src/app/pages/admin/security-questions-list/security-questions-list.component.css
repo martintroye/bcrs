@@ -1,6 +1,11 @@
 .table-container {
   height: 400px;
   overflow: auto;
+  width: 100%;
+}
+
+.mat-table {
+  width: 100%;
 }
 
 .mat-raised-button {
