@@ -29,6 +29,8 @@
           matInput
           formControlName="price"
           placeholder="Price"
+          mask="0*.00"
+          [dropSpecialCharacters]="false"
           fxFlex
         />
       </mat-form-field>
