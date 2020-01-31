@@ -40,8 +40,8 @@
           <ng-container matColumnDef="functions">
             <th mat-header-cell *matHeaderCellDef style="text-align: right;">Functions</th>
             <td mat-cell *matCellDef="let element">
-              <button style="float:right;" mat-icon-button (click)="editQuestion(element._id)"><mat-icon>edit</mat-icon></button>
               <button style="float:right;" mat-icon-button (click)="deleteQuestion(element._id)"><mat-icon>delete</mat-icon></button>
+              <button style="float:right;" mat-icon-button (click)="editQuestion(element._id)"><mat-icon>edit</mat-icon></button>
             </td>
           </ng-container>
 
