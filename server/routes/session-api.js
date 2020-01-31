@@ -55,7 +55,7 @@ router.post('/signin', (request, response, next) => {
 
   } else {
     // Using the findOne method of the user find the matching user by username
-    User.findOne({ 'username': { $regex : new RegExp(request.body.username, "i") } }, (err, user) => {
+    User.findOne({ 'username': { $regex :  `^${request.body.username}$`,$options:'i' } }, (err, user) => {
       // if there is an error
       if (err) {
         // log the error to the console
@@ -130,7 +130,7 @@ router.put('/users/:username/reset-password', (request, response) => {
       response.status(400).send('Request is missing the new password.');
     } else {
       // Using the findOne method of the user model search for a matching user do not return a disabled user
-      User.findOne({ 'username': { $regex : new RegExp(username, "i") }, isDisabled: false }, (err, res) => {
+      User.findOne({ 'username': { $regex :  `^${username}$`,$options:'i' }, isDisabled: false }, (err, res) => {
         // if there is an error
         if (err) {
           // log the error to the console
@@ -176,7 +176,7 @@ router.put('/users/:username/reset-password', (request, response) => {
  * VerifyUser
  */
 router.get('/verify/users/:username', function (req, res, next) {
-  User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
+  User.findOne({ 'username': { $regex : `^${req.params.username}$`,$options:'i' }}, function (err, user) {
     if (err) {
       console.log('session api', err);
       return next(err);
@@ -197,7 +197,7 @@ router.post('/verify/users/:username/security-questions', function (req, res, ne
   const answerToSecurityQuestion2 = req.body.answerToSecurityQuestion2.trim().toLowerCase();
   const answerToSecurityQuestion3 = req.body.answerToSecurityQuestion3.trim().toLowerCase();
 
-  User.findOne({ 'username': { $regex : new RegExp(req.params.username, "i") } }, function (err, user) {
+  User.findOne({ 'username': { $regex : `^${req.params.username}$`,$options:'i' }}, function (err, user) {
     if (err) {
       console.log('session api', err);
       return next(err);

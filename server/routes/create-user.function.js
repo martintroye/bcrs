@@ -25,7 +25,7 @@ createUser = function (request, response) {
   } else {
 
     // Using the findOne method check for an existing user by username
-    User.findOne({ 'username': { $regex : new RegExp(request.body.username, "i") } }, (err, existingUser) => {
+    User.findOne({ 'username': { $regex : `^${request.body.username}$`,$options:'i' } }, (err, existingUser) => {
       // if there is an error
       if (err) {
         // log the error to the console
